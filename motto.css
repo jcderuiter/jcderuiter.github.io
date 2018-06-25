@@ -1,0 +1,112 @@
+/* style sheet */
+
+:root
+{
+   --motto-fontfamily:         'Times New Roman', Times, serif; /* */
+/* --motto-fontsize:           150%;             /* */
+   --motto-vertical-padding:   1em;              /* */
+   --motto-horizontal-padding: 2em;              /* */
+
+   --motto-background: radial-gradient(circle, ivory, lightslategrey); /* */
+
+   --motto-ribbon-color:       slategrey;        /* */
+   --motto-shadow-color:       darkslategrey;    /* */
+   --motto-rip-color:          transparent;      /* */
+
+   --motto-shadow-width:       1.0em;            /* */
+   --motto-shadow-height:      1.0em;            /* */
+
+/* --motto-non-shadow-height:  1.5em;            /* optional */
+
+   --motto-rip-length:         3.0em;            /* */
+   --motto-side-fill:          4.0em;            /* */
+
+   --motto-bottom-extend:      calc(-1 * var(--motto-shadow-height));
+   --motto-side-padding:       calc(var(--motto-side-fill) / 2);
+   --motto-side-margin:        calc(var(--motto-rip-length) + var(--motto-side-fill));
+   --motto-side-extend:        calc(-1 * calc(var(--motto-rip-length) + var(--motto-side-fill)));
+
+   --motto-top-radius:         15%;              /* */
+   --motto-bottom-radius:      15%;              /* */
+}
+
+.motto-wrapper
+{
+/* display:    inline-block; /* */
+   text-align: center;       /* */
+
+   position:   relative;     /* use this to wrap motto if parent hides  */
+   z-index:    1;            /* display of motto's ::before and ::after */
+}
+
+.motto
+{
+   display:                    inline-block;
+   position:                   relative;
+   z-index:                    auto;      /* or no z-index at all, NO VALUE! */
+/* NOTE:
+ * ::before and ::after get z-index -1 to place them below main element.
+ * This only seems to work if this main element doesn't have a z-index itself.
+ * However it may be necessary to embed this element in a wrapper element that
+ * does have a z-index, say 1, to protect ::before and ::after from being hidden
+ * by a background or something
+ */
+
+   text-align:                 center;
+
+   background:                 var(--motto-background);
+
+   font-family:                var(--motto-fontfamily);
+   font-size:                  var(--motto-fontsize);
+
+   padding:                    var(--motto-vertical-padding) var(--motto-horizontal-padding);
+
+   margin:                     0em var(--motto-side-margin) var(--motto-shadow-height);
+
+   border-top-left-radius:     var(--motto-top-radius);
+   border-top-right-radius:    var(--motto-top-radius);
+}
+
+.motto::before, .motto::after
+{
+   position:                   absolute;
+   z-index:                    -1;
+
+   content:                    '';
+
+   bottom:                     var(--motto-bottom-extend);
+   border-bottom-width:        var(--motto-shadow-height);
+
+   border-top-width:           var(--motto-non-shadow-height, var(--motto-shadow-height));
+
+   padding:                    0em var(--motto-side-padding);
+
+   border-style:               solid;
+   border-color:               var(--motto-ribbon-color);
+}
+
+.motto::before
+{
+   left:                       var(--motto-side-extend);
+
+   border-right-width:         var(--motto-shadow-width);
+   border-right-color:         var(--motto-shadow-color);
+
+   border-left-width:          var(--motto-rip-length);
+   border-left-color:          var(--motto-rip-color);
+
+   border-bottom-right-radius: var(--motto-bottom-radius);
+}
+
+.motto::after
+{
+   right:                      var(--motto-side-extend);
+
+   border-left-width:          var(--motto-shadow-width);
+   border-left-color:          var(--motto-shadow-color);
+
+   border-right-width:         var(--motto-rip-length);
+   border-right-color:         var(--motto-rip-color);
+
+   border-bottom-left-radius:  var(--motto-bottom-radius);
+}
