@@ -1,25 +1,29 @@
-/* style sheet */
+/* version 0.1 of motto */
 
 :root
 {
+   --hue:                      120;              /* if no --hue: gray motto */
+   --sat:                      (var(--hue,0) - var(--hue,1) + 1);
+
    --motto-fontfamily:         'Times New Roman', Times, serif; /* */
 /* --motto-fontsize:           150%;             /* */
-   --motto-vertical-padding:   1em;              /* */
-   --motto-horizontal-padding: 2em;              /* */
+   --motto-vertical-padding:   1rem;             /* */
+   --motto-horizontal-padding: 2rem;             /* */
 
-   --motto-background: radial-gradient(circle, ivory, lightslategrey); /* */
 
-   --motto-ribbon-color:       slategrey;        /* */
-   --motto-shadow-color:       darkslategrey;    /* */
+   --motto-color:              hsl(var(--hue,0), calc(var(--sat) * 100%), 30%);     /* */
+   --motto-background:         radial-gradient(circle, hsl(var(--hue,0), calc(var(--sat) * 100%), 95%), hsl(var(--hue,0), calc(var(--sat) * 15%), 50%)); /* */
+   --motto-ribbon-color:       hsl(var(--hue,0), calc(var(--sat) * 10%), 50%);      /* */
+   --motto-shadow-color:       hsl(var(--hue,0), calc(var(--sat) * 25%), 25%);      /* */
    --motto-rip-color:          transparent;      /* */
 
-   --motto-shadow-width:       1.0em;            /* */
-   --motto-shadow-height:      1.0em;            /* */
+   --motto-shadow-width:       1.0rem;           /* */
+   --motto-shadow-height:      1.0rem;           /* */
 
-/* --motto-non-shadow-height:  1.5em;            /* optional */
+/* --motto-non-shadow-height:  1.5rem;           /* optional */
 
-   --motto-rip-length:         3.0em;            /* */
-   --motto-side-fill:          4.0em;            /* */
+   --motto-rip-length:         3.0rem;           /* */
+   --motto-side-fill:          4.0rem;           /* */
 
    --motto-bottom-extend:      calc(-1 * var(--motto-shadow-height));
    --motto-side-padding:       calc(var(--motto-side-fill) / 2);
@@ -61,7 +65,7 @@
 
    padding:                    var(--motto-vertical-padding) var(--motto-horizontal-padding);
 
-   margin:                     0em var(--motto-side-margin) var(--motto-shadow-height);
+   margin:                     0 var(--motto-side-margin) var(--motto-shadow-height);
 
    border-top-left-radius:     var(--motto-top-radius);
    border-top-right-radius:    var(--motto-top-radius);
@@ -79,7 +83,7 @@
 
    border-top-width:           var(--motto-non-shadow-height, var(--motto-shadow-height));
 
-   padding:                    0em var(--motto-side-padding);
+   padding:                    0 var(--motto-side-padding);
 
    border-style:               solid;
    border-color:               var(--motto-ribbon-color);
