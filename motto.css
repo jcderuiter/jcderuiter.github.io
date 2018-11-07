@@ -1,9 +1,12 @@
-/* version 0.1 of motto */
+/* version 1.0 of motto */
 
 :root
 {
-   --hue:                      120;              /* if no --hue: gray motto */
+/*   --hue:                      120;              /* if no --hue: gray motto */
    --sat:                      (var(--hue,0) - var(--hue,1) + 1);
+
+   animation-name:             rotatehue;        /* */
+   animation-duration:         12s;              /* */
 
    --motto-fontfamily:         'Times New Roman', Times, serif; /* */
 /* --motto-fontsize:           150%;             /* */
@@ -32,6 +35,23 @@
 
    --motto-top-radius:         15%;              /* */
    --motto-bottom-radius:      15%;              /* */
+}
+
+@keyframes rotatehue
+{
+     0% { --hue: 0;   }
+     8% { --hue: 30;  }
+    17% { --hue: 60;  }
+    25% { --hue: 90;  }
+    33% { --hue: 120; }
+    42% { --hue: 150; }
+    50% { --hue: 180; }
+    58% { --hue: 210; }
+    67% { --hue: 240; }
+    75% { --hue: 270; }
+    84% { --hue: 300; }
+    92% { --hue: 330; }
+   100% { --hue: 360; }
 }
 
 .motto-wrapper
