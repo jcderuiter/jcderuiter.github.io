@@ -1,9 +1,11 @@
-.rfoot
+.jcr-copy
 {
-   border-top: 1px solid #555;                   /* */
-   color:      #555;                             /* */
-   font-size:  0.9em;                            /* */
+   border-top: hsl(0, 0%, 20%) thin solid;       /* */
+   color:      hsl(0, 0%, 20%);                  /* */
+   font-size:  0.9rem;                           /* */
    text-align: right;                            /* */
-   margin:     1em 0.5em;                        /* */
-   padding:    0.5em;                            /* */
+   margin:     1rem 0.5rem;                      /* */
+   padding:    0.5rem;                           /* */
 }
+.jcr-copy::before { content: '\00a9 '; }
+.jcr-copy::after  { content: ' jcr'; }
