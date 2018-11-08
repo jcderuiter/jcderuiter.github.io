@@ -1,23 +1,24 @@
-// javascript
 'use strict';
-var jcr_js_object = {};
-onload = (function(other)
+const jcr_js_object = {};
+onload = (function(loadbefore)
 {  return function()
-   {  if (other) other();
-      jcr_js_object.main();
+   {  if (loadbefore) loadbefore();
+      jcr_js_object.onload();
    }
 })(onload);
 
-(function(me)
+(function(api)
 {
-   me.main = function()
+   const onload = function()
    {
       try
-      {  me.element("copyyear").innerHTML = new Date(document.lastModified).getFullYear();
+      {  document.querySelector('#jcr-copy').innerHTML = new Date(document.lastModified).getFullYear();
       }  catch(e) {}
    }
 
-   me.element = function(id)
-   {  return document.getElementById(id);
+   const api =  
+   {  onload: onload;
    }
+   
+   return api;
 })(jcr_js_object);
