@@ -1,7 +1,9 @@
 'use strict';
 const jcr_js_object = {};
+try {
 document.addEventListener('DOMContentLoaded', jcr_js_object.onload, false);
-
+} catch(e) { console.log(`oops: ${e}`) }
+   
 //load = (function(loadbefore)
 // return function()
 // {  if (loadbefore) loadbefore();
@@ -15,6 +17,6 @@ document.addEventListener('DOMContentLoaded', jcr_js_object.onload, false);
    {
       try
       {  document.querySelector('#jcr-copy').innerHTML = new Date(document.lastModified).getFullYear();
-      }  catch(e) { console.log('oops', e); }
+      }  catch(e) { console.log(`oops: ${e}`) }
    }
 })(jcr_js_object);
