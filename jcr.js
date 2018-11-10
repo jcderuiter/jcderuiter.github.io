@@ -5,7 +5,7 @@ const jcr_js_object = {};
 //} catch(e) { console.log(`oops: ${e}`) }
    
 onload = (function(loadbefore)
-   return function()
+{  return function()
    {  if (loadbefore) loadbefore();
       jcr_js_object.onload();
    }
