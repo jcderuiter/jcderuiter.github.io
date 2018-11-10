@@ -1,22 +1,24 @@
-/* version 1.0 of motto */
+/* version 2.0 of motto */
 
 :root
 {
-/*   --hue:                      120;              /* if no --hue: gray motto */
-   --sat:                      (var(--hue,0) - var(--hue,1) + 1);
+/* --hue:                      120;              /* if no --hue: gray motto */
+   --alpha:                    0.6;              /* opacity of the ribbon */
 
-   animation-name:             rotatehue;        /* */
-   animation-duration:         12s;              /* */
+   animation:                  rotatehue 1s;     /* */
 
    --motto-fontfamily:         'Times New Roman', Times, serif; /* */
+   --motto-fontvariant:        small-caps;                      /* */
 /* --motto-fontsize:           150%;             /* */
    --motto-vertical-padding:   1rem;             /* */
    --motto-horizontal-padding: 2rem;             /* */
 
+   --sat:                      (var(--hue,0) - var(--hue,1) + 1);
 
    --motto-color:              hsl(var(--hue,0), calc(var(--sat) * 100%), 30%);     /* */
    --motto-background:         radial-gradient(circle, hsl(var(--hue,0), calc(var(--sat) * 100%), 95%), hsl(var(--hue,0), calc(var(--sat) * 15%), 50%)); /* */
-   --motto-ribbon-color:       hsl(var(--hue,0), calc(var(--sat) * 10%), 50%);      /* */
+/* --motto-ribbon-color:       hsl(var(--hue,0), calc(var(--sat) * 10%), 50%);      /* */
+   --motto-ribbon-color:       hsla(var(--hue,0), calc(var(--sat) * 10%), 50%, var(--alpha,1));    /* */
    --motto-shadow-color:       hsl(var(--hue,0), calc(var(--sat) * 25%), 25%);      /* */
    --motto-rip-color:          transparent;      /* */
 
@@ -56,8 +58,13 @@
 
 .motto-wrapper
 {
+   display:           grid;            /* */
+   grid-auto-columns: max-content;     /* */
+   justify-content:   center;          /* */
+
 /* display:    inline-block; /* */
-   text-align: center;       /* */
+/* text-align: center;       /* */
+   padding:    2rem;         /* */
 
    position:   relative;     /* use this to wrap motto if parent hides  */
    z-index:    1;            /* display of motto's ::before and ::after */
@@ -77,10 +84,12 @@
  */
 
    text-align:                 center;
+   user-select:                none;
 
    background:                 var(--motto-background);
 
    font-family:                var(--motto-fontfamily);
+   font-variant:               var(--motto-fontvariant);
    font-size:                  var(--motto-fontsize);
 
    padding:                    var(--motto-vertical-padding) var(--motto-horizontal-padding);
@@ -133,4 +142,55 @@
    border-right-color:         var(--motto-rip-color);
 
    border-bottom-left-radius:  var(--motto-bottom-radius);
+}
+
+
+/* style for optional color picker */
+
+.motto-modal
+{
+   display:          none;                       /* */
+   margin-top:       0.5rem;                     /* */
+   background-color: hsla(0, 0%, 0%, .1);        /* */
+   padding:          2rem;                       /* */
+}
+
+.motto-hue
+{
+   margin-top:  1rem;                  /* */
+   user-select: none;                  /* */
+}
+
+.motto-hue input
+{
+   display: none;                      /* */
+}
+
+.motto-hue label
+{
+   display: inline-block;                        /* */
+
+   width:  2rem;                                 /* */
+   height: 2rem;                                 /* */
+
+   border-radius: 100%;                          /* */
+
+   line-height: 2rem;                            /* */
+   text-align:  center;                          /* */
+   font-size:   xx-large;                        /* */
+   color:       transparent;                     /* */
+   text-shadow: 0 0 0.1rem hsl(0,0%,0%);         /* */
+
+   cursor: pointer;                              /* */
+}
+
+.motto-hue label::before
+{
+   content: '\25cf';                   /* */
+   opacity: 0;                         /* */
+}
+
+.motto-hue input:checked + label::before
+{
+   opacity: 0.2;                       /* */
 }
