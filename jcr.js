@@ -11,14 +11,10 @@ document.addEventListener('DOMContentLoaded', jcr_js_object.onload, false);
 
 (function(api)
 {
-   const onload = function()
+   api.onload = function()
    {
       try
       {  document.querySelector('#jcr-copy').innerHTML = new Date(document.lastModified).getFullYear();
       }  catch(e) {}
    }
-
-   const api = { onload: onload }
-   
-   return api;
 })(jcr_js_object);
