@@ -18,8 +18,7 @@ document.addEventListener('DOMContentLoaded', jcr_js_object.onload, false);
       }  catch(e) {}
    }
 
-   const api = { onload: onload;
-               }
+   const api = { onload: onload }
    
    return api;
 })(jcr_js_object);
