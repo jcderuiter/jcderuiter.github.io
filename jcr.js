@@ -1,11 +1,13 @@
 'use strict';
 const jcr_js_object = {};
-onload = (function(loadbefore)
-{  return function()
-   {  if (loadbefore) loadbefore();
-      jcr_js_object.onload();
-   }
-})(onload);
+document.addEventListener('DOMContentLoaded', jcr_js_object.onload, false);
+
+//load = (function(loadbefore)
+// return function()
+// {  if (loadbefore) loadbefore();
+//    jcr_js_object.onload();
+// }
+//(onload);
 
 (function(api)
 {
@@ -16,9 +18,8 @@ onload = (function(loadbefore)
       }  catch(e) {}
    }
 
-   const api =  
-   {  onload: onload;
-   }
+   const api = { onload: onload;
+               }
    
    return api;
 })(jcr_js_object);
