@@ -15,6 +15,6 @@ document.addEventListener('DOMContentLoaded', jcr_js_object.onload, false);
    {
       try
       {  document.querySelector('#jcr-copy').innerHTML = new Date(document.lastModified).getFullYear();
-      }  catch(e) {}
+      }  catch(e) { console.log('oops', e); }
    }
 })(jcr_js_object);
