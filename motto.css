@@ -88,6 +88,8 @@
 
    background:                 var(--motto-background);
 
+   color:                      var(--motto-color);
+
    font-family:                var(--motto-fontfamily);
    font-variant:               var(--motto-fontvariant);
    font-size:                  var(--motto-fontsize);
