@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => jcr_js_object.onload(), fals
    api.onload = function()
    {
       try
-      {  document.querySelector('.jcr-copy').innerHTML = new Date(document.lastModified).getFullYear();
+      {  let year = new Date(document.lastModified).getFullYear();
+         document.querySelectorAll('.jcr-copy').forEach(y => y.innerHTML = year);
       }  catch(e) { console.log(`oops: ${e}`) }
    }
 })(jcr_js_object);
