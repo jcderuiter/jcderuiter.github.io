@@ -5,14 +5,1046 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="version" content="2.0.0"/>
 <title>codepoint</title>
-   <script>
-      console.log(`window location.origin: ${window.location.origin}`);
-      console.log(`document.referrer: ${document.referrer}`);
-   </script>
+<style>
+
+*
+{
+   box-sizing:       border-box;                 /* */
+}
+
+body
+{
+/* background-color: hsl(0, 0%, 85%);            /* */
+   line-height:      1.6;                        /* */
+}
+
+a
+{
+   text-decoration: none;                        /* */
+   transition: .5s;                              /* */
+}
+a, a:visited
+{
+   color: inherit;                               /* */
+}
+a:hover
+{
+/* text-decoration: underline;                   /* */
+   color:           hsl(315, 100%, 50%);         /* */
+}
+
+input[type=text]
+{
+/* width:   80%;                                 /* */
+   padding: .5rem;                               /* */
+}
+
+.center { text-align: center; }                  /* */
+.ralign { text-align: right; }                   /* */
+
+.span2  { grid-column-end: span 2; }             /* */
+.span3  { grid-column-end: span 3; }             /* */
+
+.nowrap { white-space: nowrap; }                 /* */
+
+.utf8-explained-grid code, #html { white-space: pre; }     /* */
+
+/* the encodings grid */
+.encodings-grid
+{
+   display: grid;                                /* */
+/* grid-template-columns: auto auto;             /* */
+   grid-template-columns: max-content max-content;  /* */
+   gap:                   0 .5rem;               /* */
+}
+
+/* the utf8-explained grid */
+.utf8-explained-grid
+{
+   display: grid;                                /* */
+   grid-template-columns: repeat(7, max-content);  /* */
+   gap:                   .1rem;                 /* */
+}
+.utf8-explained-grid > div
+{
+   padding:          0 .2rem;                    /* */
+   background-color: hsl( 60,  70%,  80%);       /* */
+}
+.utf8-explained-grid > div:nth-of-type(n+1):nth-of-type(-n+14),
+.utf8-explained-grid > div:nth-of-type(n+29):nth-of-type(-n+42)
+{
+   background-color: hsl( 60,  90%,  80%);       /* */
+}
+.clr0
+{
+   color:            hsl(  0,   0%,   0%);       /* */
+   background-color: hsl(  0,   0%,  90%);       /* */
+}
+.clr1
+{
+   color:            hsl(345, 100%,  50%);       /* */
+   background-color: hsl(345,  60%,  90%);       /* */
+}
+.clr2
+{
+   color:            hsl(225, 100%,  50%);       /* */
+   background-color: hsl(225,  60%,  90%);       /* */
+}
+.clr3
+{
+   color:            hsl(105, 100%,  40%);       /* */
+   background-color: hsl(105,  60%,  90%);       /* */
+/* color:            hsl( 60, 100%,  50%);       /* */
+/* background-color: hsl( 60,  60%,  40%);       /* */
+}
+.clr4
+{
+   color:            hsl(285, 100%,  50%);       /* */
+   background-color: hsl(285,  60%,  90%);       /* */
+}
+
+/* the utf8-analysis grid */
+.utf8-analysis-grid
+{
+   display:               grid;                  /* */
+   gap:                   .1rem;                 /* */
+/* grid-template-columns: repeat(4, max-content);  /* */
+   grid-template-columns: repeat(3, max-content) auto;  /* */
+}
+.utf8-analysis-grid > div
+{
+   background-color: hsl(180,  80%,  90%);       /* */
+   padding: 0 .3rem;                             /* */
+}
+.utf8-analysis-grid > div:nth-of-type(4n)
+{
+   background-color: hsl( 60,  80%,  90%);       /* */
+}
+.byte, .unicode
+{
+   text-transform: uppercase;                    /* */
+}
+.nobyte
+{
+   color:                   hsl(0, 100%, 50%);   /* */
+   text-decoration:         underline;           /* */
+   text-underline-position: under;               /* */
+}
+
+
+/* begin page grid style */
+.my-header { grid-area: my-header; }
+.my-left   { grid-area: my-left;   }
+.my-main   { grid-area: my-main;   }
+.my-right  { grid-area: my-right;  }
+.my-footer { grid-area: my-footer; }
+
+.my-container
+{
+   display:             grid;                    /* */
+   grid-template-areas:
+                        'my-header'
+                        'my-left'
+                        'my-main'
+                        'my-right'
+                        'my-footer';
+}
+
+.my-main
+{
+   background-color: hsl(0, 0%, 100%);           /* */
+}
+
+@media screen and (orientation: landscape)
+{
+   .my-container
+   {
+      grid-template-areas:
+                           'my-header my-header  my-header'  /* */
+/*                         'my-left   my-header  my-right'   /* */
+                           'my-left   my-main    my-right'   /* */
+                           'my-footer my-footer  my-footer'; /* */
+/*                         'my-left   my-footer  my-right';  /* */
+   }
+
+   .my-main
+   {
+   /* width:         70vh;                       /* A4 */
+      width:         62vw;                       /* 2/(1+sqrt(5)) */
+      min-height:    90vh;                       /* */
+/*    justify-self:  center;                     /* */
+      border:        hsl(0, 0%, 20%) thin solid; /* */
+/*    box-shadow:    0 0 .5rem;                  /* */
+      border-radius: 5px;                        /* */
+      padding:       1rem;                       /* */
+   }
+
+   .my-left, .my-right
+   {
+      min-width: 15vw;                           /* */
+   }
+}
+/* end page grid style */
+
+/* begin sections style */
+@media screen and (orientation: portrait)        /* */
+{
+   .my-sections:not(:empty)::before
+   {
+      content: 'Jump to:';                       /* */
+   }
+   .my-sections:not(:empty):lang(nl)::before
+   {
+      content: 'Meteen naar:';                   /* */
+   }
+}
+@media print
+{
+   .my-sections
+   {
+      display: none;                             /* */
+   }
+}
+
+
+/* end sections style */
+
+/* begin listings style, as for <textarea class="my-listing"> */
+ol.my-listing
+{
+   font-family:      monospace;                  /* */
+   line-height:      1.2;                        /* */
+   white-space:      pre-wrap;                   /* */
+   background-color: hsl(60, 100%, 90%);         /* */
+   border-radius:    .5rem;                      /* */
+   padding:          .5rem 0 .5rem 3rem;         /* */
+}
+ol.my-listing li
+{
+   border-left:    thin solid black;             /* */
+   padding:        0 .5rem;                      /* */
+}
+
+ol.my-listing.table
+{
+   display: table;                               /* */
+}
+
+ol.my-listing.nolinenrs
+{
+   list-style-type: none;                        /* */
+   padding-left:    0;                           /* */
+}
+ol.my-listing.nolinenrs li:empty::after
+{
+   content: '\000a';                             /* */
+}
+ol.my-listing.nolinenrs li
+{
+   border-left:     initial;                     /* */
+}
+/* end listings style */
+
+/* begin references style, as for <textarea class="my-refs-list"> */
+.my-refs-ref
+{
+   vertical-align: super;                        /* */
+   font-size:      smaller;                      /* */
+}
+.my-refs-ref::before { content: '['; }           /* */
+.my-refs-ref::after  { content: ']'; }           /* */
+
+.my-refs-list > * { margin-top: 0; }             /* */
+
+@media screen
+{
+   .my-refs-list
+   {
+      column-width:     25vw;                              /* */
+      border:           hsl(0, 0%, 30%) thin solid;        /* */
+      background-color: hsl(60, 100%,  90%);               /* */
+   }
+}
+
+@media print
+{
+   * { color: hsl(0, 0%, 0%); }                  /* */
+
+   .my-refs-cites { display: none; }             /* */
+   .my-refs-list a[href]::after { content: ' (' attr(href) ')'; }  /* */
+}
+
+.my-refs-author
+{
+   white-space:   pre-wrap;                      /* */
+   padding-right: .3rem;                         /* */
+}
+
+.my-refs-link
+{
+   font-style:    italic;                        /* */
+   color:         hsl(240, 100%, 50%);           /* */
+}
+
+.my-refs-origin
+{
+   font-variant: small-caps;                     /* */
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}
+
+.my-refs-cites
+{
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}
+/* end references style */
+
+/* begin copyright style */
+.my-copy
+{
+   border-top: hsl(0, 0%, 20%) thin solid;       /* */
+   color:      hsl(0, 0%, 20%);                  /* */
+   font-size:  0.9rem;                           /* */
+   text-align: right;                            /* */
+   margin:     1rem 0.5rem;                      /* */
+   padding:    0.5rem;                           /* */
+}
+.my-copy::before { content: '\00a9 '; }          /* */
+.my-copy::after  { content: ' jcr'; }            /* */
+/* end copyright style */
+</style>
+<!--
+<base href="http://google.com"></base>
+-->
+<script>
+'use strict';
+const codepoint_js_object = {};
+document.addEventListener('DOMContentLoaded', () => codepoint_js_object.onload(), false);
+
+(function(api)
+{
+   api.onload = function()
+   {
+      try
+      {
+         createListings();
+         createReferences();
+         setSectionLinks();
+         document.querySelector('#my-copy').innerHTML = new Date(document.lastModified).getFullYear();
+
+         // test javascript encodings
+         jsEncodings();
+
+         // the input fields
+         document.querySelector('#html_input').oninput = htmlInput;
+         document.querySelector('#utf8_input').onkeyup = utf8Input;
+
+      }  catch(err) { console.log('oops', err) }
+   }
+
+   const jsEncodings = function()
+   {
+      document.querySelector('#xa7').innerHTML        = ': \xa7';
+      document.querySelector('#u2021').innerHTML      = ': \u2021';
+      document.querySelector('#ud83dude0e').innerHTML = ': \ud83d\ude0e';
+      document.querySelector('#u1f60e').innerHTML     = ': \u{1f60e}';
+   }
+
+   const htmlInput = function(e)
+   {
+      let html       = document.querySelector('#html');
+      html.innerHTML = e.srcElement.value;
+
+      let codepoint = [];
+
+      let entity    = [];
+      let x_entity  = [];
+      let css       = [];
+
+      let js_hex    = [];
+      let js_utf16  = [];
+      let js_cp     = [];
+
+      let utf16     = [];
+      let utf8      = [];
+
+      for (let u of html.innerText)
+      {
+         let dec = u.codePointAt(0);
+         let hex = dec.toString(16).toUpperCase();
+         let utf16_words = (u.length > 1)
+                         ? [u.charCodeAt(0), u.charCodeAt(1)]
+                         : [u.charCodeAt(0)];
+         let utf16_array = utf16_words.map(x => x.toString(16).toUpperCase().padStart(4, '0'));
+
+
+         codepoint.push(`U+${hex.padStart(4, '0')}`);
+
+         entity.push(`&#${dec};`);
+         x_entity.push(`&#x${hex};`);
+         css.push(`\\${hex.padStart(4, '0')}`);
+
+         js_cp.push(`\\u{${hex}}`);
+         js_hex.push((dec < 0x100) ? `\\x${hex.padStart(2, '0')}` : '-');
+         js_utf16.push(`\\u${utf16_array.join('\\u')}`);
+
+//       utf16.push((utf16_array.length > 1) ? `<i>${utf16_array.join(' ')}</i>` : utf16_array[0]);
+         utf16.push(utf16_array.join(' '));
+
+         let utf8_bytes = (dec < 0x80)
+                        ? [dec]
+                        : (dec < 0x800)
+                        ? [ dec >>>  6              | 0b11000000,
+                            dec        & 0b00111111 | 0b10000000
+                          ]
+                        : (dec < 0x10000)
+                        ? [ dec >>> 12              | 0b11100000,
+                            dec >>>  6 & 0b00111111 | 0b10000000,
+                            dec        & 0b00111111 | 0b10000000
+                          ]
+                        : [ dec >>> 18              | 0b11110000,
+                            dec >>> 12 & 0b00111111 | 0b10000000,
+                            dec >>>  6 & 0b00111111 | 0b10000000,
+                            dec        & 0b00111111 | 0b10000000
+                          ];
+         utf8.push(utf8_bytes.map(x => x.toString(16).padStart(2, '0').toUpperCase()).join(' '));
+      }
+
+      document.querySelector('#codepoint').innerText = codepoint;
+
+      document.querySelector('#entity').innerText    = entity.join('');
+      document.querySelector('#x_entity').innerText  = x_entity.join('');
+      document.querySelector('#css').innerText       = css.join('');
+
+      document.querySelector('#js_cp').innerHTML     = js_cp.join('');
+      document.querySelector('#js_hex').innerHTML    = js_hex.join('');
+      document.querySelector('#js_utf16').innerHTML  = js_utf16.join('');
+
+      document.querySelector('#utf16').innerHTML     = utf16;
+      document.querySelector('#utf8').innerHTML      = utf8;
+   }
+
+   const re_charpairs = /\S{2}|\S/ig;
+   const re_hexbyte   = /^[0-9a-f]{2}$/i;
+
+   const utf8Line = function(hex, dec, message)
+   {
+      var line = `<div class="byte"><code>${hex}</code></div>`;
+
+
+      if (dec == undefined)
+         line += '<div></div><div></div>';
+      else
+      {
+         line += `<div class="unicode"><code>U+${dec.toString(16).padStart(4, '0')}</code></div>`;
+         line += `<div>&#${dec};</div>`;
+      }
+
+      if (message)
+         line += `<div>${message}</div>`;
+      else
+         line += '<div></div>';
+
+      return line;
+   }
+
+   const utf8ContinuationByte = function(i, charpairs)
+   {
+      let b = ((i+1) < charpairs.length)
+            ? parseInt(charpairs[i+1], 16)
+            : 0;
+
+      return ((b & 0b11000000) == 0b10000000) ? b : 0;
+   }
+
+   const utf8Input = function(e)
+   {
+      if (e.key !== 'Enter') return;
+
+      let utf8_analysis         = document.querySelector('#utf8_analysis');
+      utf8_analysis.textContent = '';
+
+      let charpairs = e.srcElement.value.match(re_charpairs);
+      if (charpairs == null) return;             // empty input
+
+      let analysis_html = '<br/><div class="utf8-analysis-grid">';
+      let bytes_ok      = true;
+      let bytestring    = '';
+
+      // check if pairs of characters are all valid bytes
+      for (let b of charpairs)
+      {
+         let ok      = re_hexbyte.test(b);
+         bytes_ok   &= ok;
+         bytestring += ` <code class="${(ok) ? 'byte' : 'nobyte'}">${b}</code>`;
+      }
+
+      if (!bytes_ok)
+      {
+         analysis_html += '<div class="span3">Oops! the input holds invalid data:</div>';
+         analysis_html += `<div>${bytestring}</div>`;
+      }
+      else
+      {
+//// check with:
+//// 24 80 f8 c0a4 c2a5 e282ac e080a4 e082a5 eda080 edbfbf f4908080 f09f92b0 f08080a4 f08082a5 f08282ac c2 e2 e282 f0 f09f f09f92
+
+         // note: loop variable i may be increased within the loop code itself
+//       for (let i = 0; i < charpairs.length; i++)
+         let i = -1;
+         while (++i < charpairs.length)
+         {
+            // byte 0
+            let b0  = parseInt(charpairs[i], 16);
+            let hex = charpairs[i].toUpperCase();
+
+            // one byte encoding
+            if ((b0 & 0b10000000) == 0b00000000)
+            {
+               let nr = b0;
+               analysis_html += utf8Line(hex, nr, '');
+               continue;
+            }
+
+            // orphan continuation byte
+            if ((b0 & 0b11000000) == 0b10000000)
+            {
+               analysis_html += utf8Line(hex, undefined, 'this is an isolated UTF-8 continuation byte');
+               continue;
+            }
+
+            // two bytes encoding
+            if ((b0 & 0b11100000) == 0b11000000)
+            {
+               // continuation byte
+               let b1 = utf8ContinuationByte(i, charpairs);
+
+               if (!b1)
+               {
+                  analysis_html += utf8Line(hex, undefined, 'needs a continuation byte');
+                  continue;
+               }
+
+               i++;
+               hex += ` ${charpairs[i].toUpperCase()}`;
+
+               // we have utf8 encoding
+               let nr = ((b0 & 0b00011111) << 6)
+                      |  (b1 & 0b00111111);
+
+               // check for overlong encoding
+               let overlong = (nr < 0x0080)
+                            ? '<i>overlong</i> encoded: '
+                            + `U+${nr.toString(16).toUpperCase().padStart(4, '0')} `
+                            + 'must be encoded with one byte'
+                            : '';
+
+               analysis_html += utf8Line(hex, nr, overlong);
+               continue;
+            }
+
+            // three bytes encoding
+            if ((b0 & 0b11110000) == 0b11100000)
+            {
+               // first continuation byte
+               let b1 = utf8ContinuationByte(i, charpairs);
+
+               if (!b1)
+               {
+                  analysis_html += utf8Line(hex, undefined, 'needs two continuation bytes');
+                  continue;
+               }
+
+               i++;
+               hex += ` ${charpairs[i].toUpperCase()}`;
+
+               // second continuation byte
+               let b2 = utf8ContinuationByte(i, charpairs);
+               if (!b2)
+               {
+                  analysis_html += utf8Line(hex, undefined, 'needs a second continuation byte');
+                  continue;
+               }
+
+               i++;
+               hex += ` ${charpairs[i].toUpperCase()}`;
+
+               // we have utf8 encoding
+               let nr = ((b0 & 0b00001111) << 12)
+                      | ((b1 & 0b00111111) << 6)
+                      |  (b2 & 0b00111111);
+
+               // check for reserved code points
+               if (nr >= 0xD800 && nr <= 0xDFFF)
+               {
+                  analysis_html += utf8Line(hex, undefined, `this decodes into ${nr} (0x${nr.toString(16)}) but U+${nr.toString(16).toUpperCase().padStart(4, '0')} is a reserved code point`);
+                  continue;
+               }
+
+               // check for overlong encoding
+               let overlong = (nr < 0x0800)
+                            ? '<i>overlong</i> encoded: '
+                            + `U+${nr.toString(16).toUpperCase().padStart(4, '0')} `
+                            + 'must be encoded with '
+                            + `${(nr < 0x0080)
+                               ? 'one byte'
+                               : 'two bytes'}`
+                            : '';
+
+               analysis_html += utf8Line(hex, nr, overlong);
+               continue;
+            }
+
+            // four bytes encoding
+            if ((b0 & 0b11111000) == 0b11110000)
+            {
+               // first continuation byte
+               let b1 = utf8ContinuationByte(i, charpairs);
+               if (!b1)
+               {
+                  analysis_html += utf8Line(hex, undefined, 'needs three continuation bytes');
+                  continue;
+               }
+
+               i++;
+               hex += ` ${charpairs[i].toUpperCase()}`;
+
+               // second continuation byte
+               let b2 = utf8ContinuationByte(i, charpairs);
+               if (!b2)
+               {
+                  analysis_html += utf8Line(hex, undefined, 'needs two more continuation bytes');
+                  continue;
+               }
+
+               i++;
+               hex += ` ${charpairs[i].toUpperCase()}`;
+
+               // third continuation byte
+               let b3 = utf8ContinuationByte(i, charpairs);
+               if (!b3)
+               {
+                  analysis_html += utf8Line(hex, undefined, 'needs a third continuation byte');
+                  continue;
+               }
+
+               i++;
+               hex += ` ${charpairs[i].toUpperCase()}`;
+
+               // we have utf8 encoding
+               let nr = ((b0 & 0b00000111) << 18)
+                      | ((b1 & 0b00111111) << 12)
+                      | ((b2 & 0b00111111) << 6)
+                      |  (b3 & 0b00111111);
+
+               // check for maximum code point
+               if (nr > 0x10FFFF)
+               {
+                  analysis_html += utf8Line(hex, undefined, `this decodes into ${nr} (0x${nr.toString(16).toUpperCase()}) which is too big to be a code point`);
+                  continue;
+               }
+
+               // check for overlong encoding
+               let overlong = (nr < 0x10000)
+                            ? '<i>overlong</i> encoded: '
+                            + `U+${nr.toString(16).toUpperCase().padStart(4, '0')} `
+                            + 'must be encoded with '
+                            + `${(nr < 0x0080)
+                               ? 'one byte'
+                               : (nr < 0x0800)
+                               ? 'two bytes'
+                               : 'three bytes'}`
+                            : '';
+
+               analysis_html += utf8Line(hex, nr, overlong);
+               continue;
+            }
+
+            // no more options, so invalid byte
+            analysis_html += utf8Line(hex, undefined, 'this is not a valid UTF-8 encoded byte');
+         }
+      }
+
+      analysis_html += '</div>';
+      utf8_analysis.innerHTML = analysis_html;
+      utf8_analysis.scrollIntoView({behavior: 'smooth'});
+   }
+
+   const createListings = function()
+   {
+      for (let element of document.querySelectorAll('textarea.my-listing'))
+      {
+         let ol = document.createElement('ol');
+         ol.className = element.className;
+
+         for (let line of element.innerHTML.replace(/\n$/, '').split('\n'))
+         {
+            let li = document.createElement('li');
+            li.innerHTML = line;
+            ol.appendChild(li);
+         }
+
+         element.replaceWith(ol);
+      }
+   }
+
+   const createReferences = function()
+   {
+      let refnr = 1;
+      let refitem = {};
+
+
+      // the references
+      for (let element of document.querySelectorAll('textarea.my-refs-list'))
+      {
+         let ol = document.createElement('ol');
+         ol.className = element.className;
+         ol.start = refnr;
+
+         for (let record of element.innerHTML.replace(/\n\s*?\n\s*/, '\n\n').split('\n\n'))
+         {
+            let [line1, url, text, origin] = record.split('\n');
+
+            let [hash, ...rest] = line1.split(' ');
+            let author = rest.join(' ');
+
+            if (!hash.startsWith('#')) { continue }
+
+            let li = document.createElement('li');
+            li.id = hash.substr(1);
+
+            if (author)
+            {
+               let span_author = document.createElement('span');
+               span_author.className = 'my-refs-author';
+               span_author.innerHTML = author;
+               li.appendChild(span_author);
+            }
+
+            let span_link = document.createElement('span');
+            span_link.className = 'my-refs-link';
+
+            let a = document.createElement('a');
+            a.href = url;
+            a.innerHTML = text || url;
+            span_link.appendChild(a);
+            li.appendChild(span_link);
+
+            if (origin)
+            {
+               let span_origin = document.createElement('span');
+               span_origin.className = 'my-refs-origin';
+               span_origin.innerHTML = origin;
+               li.appendChild(span_origin);
+            }
+
+            ol.appendChild(li);
+
+            refitem[hash] = { item: li, refnr: refnr, cited: [] }
+            refnr++;
+         }
+
+         element.replaceWith(ol);
+      }
+
+      // the citations (referrals)
+      for (let element of document.querySelectorAll('.my-refs-ref'))
+      {
+         if (!element.hash) { continue }
+
+         let span = document.createElement('span');
+         span.className = 'nowrap';
+         span.innerHTML = element.innerHTML;
+
+         if (refitem[element.hash])
+         {
+            element.innerHTML     = refitem[element.hash].refnr;
+            let hash_for_citation = `${[element.hash]}_${refitem[element.hash].cited.length}`;
+            element.id            = hash_for_citation.substr(1);
+            refitem[element.hash].cited.push(hash_for_citation);
+         }
+         else
+         {
+            element.innerHTML = 'link not present';
+         }
+
+         element.parentNode.insertBefore(span, element);
+         span.appendChild(element);
+      }
+
+
+      // reduce citations array (of hashes) to string of hyperlinks
+      function reduceCitations(accum, next, i, all)
+      {
+         let concat = accum;
+         if (i) { concat += ',' }
+         concat += `<a href="${next}">&uarr;`;
+         if (all.length > 1) { concat += `<sub>${i+1}</sub>` }
+         concat += '</a>';
+
+         return concat;
+      }
+
+      // add citations to items in hyperlink list
+      for (let hash in refitem)
+      {
+         if (!refitem[hash].cited.length) { continue }
+
+         refitem[hash].item.innerHTML += '<span class="my-refs-cites">'
+//                                    +  '<sub>cited:</sub>'
+                                      +  refitem[hash].cited.reduce(reduceCitations, '')
+                                      + '</span>';
+      }
+   }
+
+   const setSectionLinks = function()
+   {
+      let sectionlist = document.querySelector('#my-sections');
+      if (sectionlist)
+      {
+         sectionlist.innerHTML += '<li><a href="/">Home</a></li>';
+         for (let section of document.querySelectorAll('.my-section[id]'))
+         {
+            let text = section.innerHTML;
+            sectionlist.innerHTML += `<li><a href="#${section.id}">${text}</a></li>`;
+
+            section.innerHTML = `<a href="#">${text}</a>`;
+            section.title     = 'to top of page';
+         }
+      }
+   }
+})(codepoint_js_object);
+</script>
 </head>
 <body>
-Howdy!
-   <br/>
+
+<div class="my-container">
+
+<div class="my-header"></div> <!-- my-header -->
+<div class="my-left">
+<h4 id="my-contents"><!-- Meteen naar: --></h4>
+
    <a href="/">waarheen?</a>
+<ul class="my-sections" id="my-sections"></ul> <!-- on one line otherwise not empty! -->
+</div> <!-- my-left -->
+
+<div class="my-main">
+
+<!-- <h3 class="my-section" id="section_html">HTML</h3> -->
+<h3 id="section_html">Encodings</h3>
+
+Type or paste anything here:
+<input id="html_input" type="text" size="80" placeholder="HTML entities like &amp;euro; or &#128077; &amp#128077; are allowed" autocomplete="off" spellcheck="false"/>
+<br/>
+<br/>
+<div class="encodings-grid">
+<div>Unicode code point:</div><div id="codepoint"></div>
+<div class="span2"><hr/></div>
+<div>HTML:</div><div id="html"></div>
+<div>HTML entity (decimal):</div><div><code id="entity"></code></div>
+<div>HTML entity (hexadecimal):</div><div><code id="x_entity"></code></div>
+<div>CSS entity:</div><div><code id="css"></code></div>
+<div class="span2"><hr/></div>
+<div>JavaScript unicode code point escape:</div><div><code id="js_cp"></code></div>
+<div>JavaScript hexadecimal escape sequence:</div><div><code id="js_hex"></code></div>
+<div title='"utf16 escape sequence" would be more accurate'>JavaScript unicode escape sequence:</div><div><code id="js_utf16"></code></div>
+<div class="span2"><hr/></div>
+<div>UTF-16 encoding (hexadecimal):</div><div><code id="utf16"></code></div>
+<div>UTF-8 encoding (hexadecimal):</div><div><code id="utf8"></code></div>
+</div> <!-- encodings-grid -->
+<br/>
+<br/>
+<a href="#myref_unicode" class="my-refs-ref">Unicode</a>
+provides the de facto standard numbering of symbols, in particular characters,
+through a list of
+<a href="#myref_ut" class="my-refs-ref"><i>code points</i></a>.
+<br/>
+UTF-8 and UTF-16 are ways to encode these code points in bytes.
+<br/>
+When typing code, you do not use any of these encoding directly, but
+you use what your keyboard offers you. Most of the characters
+you need are present, but those who are not can generally be entered by some
+special sequence involving code point numbers.
+In HTML a lot of characters and symbols can also be entered by using a descriptive
+name enclosed in an ampersand and semicolon, like <code>&amp;euro;</code>.
+These sequences are called
+<a href="#myref_entities" class="my-refs-ref"><i>HTML entities</i></a>.
+
+<h5 class="center">&#x2744;&#x2744;&#x2744;</h5>
+<h3 class="my-section" id="section_utf16">UTF-16</h3>
+
+In JavaScript, a <i>hexadecimal escape sequence</i>:
+<code>\x</code> followed by two hexadecimal digits, can be used
+to represent a code point in the range U+0000 to U+00FF,
+like <code>\xa7</code>
+<span id="xa7"></span>
+<br/>
+<br/>
+Another representation is by <i>unicode escape sequence</i>:
+<code>\u</code> followed by four hexadecimal digits,
+like <code>\u2021</code>
+<span id="u2021"></span>
+This is the UTF-16 encoding.
+<br/>
+However, there are code points that exceed four hexadecimal digits.
+Code points above U+FFFF are encoded using <i>surrogate pairs</i>:
+<i>two</i> escape sequences from the for this purpose
+reserved unicode ranges of <i>high surrogates</i>, from U+D800 to U+DBFF, and
+<i>low surrogates</i>, from U+DC00 to U+DFFF, resulting in
+<code>\u<i>high</i>\u<i>low</i></code>.
+<br/>
+The actual code point is calculated by:
+<code>(<i>high</i> - 0xD800) * 0x400 + <i>low</i> - 0xDC00 + 0x10000</code>.
+In this way, code points from U+10000 to U+10FFFF can be addressed.
+<br/>
+So, using surrogate pairs we have <code>\uD83D\uDE0E</code>
+<span id="ud83dude0e"></span> (<code>U+1F60E</code>).
+<br/>
+<br/>
+A representation that avoids surrogate pairs is called <i>code point escape</i>:
+<code>\u</code>
+followed by a hexadecimal number from the range 0 and 0x10FFFF surrounded by
+<code>{}</code>, like <code>\u{1F60E}</code>
+<span id="u1f60e"></span>
+
+<h5 class="center">&#x2744;&#x2744;&#x2744;</h5>
+<h3 class="my-section" id="section_utf8">UTF-8</h3>
+
+UTF-8 is a variable length encoding using one to four bytes.
+<br/>
+Code points U+0000 to U+007F are encoded in one byte: U+00xy &#x2192; xy.
+The UTF-8 encoding for these code points equals the 7-bits
+<a href="#myref_ascii" class="my-refs-ref">ASCII</a> encoding.
+<br/>
+For code points that have more than seven bits,
+the low-order bits are placed in <i>continuation bytes</i>:
+chunks of six bits prefixed with (binary) 10,
+whereas the remaining (high-order) bits are prefixed by
+110, 1110 or 11110, depending on the number of continuation bytes:
+<br/>
+<div class="utf8-explained-grid">
+
+<div>U+0000 - U+007F</div>
+<div></div>
+<div>7 bits encoded into 1 byte:</div>
+<div></div>
+<div><code>0bbb bbbb</code></div>
+<div></div>
+<div></div>
+<div>e.g. U+0024 :</div>
+<div class="center">&#x0024;</div>
+<div class="ralign"><code>0<span class="clr1">010 0100</span></code></div>
+<div>&#x2192;</div>
+<div><code><span class="clr0">0</span><span class="clr1">010 0100</span></code></div>
+<div>&#x21d4;</div>
+<div><code>24</code></div>
+
+<div>U+0080 - U+07FF</div>
+<div></div>
+<div>11 bits encoded into 2 bytes:</div>
+<div></div>
+<div><code>110b bbbb  10bb bbbb</code></div>
+<div></div>
+<div></div>
+<div>e.g. U+00A5 :</div>
+<div class="center">&#x00a5;</div>
+<div class="ralign"><code>0000 0<span class="clr1">000  10</span><span class="clr2">10 0101</span></code></div>
+<div>&#x2192;</div>
+<div><code><span class="clr0">110</span><span class="clr1">0 0010</span>  <span class="clr0">10</span><span class="clr2">10 0101</span></code></div>
+<div>&#x21d4;</div>
+<div><code>C2 A5</code></div>
+
+<div>U+0800 - U+FFFF</div>
+<div></div>
+<div>16 bits encoded into 3 bytes:</div>
+<div></div>
+<div><code>1110 bbbb  10bb bbbb  10bb bbbb</code></div>
+<div></div>
+<div></div>
+<div>e.g. U+20AC :</div>
+<div class="center">&#x20ac;</div>
+<div class="ralign"><code><span class="clr1">0010</span> <span class="clr2">0000  10</span><span class="clr3">10 1100</span></code></div>
+<div>&#x2192;</div>
+<div><code><span class="clr0">1110</span> <span class="clr1">0010</span>  <span class="clr0">10</span><span class="clr2">00 0010</span>  <span class="clr0">10</span><span class="clr3">10 1100</span></code></div>
+<div>&#x21d4;</div>
+<div><code>E2 82 AC</code></div>
+
+<div>U+10000 - U+10FFFF</div>
+<div></div>
+<div>21 bits encoded into 4 bytes:</div>
+<div></div>
+<div><code>1111 0bbb  10bb bbbb  10bb bbbb  10bb bbbb</code></div>
+<div></div>
+<div></div>
+<div>e.g. U+1F4B0 :</div>
+<div class="center">&#x1f4b0;</div>
+<div class="ralign"><code>000<span class="clr1">0 00</span><span class="clr2">01  1111</span> <span class="clr3">0100  10</span><span class="clr4">11 0000</span></code></div>
+<div>&#x2192;</div>
+<div><code><span class="clr0">1111 0</span><span class="clr1">000</span>  <span class="clr0">10</span><span class="clr2">01 1111</span>  <span class="clr0">10</span><span class="clr3">01 0010</span>  <span class="clr0">10</span><span class="clr4">11 0000</span></code></div>
+<div>&#x21d4;</div>
+<div><code>F0 9F 92 B0</code></div>
+
+</div> <!-- utf8-explained-grid -->
+
+
+<br/>
+The code point ranges are crucial for the number of bytes; one could take in
+account a lot of zero high-bits and encode for example U+0024 as <code>C0 A4</code>,
+or as <code>E0 80 A4</code> or as <code>F0 80 80 A4</code>.
+This is called <i>overlong</i> encoding and is considered invalid.
+<br/>
+<br/>
+
+Type or paste hexadecimal representation of UTF-8 encoded bytes and press <code>Enter</code>:
+<br/>
+<input id="utf8_input" type="text" size="80" placeholder="bytes may be separated by spaces, like: F0 9F 98 8E" autocomplete="off" spellcheck="false"/>
+
+<div id="utf8_analysis"></div>
+
+</div> <!-- my-main -->
+
+<div class="my-right"></div> <!-- my-right -->
+
+<div class="my-footer">
+
+<div class="my-copy" id="my-copy"></div>
+
+<!-- references -->
+<h3 class="my-section" id="section_references">References</h3>
+<!-- refer as:
+<a href="#ref_something" class="my-refs-ref"></a>
+   references in textarea:
+#id [author]
+url
+text
+[origin (website)]
+   separate references with empty lines
+-->
+
+<textarea class="my-refs-list">
+#myref_unicode
+https://www.unicode.org
+The Unicode Consortium
+unicode
+
+#myref_ut
+https://unicode-table.com/en/
+Unicode Character Table
+UT
+
+#myref_entities
+https://www.freeformatter.com/html-entities.html
+HTML Entity List
+freeformatter.com
+
+#myref_ascii
+https://en.wikipedia.org/wiki/ASCII
+ASCII
+WikipediA
+</textarea> <!-- my-refs-list -->
+</div> <!-- my-footer -->
+
+</div> <!-- my-container -->
 </body>
 </html>
