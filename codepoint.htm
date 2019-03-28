@@ -40,14 +40,16 @@ input[type=text]
 }
 
 .center { text-align: center; }                  /* */
+.nowrap { white-space: nowrap; }                 /* */
+
 .ralign { text-align: right; }                   /* */
 
 .span2  { grid-column-end: span 2; }             /* */
 .span3  { grid-column-end: span 3; }             /* */
 
-.nowrap { white-space: nowrap; }                 /* */
 
 .utf8-explained-grid code, #html { white-space: pre; }     /* */
+
 
 /* the encodings grid */
 .encodings-grid
@@ -253,6 +255,15 @@ ol.my-listing.nolinenrs li
 }
 .my-refs-ref::before { content: '['; }           /* */
 .my-refs-ref::after  { content: ']'; }           /* */
+.my-refs-ref,
+.my-refs-ref:visited
+{
+   color: hsl(0, 0%, 50%);                       /* */
+}
+.my-refs-ref:hover
+{
+   color: hsl(315, 100%, 50%);                   /* */
+}
 
 .my-refs-list > * { margin-top: 0; }             /* */
 
@@ -314,13 +325,12 @@ ol.my-listing.nolinenrs li
 .my-copy::after  { content: ' jcr'; }            /* */
 /* end copyright style */
 </style>
-<!--
-<base href="http://google.com"></base>
--->
 <script>
 'use strict';
 const codepoint_js_object = {};
 document.addEventListener('DOMContentLoaded', () => codepoint_js_object.onload(), false);
+//window.addEventListener('load', () => codepoint_js_object.onload(), false);
+//onload = (function(other) {  return function() {  if (other) other(); codepoint_js_object.onload(); } })(onload);
 
 (function(api)
 {
@@ -410,6 +420,7 @@ document.addEventListener('DOMContentLoaded', () => codepoint_js_object.onload()
                           ];
          utf8.push(utf8_bytes.map(x => x.toString(16).padStart(2, '0').toUpperCase()).join(' '));
       }
+
 
       document.querySelector('#codepoint').innerText = codepoint;
 
@@ -667,6 +678,7 @@ document.addEventListener('DOMContentLoaded', () => codepoint_js_object.onload()
       }
 
       analysis_html += '</div>';
+//console.log(analysis_html);
       utf8_analysis.innerHTML = analysis_html;
       utf8_analysis.scrollIntoView({behavior: 'smooth'});
    }
@@ -824,7 +836,6 @@ document.addEventListener('DOMContentLoaded', () => codepoint_js_object.onload()
 <div class="my-header"></div> <!-- my-header -->
 <div class="my-left">
 <h4 id="my-contents"><!-- Meteen naar: --></h4>
-
 <ul class="my-sections" id="my-sections"></ul> <!-- on one line otherwise not empty! -->
 </div> <!-- my-left -->
 
@@ -859,7 +870,12 @@ provides the de facto standard numbering of symbols, in particular characters,
 through a list of
 <a href="#myref_ut" class="my-refs-ref"><i>code points</i></a>.
 <br/>
-UTF-8 and UTF-16 are ways to encode these code points in bytes.
+<a href="#myref_utf8" class="my-refs-ref">UTF-8</a>
+and
+<a href="#myref_utf16" class="my-refs-ref">UTF-16</a>
+are ways to encode these code points in bytes.
+UTF stands for <i>Unicode Transformation Format</i>, the 8 and 16 refer to the
+minimum number of bits used in the encoding.
 <br/>
 When typing code, you do not use any of these encoding directly, but
 you use what your keyboard offers you. Most of the characters
@@ -884,7 +900,6 @@ Another representation is by <i>unicode escape sequence</i>:
 <code>\u</code> followed by four hexadecimal digits,
 like <code>\u2021</code>
 <span id="u2021"></span>
-This is the UTF-16 encoding.
 <br/>
 However, there are code points that exceed four hexadecimal digits.
 Code points above U+FFFF are encoded using <i>surrogate pairs</i>:
@@ -906,6 +921,11 @@ A representation that avoids surrogate pairs is called <i>code point escape</i>:
 followed by a hexadecimal number from the range 0 and 0x10FFFF surrounded by
 <code>{}</code>, like <code>\u{1F60E}</code>
 <span id="u1f60e"></span>
+<br/>
+<br/>
+Four hexadecimal digits can be stored in two bytes (16 bits).
+Encoding with two bytes for a code point and using surrogate pairs where
+needed is the UTF-16 encoding.
 
 <h5 class="center">&#x2744;&#x2744;&#x2744;</h5>
 <h3 class="my-section" id="section_utf8">UTF-8</h3>
@@ -1031,6 +1051,16 @@ unicode
 https://unicode-table.com/en/
 Unicode Character Table
 UT
+
+#myref_utf8
+https://en.wikipedia.org/wiki/UTF-8
+UTF-8
+WikipediA
+
+#myref_utf16
+https://en.wikipedia.org/wiki/UTF-16
+UTF-16
+WikipediA
 
 #myref_entities
 https://www.freeformatter.com/html-entities.html
