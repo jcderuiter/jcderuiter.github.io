@@ -1,0 +1,1414 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta http-equiv="expires" content="now"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="version" content="0.0.0"/>
+<title>stacking</title>
+<style>
+
+*
+{
+   box-sizing:       border-box;                 /* */
+}
+
+body
+{
+/* background-color: hsl(0, 0%, 85%);            /* */
+   line-height:      1.6;                        /* */
+}
+
+
+a
+{
+   text-decoration: none;                        /* */
+   transition:      .5s;                         /* */
+}
+a, a:visited
+{
+   color: inherit;                               /* */
+/* color:           hsl(  0,   0%, 50%);         /* */
+}
+a:hover
+{
+/* text-decoration: underline;                   /* */
+   color:           hsl(315, 100%, 50%);         /* */
+}
+
+.center { text-align: center; }                  /* */
+code, .nowrap { white-space: nowrap; }           /* */
+
+
+/* simplified motto stuff */
+
+.motto
+{
+   display:          inline-block;               /* */
+   position:         relative;                   /* */
+   padding:          1rem;                       /* */
+   margin:           1rem 10rem;                 /* */
+   background-color: hsl(210, 100%, 80%);        /* */
+
+   border-top-left-radius:  15%;                 /* */
+   border-top-right-radius: 15%;                 /* */
+}
+.motto::after,
+.motto::before
+{
+   content: 'z-index: -1';                       /* */
+/* content: '';                                  /* */
+   width:               5rem;                    /* */
+   padding:             0 1rem;                  /* */
+   bottom:              -1rem;                   /* */
+   position:            absolute;                /* */
+   z-index:             -1;                      /* */
+
+              color:    hsl(210, 100%, 80%);     /* */
+
+   border-style:        solid;
+   border-top-color:    hsla(210, 100%, 080%, .6); /* */
+   border-bottom-color: hsla(210, 100%, 080%, .6); /* */
+
+   border-top-width:    .5rem;                   /* */
+   border-bottom-width: 1rem;                    /* */
+
+}
+
+.motto::before
+{
+   left:                       -10rem;           /* */
+
+/* border-top-left-radius:       0%;             /* */
+   border-bottom-left-radius:  2.0rem;           /* */
+
+   border-right-width:         1rem;             /* */
+   border-right-color:  hsl(210, 025%, 025%);    /* */
+
+   border-left-width:          3rem;             /* */
+   border-left-color:          transparent;      /* */
+
+   border-bottom-right-radius: 15%;              /* */
+}
+.motto::after
+{
+   right:                      -10rem;             /* */
+
+   border-right-width:         3rem;             /* */
+   border-right-color:         transparent;      /* */
+
+   border-left-width:          1rem;             /* */
+   border-left-color:   hsl(210, 025%, 025%);    /* */
+
+   border-bottom-right-radius: 15%;              /* */
+}
+
+
+/* stacking stuff */
+
+ul.tp5
+{
+   list-style: none;                             /* */
+}
+ul.tp5 li::before
+{
+   content: '2.5';                               /* */
+   margin-left: -2rem;                           /* */
+   padding-right: .2rem;                         /* */
+}
+
+.static   { position: static; }
+.relative { position: relative; }
+.absolute { position: absolute; }
+.zp { z-index:  1; }
+.zn { z-index: -1; }
+.z0 { z-index:  0; }
+.opacity { opacity: .99; }
+.ib { display: inline-block; }
+
+.grid2r
+{
+   display:            grid;                     /* */
+   grid-auto-flow:     column;                   /* */
+/* grid-template-rows: auto auto;                /* */
+   grid-template-rows: max-content max-content;  /* */
+   grid-auto-columns:  1fr;                      /* */
+   column-gap:         1rem;                     /* */
+
+   font-family:        sans-serif;               /* */
+/* font-size:          small;                    /* */
+
+   margin:             1rem 0;                   /* */
+}
+
+div.left, div.right, div.container
+{
+   border-width: .1rem;                          /* */
+   border-style: solid;                          /* */
+
+/* font-variant: small-caps;                     /* */
+   line-height:  1;
+}
+
+div.left, div.right
+{
+   max-width:     5rem;                          /* */
+   height:        3rem;                          /* */
+   padding:      .4em;                           /* */
+
+   font-weight:  bolder;                         /* */
+}
+
+div.container
+{
+/* display:      inline-block;                   /* */
+   padding:      .4em;                           /* */
+}
+
+div.left
+{
+/* color:            hsl(120, 100%, 050%);       /* */
+   color:            hsl(120, 100%, 000%);       /* */
+   background-color: hsl(060, 100%, 050%);       /* */
+   border-color:     hsl(045, 100%, 050%);       /* */
+}
+
+div.right
+{
+/* color:            hsl(300, 100%, 020%);       /* */
+/* color:            hsl(300, 100%, 100%);       /* */
+   color:            hsl(180, 100%, 050%);       /* */
+   background-color: hsl(300, 100%, 050%);       /* */
+   border-color:     hsl(300, 100%, 030%);       /* */
+}
+
+span.absolute.left
+{
+/* margin:      -2.2rem 0 0 1.5rem;              /* */
+   margin:      0 0 0 0;                         /* */
+
+}
+
+
+/* mag weg: */
+span.r--ight
+{
+   color:            hsl(180, 100%, 050%);       /* */
+   background-color: hsl(180, 100%, 030%);       /* */
+   border-color:     hsl(180, 100%, 020%);       /* */
+}
+
+.right.margin
+{
+/* margin-top:  -2.2rem;                         /* */
+/* margin-left:  1.5rem;                         /* */
+   margin:      -2.2rem 0 0 1.5rem;              /* */
+}
+
+div.pseudo
+{
+   background-color: hsl(180, 100%, 050%);       /* */
+}
+
+.pseudo::after,
+.pseudo::before
+{
+   padding:          .1rem;                      /* */
+   color:            hsl(000, 000%, 090%);       /* */
+   background-color: hsl(330, 100%, 050%);       /* */
+}
+
+.pseudo::before
+{
+   content:          '::before';                 /* */
+}
+
+.pseudo::after
+{
+   content:          '::after';                  /* */
+}
+
+.pseudo.b1::before,
+.pseudo.b1::after
+{
+   border-width: .5rem;                          /* */
+   border-style: solid;                          /* */
+}
+
+.pseudo.b1::before,
+.pseudo.b1::after
+{
+   border-top-color:    hsl(120, 100%, 050%);    /* */
+   border-right-color:  hsl(060, 100%, 050%);    /* */
+   border-bottom-color: hsl(120, 100%, 050%);    /* */
+   border-left-color:   hsl(060, 100%, 050%);    /* */
+}
+
+.pseudo.a.nml::after,
+.pseudo.b.nml::before
+{
+   margin-left: -1.5rem;                           /* */
+}
+
+.pseudo.a.nmr::after,
+.pseudo.b.nmr::before
+{
+   margin-right: -1.5rem;                          /* */
+}
+
+
+.car
+{
+   padding:                    .5rem 0rem;       /* */
+
+   background-color:           hsl(060, 100%, 050%); /* */
+
+   box-sizing:                 content-box;      /* */
+
+   border-top-left-radius:     100%;             /* */
+   border-top-right-radius:    100%;             /* */
+
+/* border-bottom-left-radius:  100%;             /* */
+/* border-bottom-right-radius: 100%;             /* */
+
+   border-width:               .5rem;            /* */
+   border-style:               solid;            /* */
+
+/* border-left-width:          1rem;             /* */
+/* border-left-style:          solid;            /* */
+/* border-left-color:          hsl(000, 100%, 040%); /* */
+   border-left-color:          transparent;      /* */
+
+/* border-top-width:           1rem;             /* */
+/* border-top-style:           solid;            /* */
+   border-top-color:           hsl(240, 100%, 050%); /* */
+/* border-top-color:           hsl(345, 100%, 060%); /* */
+
+/* border-right-width:         1rem;             /* */
+/* border-right-style:         solid;            /* */
+/* border-right-color:         hsl(000, 100%, 030%); /* */
+   border-right-color:         transparent;      /* */
+
+
+/* border-bottom-width:        1rem;             /* */
+/* border-bottom-style:        solid;            /* */
+   border-bottom-color:        hsl(240, 100%, 050%); /* */
+/* border-bottom-color:        transparent;      /* */
+}
+
+.car::after,
+.car::before
+{
+   content:             '';                      /* */
+
+   display:             inline-block;            /* */
+
+/* padding:             1rem;                    /* */
+
+   border-width:        1rem;                    /* */
+   border-style:        solid;                   /* */
+   border-color:        hsl(000, 000%, 010%) hsl(000, 000%, 030%); /* */
+
+/* border-left-color:   hsl(120, 100%, 050%);    /* */
+/* border-right-color:  hsl(120, 100%, 050%);    /* */
+/* border-top-color:    hsl(180, 100%, 050%);    /* */
+/* border-bottom-color: hsl(120, 100%, 050%);    /* */
+
+   border-radius: 100%;                          /* */
+}
+
+.car.psabsolute::after,
+.car.psabsolute::before
+{
+   position:            absolute;                /* */
+}
+.car.psabsolute::after
+{
+  right: 0;
+}
+
+.car.pszn::after,
+.car.pszn::before
+{
+   z-index:             -1;                      /* */
+}
+
+
+/* begin page grid style */
+.my-header { grid-area: my-header; }
+.my-left   { grid-area: my-left;   }
+.my-main   { grid-area: my-main;   }
+.my-right  { grid-area: my-right;  }
+.my-footer { grid-area: my-footer; }
+
+.my-container
+{
+   display:             grid;                    /* */
+   grid-template-areas:
+                        'my-header'
+                        'my-left'
+                        'my-main'
+                        'my-right'
+                        'my-footer';
+}
+
+.my-main
+{
+   background-color: hsl(0, 0%, 100%);           /* */
+}
+
+.my-header:not(:empty)
+{
+   margin-bottom: 1rem;                          /* */
+}
+
+@media screen and (orientation: landscape)
+{
+   .my-container
+   {
+      grid-template-areas:
+                           'my-header my-header  my-header'  /* */
+/*                         'my-left   my-header  my-right'   /* */
+                           'my-left   my-main    my-right'   /* */
+                           'my-footer my-footer  my-footer'; /* */
+/*                         'my-left   my-footer  my-right';  /* */
+   }
+
+   .my-main
+   {
+   /* width:         70vh;                       /* A4 */
+      width:         62vw;                       /* 2/(1+sqrt(5)) */
+      min-height:    90vh;                       /* */
+/*    justify-self:  center;                     /* */
+/*    border:        hsl(0, 0%, 20%) thin solid; /* */
+      box-shadow:    0 0 .5rem;                  /* */
+      border-radius: 5px;                        /* */
+      padding:       1rem;                       /* */
+   }
+
+   .my-left, .my-right
+   {
+      min-width: 15vw;                           /* */
+   }
+}
+/* end page grid style */
+
+/* begin sections style */
+@media screen and (orientation: portrait)        /* */
+{
+   .my-sections:not(:empty)::before
+   {
+      content: 'Jump to:';                       /* */
+   }
+   .my-sections:not(:empty):lang(nl)::before
+   {
+      content: 'Meteen naar:';                   /* */
+   }
+}
+@media print
+{
+   .my-sections
+   {
+      display: none;                             /* */
+   }
+}
+/* end sections style */
+
+/* begin listings style */
+ol.my-listing
+{
+   font-family:      monospace;                  /* */
+   text-align:       left;                       /* */
+   line-height:      1.2;                        /* */
+   white-space:      pre-wrap;                   /* */
+   background-color: hsl(60, 100%, 90%);         /* */
+   border-radius:    .5rem;                      /* */
+   padding:          .5rem 0 .5rem 3rem;         /* */
+}
+ol.my-listing li
+{
+   border-left:    thin solid black;             /* */
+   padding:        0 .5rem;                      /* */
+}
+
+ol.my-listing.table
+{
+   display: table;                               /* */
+/* display: inline-table;                        /* */
+}
+
+ol.my-listing.nolinenrs
+{
+   list-style-type: none;                        /* */
+   padding-left:    0;                           /* */
+}
+ol.my-listing.nolinenrs li:empty::after
+{
+   content: '\000a';                             /* */
+}
+ol.my-listing.nolinenrs li
+{
+   border-left:     initial;                     /* */
+}
+/* end listings style */
+
+/* begin references style */
+.my-refs-ref
+{
+   vertical-align: super;                        /* */
+   font-size:      smaller;                      /* */
+}
+.my-refs-ref::before { content: '['; }           /* */
+.my-refs-ref::after  { content: ']'; }           /* */
+.my-refs-ref,
+.my-refs-ref:visited
+{
+   color: hsl(0, 0%, 50%);                       /* */
+}
+.my-refs-ref:hover
+{
+   color: hsl(315, 100%, 50%);                   /* */
+}
+
+.my-refs-list > * { margin-top: 0; }             /* */
+
+@media screen
+{
+   .my-refs-list
+   {
+      column-width:     25vw;                              /* */
+      border:           hsl(0, 0%, 30%) thin solid;        /* */
+      background-color: hsl(60, 100%,  90%);               /* */
+   }
+}
+
+@media print
+{
+   * { color: hsl(0, 0%, 0%); }                  /* */
+
+   .my-refs-cites { display: none; }             /* */
+   .my-refs-list a[href]::after { content: ' (' attr(href) ')'; }  /* */
+}
+
+.my-refs-author
+{
+   white-space:   pre-wrap;                      /* */
+   padding-right: .3rem;                         /* */
+}
+
+.my-refs-link
+{
+   font-style:    italic;                        /* */
+   color:         hsl(240, 100%, 50%);           /* */
+}
+
+.my-refs-origin
+{
+   font-variant: small-caps;                     /* */
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}
+
+.my-refs-cites
+{
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}
+/* end references style */
+
+/* begin copyright style */
+.my-copy
+{
+/* display: flex;                                /* */
+/* justify-content: space-between;               /* */
+   border-top:  hsl(0, 0%, 20%) thin solid;      /* */
+   color:       hsl(0, 0%, 20%);                 /* */
+   font-size:   0.9rem;                          /* */
+   text-align:  right;                           /* */
+   margin:      1rem 0.5rem;                     /* */
+   padding:     0.5rem;                          /* */
+   user-select: none;                            /* */
+}
+.my-copy::before { content: '\00a9 '; }          /* */
+.my-copy::after  { content: ' jcr'; }            /* */
+/* end copyright style */
+</style>
+<script>
+'use strict';
+const stacking_js_object = {};
+document.addEventListener('DOMContentLoaded', () => stacking_js_object.onload(), false);
+//window.addEventListener('load', () => stacking_js_object.onload(), false);
+//onload = (function(other) {  return function() {  if (other) other(); stacking_js_object.onload(); } })(onload);
+
+(function(api)
+{
+   api.onload = function()
+   {
+      try
+      {
+         createListings();
+         createReferences();
+         setSectionLinks();
+         let year = new Date(document.lastModified).getFullYear();
+         document.querySelectorAll('.my-copy').forEach(y => y.innerHTML = year);
+      }  catch(err) { console.log('oops', err) }
+   }
+
+   const createListings = function()
+   {
+      for (let element of document.querySelectorAll('textarea.my-listing'))
+      {
+         let ol = document.createElement('ol');
+         ol.className = element.className;
+
+         for (let line of element.innerHTML.replace(/\n$/, '').split('\n'))
+         {
+            let li = document.createElement('li');
+            li.innerHTML = line;
+            ol.appendChild(li);
+         }
+
+         element.replaceWith(ol);
+      }
+   }
+
+   const createReferences = function()
+   {
+      let refnr = 1;
+      let refitem = {};
+
+
+      // the references
+      for (let element of document.querySelectorAll('textarea.my-refs-list'))
+      {
+         let ol = document.createElement('ol');
+         ol.className = element.className;
+         ol.start = refnr;
+
+         for (let record of element.innerHTML.replace(/\n\s*?\n\s*/, '\n\n').split('\n\n'))
+         {
+            let [line1, url, text, origin] = record.split('\n').map(s => s.trim());
+
+            let [hash, ...rest] = line1.split(' ');
+            let author = rest.join(' ');
+
+            if (!hash.startsWith('#')) { continue }
+
+            let li = document.createElement('li');
+            li.id = hash.substr(1);
+
+            if (author)
+            {
+               let span_author = document.createElement('span');
+               span_author.className = 'my-refs-author';
+               span_author.innerHTML = author;
+               li.appendChild(span_author);
+            }
+
+            let span_link = document.createElement('span');
+            span_link.className = 'my-refs-link';
+
+            let a = document.createElement('a');
+            a.href = url;
+            a.innerHTML = text || url;
+            span_link.appendChild(a);
+            li.appendChild(span_link);
+
+            if (origin)
+            {
+               let span_origin = document.createElement('span');
+               span_origin.className = 'my-refs-origin';
+               span_origin.innerHTML = origin;
+               li.appendChild(span_origin);
+            }
+
+            ol.appendChild(li);
+
+            refitem[hash] = { item: li, refnr: refnr, cited: [] }
+            refnr++;
+         }
+
+         element.replaceWith(ol);
+      }
+
+      // the citations (referrals)
+      for (let element of document.querySelectorAll('.my-refs-ref'))
+      {
+         if (!element.hash) { continue }
+
+         let span = document.createElement('span');
+         span.className = 'nowrap';
+         span.innerHTML = element.innerHTML;
+
+         if (refitem[element.hash])
+         {
+            element.innerHTML     = refitem[element.hash].refnr;
+            let hash_for_citation = `${[element.hash]}_${refitem[element.hash].cited.length}`;
+            element.id            = hash_for_citation.substr(1);
+            refitem[element.hash].cited.push(hash_for_citation);
+         }
+         else
+         {
+            element.innerHTML = 'link not present';
+         }
+
+         element.parentNode.insertBefore(span, element);
+         span.appendChild(element);
+      }
+
+
+      // reduce citations array (of hashes) to string of hyperlinks
+      function reduceCitations(accum, next, i, all)
+      {
+         let concat = accum;
+         if (i) { concat += ',' }
+         concat += `<a href="${next}">&uarr;`;
+         if (all.length > 1) { concat += `<sub>${i+1}</sub>` }
+         concat += '</a>';
+
+         return concat;
+      }
+
+      // add citations to items in hyperlink list
+      for (let hash in refitem)
+      {
+         if (!refitem[hash].cited.length) { continue }
+
+         refitem[hash].item.innerHTML += '<span class="my-refs-cites">'
+//                                    +  '<sub>cited:</sub>'
+                                      +  refitem[hash].cited.reduce(reduceCitations, '')
+                                      + '</span>';
+      }
+   }
+
+   const setSectionLinks = function()
+   {
+      let sectionlist = document.querySelector('#my-sections');
+      if (sectionlist)
+      {
+//       sectionlist.innerHTML += '<li><a href="/">Home</a></li>';
+         for (let section of document.querySelectorAll('.my-section[id]'))
+         {
+            let text = section.innerHTML;
+            sectionlist.innerHTML += `<li><a href="#${section.id}">${text}</a></li>`;
+
+            section.innerHTML = `<a href="#">${text}</a>`;
+            section.title     = 'to top of page';
+         }
+      }
+   }
+})(stacking_js_object);
+</script>
+</head>
+<body>
+
+<div class="my-container">
+
+<div class="my-header"></div> <!-- my-header -->
+<div class="my-left">
+<ul class="my-sections" id="my-sections"></ul>
+</div> <!-- my-left -->
+
+<div class="my-main">
+Naar aanleiding van mijn aanvankelijke onbegrip van het gebruik van <code>z-index</code>
+in de CSS van mijn "motto" vormgeving een poging tot een verhaaltje over
+<code>z-index</code> en <i>stacking</i>. Zie de artikelen over
+<a href="#myref_stacking3" class="my-refs-ref"><i>Detailed stacking context</i></a>
+en
+<a href="#myref_layered3" class="my-refs-ref"><i>Layered presentation</i></a>
+in de W3C Working Draft over <i>positioning</i> in CSS .
+<br/>
+In mijn motto-dingetje moet ik dus een wrapper met een <code>z-index</code>
+maken en dan daarin het element zelf met <code>z-index: auto</code>
+(wat hetzelfde is als helemaal geen <code>z-index</code>,
+maar met <code>z-index: 0</code> kan het niet),
+en de <code>::before</code> en <code>::after</code> pseudo-elementen moet ik een
+negatieve <code>z-index</code> geven. De vraag is: waarom?
+<br/>
+<br/>
+<div class="center">
+<div class="container ib relative z0">
+<div>z-index: 0</div>
+<div class="motto">z-index: auto</div>
+</div>
+</div>
+<br/>
+<br/>
+De z in <code>z-index</code> komt van "z-axis" (z-as). Ofwel de derde dimensie,
+naast de x-richting en de y-richting: de z-richting.
+De <code>z-index</code> heeft te maken met hoe (overlappende)
+elementen "boven elkaar" worden geplaatst.
+<br/>
+<br/>
+Uit onderstaand verhaal zal blijken dat er een <i>context</i> gecre&euml;erd
+moet worden waarbinnen de pseudo-elementen, die <i>children</i> van het element
+zijn, "onder" het element zelf kunnen worden geplaatst.
+Die context moet via een wrapper gemaakt worden.
+Een <code>z-index</code> bij het element zelf zou deze context weer
+tenietdoen.
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="stacking">Stacking</h4>
+
+Je hebt <i>stacking order</i> en <i>stacking context</i>.
+Binnen een stacking context bepaalt de stacking order hoe overlappende
+elementen boven elkaar geplaatst worden.
+<br/>
+Een element dat aan bepaalde voorwaarden voldoet begint een nieuwe
+stacking context
+(met een eigen stacking order
+die betrekking heeft op de child-elementen van dat element).
+<br/>
+Een <code>z-index</code> heeft alleen betekenis als het element ook een
+<code>position</code> heeft met waarde anders dan de default
+(<code>static</code>).
+<br/>
+De waarde van de <code>z-index</code> heeft betrekking op de stacking order
+van de context waarin het element zich bevindt, niet op een (nieuwe)
+stacking context die door het element gemaakt wordt.
+
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="order">Stacking order zonder z-index</h4>
+
+Als je geen <code>z-index</code> gebruikt
+dan is de volgorde waarin de elementen gestapeld worden volgens
+<a href="#myref_mdnswz" class="my-refs-ref">MDN:</a>
+<ol>
+<li>root element</li>
+<li><i>block</i> elementen zonder <code>position</code>
+(of met <code>position: static</code>)
+in de volgorde waarin ze in de HTML staan
+</li>
+<li>gepositioneerde elementen in de volgorde waarin ze in de HTML staan</li>
+</ol>
+De vraag is nu nog even: waar vallen ongepositioneerde <i>inline</i> elementen
+dan onder?
+<br/>
+<br/>
+Er is dus een verschil tussen block <i>static</i> block elementen en
+<i>gepositioneerde</i> block elementen.
+
+<div class="grid2r">
+<div>
+<div class="left static"></div>
+<div class="right static margin"></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: static;
+}
+.div.rechts
+{  position: static;
+   margin:   -2 0 0 2;
+}
+</textarea>
+</div>
+
+
+<div>
+<div class="left relative"></div>
+<div class="right static margin"></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+}
+.div.rechts
+{  position: static;
+   margin:   -2 0 0 2;
+}
+</textarea>
+</div>
+
+<div>
+<div class="left static">links content</div>
+<div class="right static margin">rechts content</div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: static;
+}
+.div.rechts
+{  position: static;
+   margin:   -2 0 0 2;
+}
+</textarea>
+</div>
+</div>
+
+Maar, zoals je hier in het derde paar blocks hierboven ziet, de <i>content</i>
+van een block wordt gevormd door <i>andere</i>,
+en meestal <i>inline</i> elementen die dus
+bovenop <i>alle</i> static blocks komen.
+<br/>
+De voorbeelden zijn een beetje gekunsteld, met overlappingen door met de
+margin van het tweede block te spelen. Maar je moet dus goed opletten met
+overlappende static blocks.
+<br/>
+<br/>
+De "volgorde waarin ze [de elementen] in de HTML staan" betekent: een
+<i>depth-first traversal</i> van de HTML boomstructuur.
+<br/>
+Nu het vraagstuk van de ongepositioneerde inline elementen. Die worden
+meteen na de ongepostioneerde block elementen gestapeld,
+maar voordat de gepositioneerde elementen aan de beurt zijn.
+
+<div class="grid2r">
+<div>
+<div class="left relative"><span>links content</span></div>
+<div class="right static margin"><span>rechts content</span></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+}
+.div.rechts
+{  position: static;
+   margin:   -2 0 0 2;
+}
+</textarea>
+</div>
+
+<div>
+<div class="left relative"><span>links content</span></div>
+<div class="right static margin"><span class="relative">rechts content</span></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+}
+.div.rechts
+{  position: static;
+   margin:   -2 0 0 2;
+}
+.span.rechts
+{  position: relative;
+}
+</textarea>
+</div>
+
+<div>
+<div class="left relative"><span class="relative">links content</span></div>
+<div class="right relative margin"><span class="relative">rechts content</span></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+}
+.span.links
+{  position: relative;
+}
+.div.rechts
+{  position: relative;
+   margin:   -2 0 0 2;
+}
+.span.rechts
+{  position: relative;
+}
+</textarea>
+</div>
+</div>
+
+Hierboven links komt het eerste block <i>met de HTML boom die daaronder zit</i>
+aan de beurt na het ongepositioneerde tweede block. Maar de ongepositioneerde
+content van het tweede block komt eerst. In het middelste voorbeeld komt
+de <i>gepositioneerde</i> content van het tweede block pas na de boomstructuur
+van het eerste block aan de beurt.
+<br/>
+Ik zeg voorzichtig dat de ongepositioneerde "non-block" elementen
+n&aacute; de block elementen zonder <code>position</code>
+en v&ograve;&ograve;r de gepositioneerde elementen aan de beurt zijn;
+regel "2.5":
+<ul class="tp5">
+<li><i>non-block</i> elementen zonder <code>position</code> in de volgorde van de HTML</li>
+</ul>
+En ik constateer dat tekst in een block element zich als het ware in een
+"anoniem" inline element lijkt te bevinden; het gedraagt zich in elk geval
+hetzelfde als een ongepositioneerd inline element.
+<br/>
+<br/>
+Deze regels worden ook gehanteerd bij het stapelen van elementen die
+onderling dezelfde <code>z-index</code> hebben.
+
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="zindex">z-index</h4>
+
+Zoals gezegd heeft een <code>z-index</code> alleen effect als het element
+ook gepositioneerd is.
+<br/>
+Met de <code>z-index</code> cre&euml;er je <i>layers</i>: je hebt een
+"bottom layer" met daarbovenop layers met negatieve index,
+&hellip; -2, -1 en dan layer 0, en dan layers met positieve index 1, 2,
+&hellip;
+<br/>
+Een bottom layer is er altijd. Elementen zonder <code>z-index</code> komen
+in layer 0. elementen met <code>z-index: n</code> in layer <code>n</code>.
+
+<br/>
+<br/>
+In de voorbeelden hieronder hebben alle elementen een <code>position</code>
+(en door middel van <code>margin</code> overlappen de block elementen).
+
+<div class="grid2r">
+<div>
+<div class="left relative zp"><span class="relative">links content</span></div>
+<div class="right relative margin"><span class="relative">rechts content</span></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+   z-index:  1;
+}
+.span.links
+{  position: relative;
+}
+.div.rechts
+{  position: relative;
+}
+.span.rechts
+{  position: relative;
+}
+</textarea>
+</div>
+
+<div>
+<div class="left relative"><span class="relative">links content</span></div>
+<div class="right relative margin"><span class="relative zn">rechts content</span></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+}
+.span.links
+{  position: relative;
+}
+.div.rechts
+{  position: relative;
+}
+.span.rechts
+{  position: relative;
+   z-index:  -1;
+}
+</textarea>
+</div>
+
+<div>
+<div class="left relative"><span class="relative">links content</span></div>
+<div class="right relative margin zp"><span class="relative zn">rechts content</span></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+}
+.span.links
+{  position: relative;
+}
+.div.rechts
+{  position: relative;
+   z-index:  1;
+}
+.span.rechts
+{  position: relative;
+   z-index:  -1;
+}
+</textarea>
+</div>
+</div>
+
+Je ziet in het tweede voorbeeld dat de content met
+<code>z-index: -1</code> onder layer 0, waar het rechter block zit, komt.
+Die content wordt daardoor onzichtbaar.
+<br/>
+Je zou je kunnen afvragen waarom in het eerste voorbeeld
+de content van het linker block w&egrave;l zichtbaar is.
+Het heeft geen <code>z-index</code> met als gevolg dat het element in layer 0
+komt, dat is onder layer 1 van het block zelf, toch?
+Nee, hier is iets anders aan de hand.
+<br/>
+Intu&iuml;tief is het logisch dat als je een element ergens "bovenop" wil
+plaatsen dat de inhoud van dat element "mee" gaat naar de hogere layer.
+En dat is ook wat er gebeurt, want een element met een <code>z-index</code>
+begint een nieuwe stacking context waarin het zelf de bottom layer wordt.
+<br/>
+De waarde van de <code>z-index</code> bepaalt de layer in de stacking context
+waarin het element zich bevindt, maar de <i>aanwezigheid</i> van een
+<code>z-index</code> initi&euml;ert
+de start van een <i>nieuwe stacking context</i>.
+<br/>
+<br/>
+In het derde voorbeeld hierboven heeft de <code>z-index</code> van de
+content van het rechter block geen betrekking op de stacking context van
+de andere elementen. Anders zou die content onzichtbaar zijn, maar de
+<i>parent</i>
+van die content heeft zelf een <code>z-index</code> en begint dus een nieuwe
+stacking context.
+<br/>
+In dit voorbeeld is een <code>z-index</code> voor het inline element eigenlijk
+zelfs zinloos
+want als enige element in de nieuwe context komt het hoe dan ook boven de
+bottom layer.
+
+
+
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="context">Nieuwe stacking context</h4>
+
+Zoals gezegd wordt er een nieuwe stacking context gemaakt door een element
+dat een <code>z-index</code> (en uiteraard een <code>position</code>) heeft.
+Maar er zijn meer situaties waar dat gebeurt, zie
+<a href="#myref_mdnsc" class="my-refs-ref">MDN</a>, onder meer als het element een
+<code>opacity</code> heeft, kleiner dan <code>1</code>.
+
+<div class="grid2r">
+<div>
+<div class="left relative"><span class="relative">links content</span></div>
+<div class="right relative margin"><span class="relative zn">rechts content</span></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+}
+.span.links
+{  position: relative;
+}
+.div.rechts
+{  position: relative;
+}
+.span.rechts
+{  position: relative;
+   z-index:  -1;
+}
+</textarea>
+</div>
+
+<div>
+<div class="left relative"><span class="relative">links content</span></div>
+<div class="right relative margin opacity"><span class="relative zn">rechts content</span></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+}
+.span.links
+{  position: relative;
+}
+.div.rechts
+{  position: relative;
+   opacity:  .99;
+}
+.span.rechts
+{  position: relative;
+   z-index:  -1;
+}
+</textarea>
+</div>
+
+<div>
+<div class="left relative"><span class="relative zp">links content</span></div>
+<div class="right relative margin"><span class="relative">rechts content</span></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+}
+.span.links
+{  position: relative;
+   z-index:  1;
+}
+.div.rechts
+{  position: relative;
+}
+.span.rechts
+{  position: relative;
+}
+</textarea>
+</div>
+
+<div>
+<div class="left relative opacity"><span class="relative zp">links content</span></div>
+<div class="right relative margin"><span class="relative">rechts content</span></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+   opacity:  .99;
+}
+.span.links
+{  position: relative;
+   z-index:  1;
+}
+.div.rechts
+{  position: relative;
+}
+.span.rechts
+{  position: relative;
+}
+</textarea>
+</div>
+</div>
+
+Elementen met <code>z-index: 0</code> komen in layer 0, elementen zonder
+<code>z-index</code> ook. Maar een element met <code>z-index: 0</code>
+begint wel een nieuwe context.
+
+<div class="grid2r">
+<div>
+<div class="left relative"><span class="relative z0">links content</span></div>
+<div class="right relative margin"><span class="relative">rechts content</span></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+}
+.span.links
+{  position: relative;
+   z-index:  0;
+}
+.div.rechts
+{  position: relative;
+}
+.span.rechts
+{  position: relative;
+}
+</textarea>
+</div>
+
+<div>
+<div class="left relative"><span class="relative zp">links content</span></div>
+<div class="right relative margin"><span class="relative">rechts content</span></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+}
+.span.links
+{  position: relative;
+   z-index:  1;
+}
+.div.rechts
+{  position: relative;
+}
+.span.rechts
+{  position: relative;
+}
+</textarea>
+</div>
+
+<div>
+<div class="left relative z0"><span class="relative zp">links content</span></div>
+<div class="right relative margin"><span class="relative">rechts content</span></div>
+</div>
+<div>
+<textarea class="my-listing nolinenrs">
+.div.links
+{  position: relative;
+   z-index:  0;
+}
+.span.links
+{  position: relative;
+   z-index:  1;
+}
+.div.rechts
+{  position: relative;
+}
+.span.rechts
+{  position: relative;
+}
+</textarea>
+</div>
+
+</div>
+
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="pseudo">Spelen met pseudo-elementen</h4>
+
+De <i>pseudo-elementen</i> <code>::before</code> en <code>::after</code>
+zijn <i>inline</i> child-elementen. Qua stacking is de volgorde
+<code>::before</code>, gevolgd door de content van het element,
+gevolgd door <code>::after</code>. Door met de margin te spelen zie je
+de stacking order in beeld:
+<br/>
+Hieronder een <code>div</code> met <code>::before</code> en
+<code>::after</code>.
+
+<div class="grid2r">
+<div class="container relative z0 pseudo">content</div>
+<div>
+</div>
+
+<div class="container relative z0 pseudo b nmr">content</div>
+<div>
+<textarea class="my-listing nolinenrs">
+div::before
+{  margin-right: -1.5rem;
+}
+</textarea>
+</div>
+
+<div class="container relative z0 pseudo a nml">content</div>
+<div>
+<textarea class="my-listing nolinenrs">
+div::after
+{  margin-left: -1.5rem;
+}
+</textarea>
+</div>
+</div>
+
+Dan een <code>div</code> zonder tekst content, die door middel van
+<i>borders</i> en kleuren tot een plaatje van een voertuig-achtige wordt
+getransformeerd. De <code>::before</code> en <code>::after</code>
+pseudo-elementen moeten de wielen van het voertuig voorstellen.
+In de tweede kolom zijn deze wielen gepositioneerd door de pseudo-elementen
+<code>inline-block</code> te maken en ze een <code>position: absolute</code>
+ten opzichte van de <code>div</code> te geven.
+In de derde kolom is getracht de wielen "onder" de <code>div</code> te zetten
+door ze een <code>z-index: -1</code> te geen, maar ze verdwijnen helemaal!
+De bedoeling was hetgeen je in de vierde kolom ziet.
+<div class="grid2r">
+<div class="container"><div class="car"></div></div>
+<div>
+</div>
+
+<div class="container"><div class="car relative psabsolute"></div></div>
+<div>
+<textarea class="my-listing nolinenrs">
+.voertuig
+{  position: relative;
+}
+.voertuig::before,
+.voertuig::after
+{  display: inline-block;
+   position: absolute;
+}
+.voertuig::after
+{  right: 0;
+}
+</textarea>
+</div>
+
+<div class="container"><div class="car relative psabsolute pszn"></div></div>
+<div>
+<textarea class="my-listing nolinenrs">
+.voertuig
+{  position: relative;
+}
+.voertuig::before,
+.voertuig::after
+{  z-index: -1;
+}
+</textarea>
+</div>
+
+<div class="container relative z0"><div class="car relative psabsolute pszn"></div></div>
+<div>
+<textarea class="my-listing nolinenrs">
+.wrapper
+{  position: relative;
+   z-index: 0;
+}
+.voertuig
+{  position: relative;
+}
+.voertuig::before,
+.voertuig::after
+{  z-index: -1;
+}
+</textarea>
+</div>
+</div>
+
+Waar gaat het mis in de derde kolom? In de stacking context.
+<br/>
+De <code>div</code> zelf maakt deel uit van een bepaalde stacking context en de
+pseudo-elementen krijgen een negatieve <code>z-index</code> in <i>die</i>
+context. Daardoor komen ze in dit geval dus niet alleen onder
+het voertuig, maar ook onder andere elementen die kennelijk in een hogere
+layer zitten (wat meestal zo zal zijn: layer 0).
+<br/>
+Het probleem is dat onze voertuig <code>div</code> geen controle heeft over
+de stacking context waarin hij zich bevindt. Je kunt oook niet zeggen geef
+hem zelf een <code>z-index</code> en de pseudo-elementen een lagere, want
+met een <code>z-index</code> begint voertuig zelf een nieuwe context waarin
+hij de bottom layer is, waar de pseudo-elementen dus altijd bovenop zullen
+komen.
+<br/>
+De enige manier om de controle te kijgen is om de voertuig <code>div</code>
+"in te pakken" in wat ik een <i>wrapper</i> noem en die wrapper een nieuwe
+stacking context te laten beginnen. En dat is wat er in de vierde kolom
+gebeurt.
+<br/>
+De wrapper wordt de nieuwe bottom layer, daarop komt layer -1 met de
+pseudo-elementen en daarop, in layer 0, de voertuig <code>div</code> zelf.
+
+
+
+</div> <!-- my-main -->
+
+<div class="my-right"></div> <!-- my-right -->
+
+<div class="my-footer">
+
+<div class="my-copy"></div>
+
+<!-- references -->
+<h3 class="my-section" id="section_references">References</h3>
+<!-- refer as:
+<a href="#ref_something" class="my-refs-ref"></a>
+   references in textarea:
+#id [author]
+url
+text
+[origin (website)]
+   separate references with empty lines
+-->
+
+<textarea class="my-refs-list">
+#myref_stacking3 CSS Positioned Layout Module Level 3
+https://www.w3.org/TR/css-position-3/#det-stacking-context
+Detailed stacking context
+W3C
+
+#myref_layered3 CSS Positioned Layout Module Level 3
+https://www.w3.org/TR/css-position-3/#layered-presentation
+Layered presentation
+W3C
+
+#myref_mdnswz
+https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/Stacking_without_z-index
+Stacking without the z-index property
+MDN web docs
+
+#myref_mdnsc
+https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context
+The stacking context
+MDN web docs
+
+#myref_radius
+https://www.w3.org/TR/css-backgrounds-3/#the-border-radius
+border radius
+W3C
+</textarea> <!-- my-refs-list -->
+</div> <!-- my-footer -->
+
+</div> <!-- my-container -->
+</body>
+</html>
