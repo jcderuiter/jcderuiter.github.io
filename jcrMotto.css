@@ -1,0 +1,155 @@
+/* version 3.0 of jcrMotto */
+
+/* change the :root values as you like                             */
+/* or create a <style> element with :root {} section in your html) */
+:root
+{
+/* --hue:                      120;              /* if no --hue: gray motto */
+   --sat:                      (var(--hue,0) - var(--hue,1) + 1);
+   --alpha:                    0.6;              /* opacity of the ribbon */
+
+
+   --jcrMotto-fontfamily:         'Times New Roman', Times, serif; /* */
+/* --jcrMotto-fontfamily:         Verdana, sans-serif;             /* */
+/* --jcrMotto-fontvariant:        small-caps;                      /* */
+/* --jcrMotto-fontsize:           150%;             /* */
+/* --jcrMotto-fontsize:            1vw;             /* */
+}
+
+
+:root
+{
+   --jcrMotto-vertical-padding:   1rem;             /* */
+   --jcrMotto-horizontal-padding: 2rem;             /* */
+
+
+   --jcrMotto-color:              hsl(var(--hue,0), calc(var(--sat) * 100%), 30%);     /* */
+   --jcrMotto-background:         radial-gradient(circle, hsl(var(--hue,0), calc(var(--sat) * 100%), 95%), hsl(var(--hue,0), calc(var(--sat) * 15%), 50%)); /* */
+/* --jcrMotto-ribbon-color:       hsl(var(--hue,0), calc(var(--sat) * 10%), 50%);      /* */
+   --jcrMotto-ribbon-color:       hsla(var(--hue,0), calc(var(--sat) * 10%), 50%, var(--alpha,1));    /* */
+   --jcrMotto-shadow-color:       hsl(var(--hue,0), calc(var(--sat) * 25%), 25%);      /* */
+   --jcrMotto-rip-color:          transparent;      /* */
+
+/* --jcrMotto-shadow-width:       1.0rem;           /* */
+/* --jcrMotto-shadow-height:      1.0rem;           /* */
+   --jcrMotto-shadow-width:       1.0rem;           /* */
+   --jcrMotto-shadow-height:      1.0rem;           /* */
+
+/* --jcrMotto-non-shadow-height:  1.5rem;           /* optional */
+
+   --jcrMotto-rip-length:         3.0rem;           /* */
+   --jcrMotto-side-fill:          4.0rem;           /* */
+
+   --jcrMotto-bottom-extend:      calc(-1 * var(--jcrMotto-shadow-height));
+   --jcrMotto-side-padding:       calc(var(--jcrMotto-side-fill) / 2);
+   --jcrMotto-side-margin:        calc(var(--jcrMotto-rip-length) + var(--jcrMotto-side-fill));
+   --jcrMotto-side-extend:        calc(-1 * calc(var(--jcrMotto-rip-length) + var(--jcrMotto-side-fill)));
+
+   --jcrMotto-top-radius:         15%;              /* */
+/* --jcrMotto-top-radius:         0;                /* */
+/* --jcrMotto-bottom-radius:      15%;              /* */
+   --jcrMotto-shadow-radius:      10% 10%;          /* */
+   --jcrMotto-upper-rip-radius:   0;                /* */
+   --jcrMotto-lower-rip-radius:   100%;             /* */
+}
+
+.jcrMotto-wrapper
+{
+   display:           grid;                      /* */
+   grid-auto-columns: max-content;               /* */
+   justify-content:   center;                    /* */
+
+/* display:    inline-block;                     /* */
+/* text-align: center;                           /* */
+   padding:    2rem;                             /* */
+
+/* next is not needed in this case: a grid starts a new stacking context */
+   position:   relative;     /* use this to wrap motto if parent hides  */
+   z-index:    0;            /* display of motto's ::before and ::after */
+}
+
+.jcrMotto
+{
+   display:                    inline-block;
+   position:                   relative;
+/* z-index:                    auto;      /* or no z-index at all, NO VALUE! */
+
+/* NOTE:
+ * ::before and ::after get z-index -1 to place them below main element.
+ * This only seems to work if this main element doesn't have a z-index itself.
+ * However it may be necessary to embed this element in a wrapper element that
+ * does have a z-index, say 1, to protect ::before and ::after from being hidden
+ * by a background or something
+ */
+
+   text-align:                 center;
+   user-select:                none;
+
+   background:                 var(--jcrMotto-background);
+
+   color:                      var(--jcrMotto-color);
+
+   font-family:                var(--jcrMotto-fontfamily);
+   font-variant:               var(--jcrMotto-fontvariant);
+   font-size:                  var(--jcrMotto-fontsize);
+
+   padding:                    var(--jcrMotto-vertical-padding) var(--jcrMotto-horizontal-padding);
+
+   margin:                     0 var(--jcrMotto-side-margin) var(--jcrMotto-shadow-height);
+
+   border-top-left-radius:     var(--jcrMotto-top-radius);
+   border-top-right-radius:    var(--jcrMotto-top-radius);
+}
+
+.jcrMotto::before, .jcrMotto::after
+{
+   position:                   absolute;
+   z-index:                    -1;
+
+   content:                    '';
+
+   bottom:                     var(--jcrMotto-bottom-extend);
+   border-bottom-width:        var(--jcrMotto-shadow-height);
+
+   border-top-width:           var(--jcrMotto-non-shadow-height, var(--jcrMotto-shadow-height));
+
+   padding:                    0 var(--jcrMotto-side-padding);
+
+   border-style:               solid;
+   border-color:               var(--jcrMotto-ribbon-color);
+}
+
+.jcrMotto::before
+{
+   left:                       var(--jcrMotto-side-extend);
+
+/* border-top-left-radius:       0%;                 /* */
+/* border-bottom-left-radius:  100%;                 /* */
+
+   border-right-width:         var(--jcrMotto-shadow-width);
+   border-right-color:         var(--jcrMotto-shadow-color);
+
+   border-left-width:          var(--jcrMotto-rip-length);
+   border-left-color:          var(--jcrMotto-rip-color);
+
+/* border-bottom-right-radius: var(--jcrMotto-bottom-radius); /* */
+   border-bottom-right-radius: var(--jcrMotto-shadow-radius);
+   border-top-left-radius:     var(--jcrMotto-upper-rip-radius);
+   border-bottom-left-radius:  var(--jcrMotto-lower-rip-radius);
+}
+
+.jcrMotto::after
+{
+   right:                      var(--jcrMotto-side-extend);
+
+   border-left-width:          var(--jcrMotto-shadow-width);
+   border-left-color:          var(--jcrMotto-shadow-color);
+
+   border-right-width:         var(--jcrMotto-rip-length);
+   border-right-color:         var(--jcrMotto-rip-color);
+
+/* border-bottom-left-radius:  var(--jcrMotto-bottom-radius); /* */
+   border-bottom-left-radius:  var(--jcrMotto-shadow-radius);
+   border-top-right-radius:    var(--jcrMotto-upper-rip-radius);
+   border-bottom-right-radius: var(--jcrMotto-lower-rip-radius);
+}
