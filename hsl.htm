@@ -2088,7 +2088,7 @@ document.addEventListener('DOMContentLoaded', () => hsl_js_object.onload(), fals
       let sectionlist = document.querySelector('#my_sections');
       if (sectionlist)
       {
-//       sectionlist.innerHTML += '<li><a href="/">Home</a></li>';
+         sectionlist.innerHTML += '<li><a href="/">Home</a></li>';
          for (let section of document.querySelectorAll('.my-section[id]'))
          {
             if (section.offsetParent) // meaning: not hidden (display: none;)
