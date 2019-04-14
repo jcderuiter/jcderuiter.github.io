@@ -5,44 +5,84 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet"        href="jcr.css" type="text/css"/>
   <script type="text/javascript" src="jcr.js"></script>
-  <link rel="stylesheet"        href="motto.css" type="text/css"/>
-  <script type="text/javascript" src="motto.js"></script>
+  <link rel="stylesheet"        href="jcrMotto.css" type="text/css"/>
   <style>
     .bgnasa1
     {
       /* https://www.nasa.gov/image-feature/goddard/lro-earthrise-2015 */
       background: url(https://www.nasa.gov/sites/default/files/earth_and_limb_m1199291564l_color_2stretch_mask_0.jpg);  /* */
-      background-position: center 10%;              /* */
-      background-size:     cover;                   /* */
-      background-repeat:   no-repeat;               /* */
-      
-      max-width: 100%;                              /* */
+      background-position: center 10%;           /* */
+      background-size:     cover;                /* */
+      background-repeat:   no-repeat;            /* */
+
+      max-width: 100%;                           /* */
     }
+
+    :root
+    {
+      --hue: 060;                                /* */
+    }
+
+    body
+    {
+      background-color: hsl(000, 000%, 000%);    /* */
+      color:            hsl(000, 000%, 080%);    /* */
+    }
+
+    a
+    {
+       text-decoration: none;                    /* */
+       transition:      .5s;                     /* */
+    }
+    a, a:visited
+    {
+       color: inherit;                           /* */
+    }
+    a:hover
+    {
+       color:           hsl(315, 100%, 50%);     /* */
+    }
+
+    .text
+    {
+/*    background-color: hsl(000, 000%, 100%);    /* */
+      border:      hsl(0, 0%, 20%) thin solid;   /* */
+      line-height: 1.6;                          /* */
+      padding:     1rem;                         /* */
+    }
+
+    @media screen and (orientation: landscape)   /* */
+/*  @media screen and (orientation: portrait)    /* */
+    {
+      .text
+      {
+        border: none;                            /* */
+        width:  62vw;                            /* */
+        margin:      auto;                       /* */
+      }
+    }
+
   </style>
 </head>
 <body>
-  <div class="motto-wrapper bgnasa1">
-    <div class="motto" id="howdy">Hello World!</div>
-
-    <div class="motto-modal" data-motto="howdy">
-      <div class="motto-hue" title="select this hue">
-        <input id="sat_0"   type="radio" name="hue" value="gray"/><label for="sat_0"></label>
-
-        <input id="hue_0"   type="radio" name="hue" value="0"   /><label for="hue_0"></label>
-        <input id="hue_30"  type="radio" name="hue" value="30"  /><label for="hue_30"></label>
-        <input id="hue_60"  type="radio" name="hue" value="60"  /><label for="hue_60"></label>
-        <input id="hue_90"  type="radio" name="hue" value="90"  /><label for="hue_90"></label>
-        <input id="hue_120" type="radio" name="hue" value="120" /><label for="hue_120"></label>
-        <input id="hue_150" type="radio" name="hue" value="150" /><label for="hue_150"></label>
-        <input id="hue_180" type="radio" name="hue" value="180" /><label for="hue_180"></label>
-        <input id="hue_210" type="radio" name="hue" value="210" /><label for="hue_210"></label>
-        <input id="hue_240" type="radio" name="hue" value="240" /><label for="hue_240"></label>
-        <input id="hue_270" type="radio" name="hue" value="270" /><label for="hue_270"></label>
-        <input id="hue_300" type="radio" name="hue" value="300" /><label for="hue_300"></label>
-        <input id="hue_330" type="radio" name="hue" value="330" /><label for="hue_330"></label>
-      </div>
-    </div>
+  <div class="jcrMotto-wrapper bgnasa1">
+    <div class="jcrMotto">Hello World!</div>
   </div>
+
+  <div class="text">
+    These pages contain personal notes on various subjects, several are in Dutch.
+    I apply <i>vanilla</i> JavaScript and CSS techniques that may not work
+    in some web browsers.
+
+
+    <ul>
+      <li><a href="codepoint.htm">About character encodings and escape codes</a> </li>
+      <li><a href="hsl.htm">About HSL colors in HTML (Dutch)</a> </li>
+      <li><a href="stacking.htm">About stacking order in HTML (Dutch)</a> </li>
+    </ul>
+
+  </div>
+
   <div class="jcr-copy"></div>
 </body>
 </html>
