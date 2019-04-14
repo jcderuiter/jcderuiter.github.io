@@ -1,0 +1,2780 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta http-equiv="expires" content="now"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="version" content="1.1.0"/>
+<title>HSL</title>
+<style>
+
+*
+{
+   box-sizing:       border-box;                 /* */
+}
+
+body
+{
+/* background-color: hsl(0, 0%, 85%);            /* */
+   line-height:      1.6;                        /* */
+}
+
+a
+{
+   text-decoration: none;                        /* */
+   transition:      .5s;                         /* */
+}
+a, a:visited
+{
+   color: inherit;                               /* */
+/* color:           hsl(  0,   0%, 50%);         /* */
+}
+a:hover
+{
+/* text-decoration: underline;                   /* */
+   color:           hsl(315, 100%, 50%);         /* */
+}
+
+code { white-space: pre; }                       /* */
+
+
+.center { text-align: center; }                  /* */
+.nowrap { white-space: nowrap; }                 /* */
+
+@media (pointer: none) { .pointerscreen { display: none; } } /* */
+
+/* begin hsl grid stuff */
+.hslgrid
+{
+   border:                thin solid black;      /* */
+   margin-top:            1rem;                  /* */
+
+   display:               grid;                  /* */
+   grid-template-columns: repeat(11, auto);      /* */
+/* grid-auto-rows:        2rem;                  /* */
+   grid-auto-rows:        4vh;                   /* */
+}
+/*   end hsl grid stuff */
+
+/* begin hue grid stuff */
+.huegrid
+{
+   border:                thin solid black;      /* */
+   margin-top:            1rem;                  /* */
+
+   display:               grid;                  /* */
+   grid-template-columns: repeat(24, auto);      /* */
+   grid-auto-rows:        4vh;                   /* */
+}
+/*   end hue grid stuff */
+
+/* begin widget stuff; */
+.jcrColorWidget
+{
+   margin-top:         .5rem;                              /* */
+   border:             thin solid black;                   /* */
+   text-align:         initial;                            /* */
+   background-color:   hsl(000, 000%, 090%);               /* */
+   padding:            .5rem;                              /* */
+   border-radius:      1rem;                               /* */
+
+   display:            inline-grid;                        /* */
+   grid-auto-flow:     column;                             /* */
+   grid-template-rows: auto auto auto;                     /* */
+}
+
+.jcrColorWidget > *
+{
+   font-family:  'Lucida Sans', sans-serif;      /* */
+/* font-variant: small-caps;                     /* */
+/* font-size:    large;                          /* */
+   margin:       .25rem 0;                       /* */
+   padding:      .25rem;                         /* */
+}
+
+.jcrColorWidget-pane
+{
+   grid-row-end:     span 3;                     /* */
+   cursor:           default;                    /* */
+   background-color: transparent;                /* */
+   margin:           .25rem;                     /* */
+}
+
+.jcrColorWidget label
+{
+   cursor: pointer;                              /* */
+}
+
+.jcrColorWidget input[type="text"],                 /* */
+.jcrColorWidget input[type="number"]
+{
+   width:      6rem;                             /* */
+   border:     thin solid black;                 /* */
+   text-align: right;                            /* */
+}
+/*   end widget stuff; */
+
+/* begin rgb table stuff */
+.rgbtable
+{
+/* background-image:      linear-gradient(to right, /*hsl(300, 100%, 050%),  /* */
+/*                                                  hsl(000, 100%, 050%) 5%,  /* */
+/*                                                  hsl(060, 100%, 050%),  /* */
+/*                                                  hsl(120, 100%, 050%),  /* */
+/*                                                  hsl(180, 100%, 050%),  /* */
+/*                                                  hsl(240, 100%, 050%),  /* */
+/*                                                  hsl(300, 100%, 050%),  /* */
+/*                                                  hsl(360, 100%, 050%)); /* */
+
+   color:                 hsl(000, 000%, 000%);  /* */
+   background-color:      hsl(060, 090%, 080%);  /* */
+/* padding:               .5rem;                 /* */
+   margin:                .5rem 0;               /* */
+   border:                thin solid black;      /* */
+
+   display:               grid;                  /* */
+   grid-template-columns: repeat(14, auto);      /* */
+}
+
+.rgbtable > *
+{
+   font-family:           monospace;             /* */
+   white-space:           pre;                   /* */
+   text-align: center;                           /* */
+}
+
+.rgbtable > *:nth-of-type(-n+3),
+.rgbtable > *:nth-of-type(n+9):nth-of-type(-n+14)
+{
+   color:      hsl(000, 000%, 100%);             /* */
+}
+
+.rgbtable > *:nth-of-type(14n+2)
+{
+   background-color: hsl(000, 100%, 050%);       /* */
+}
+.rgbtable > *:nth-of-type(-n+14):nth-of-type(14n+3)
+{
+   background-image: linear-gradient(to right, hsl(000, 100%, 050%),  /* */
+                                               hsl(060, 100%, 050%)); /* */
+}
+.rgbtable > *:nth-of-type(14n+4)
+{
+   background-color: hsl(060, 100%, 050%);       /* */
+}
+.rgbtable > *:nth-of-type(-n+14):nth-of-type(14n+5)
+{
+   background-image: linear-gradient(to right, hsl(060, 100%, 050%),  /* */
+                                               hsl(120, 100%, 050%)); /* */
+}
+.rgbtable > *:nth-of-type(14n+6)
+{
+   background-color: hsl(120, 100%, 050%);       /* */
+}
+.rgbtable > *:nth-of-type(-n+14):nth-of-type(14n+7)
+{
+   background-image: linear-gradient(to right, hsl(120, 100%, 050%),  /* */
+                                               hsl(180, 100%, 050%)); /* */
+}
+.rgbtable > *:nth-of-type(14n+8)
+{
+   background-color: hsl(180, 100%, 050%);       /* */
+}
+.rgbtable > *:nth-of-type(-n+14):nth-of-type(14n+9)
+{
+   background-image: linear-gradient(to right, hsl(180, 100%, 050%),  /* */
+                                               hsl(240, 100%, 050%)); /* */
+}
+.rgbtable > *:nth-of-type(14n+10)
+{
+   background-color: hsl(240, 100%, 050%);       /* */
+}
+.rgbtable > *:nth-of-type(-n+14):nth-of-type(14n+11)
+{
+   background-image: linear-gradient(to right, hsl(240, 100%, 050%),  /* */
+                                               hsl(300, 100%, 050%)); /* */
+}
+.rgbtable > *:nth-of-type(14n+12)
+{
+   background-color: hsl(300, 100%, 050%);       /* */
+}
+.rgbtable > *:nth-of-type(-n+14):nth-of-type(14n+13)
+{
+   background-image: linear-gradient(to right, hsl(300, 100%, 050%),  /* */
+                                               hsl(360, 100%, 050%)); /* */
+}
+.rgbtable > *:nth-of-type(14n+14)
+{
+   background-color: hsl(360, 100%, 050%);       /* */
+}
+
+.rgbtable > *:nth-of-type(n+14):nth-of-type(2n+1)
+{
+/* background-color: hsl(060, 090%, 080%);       /* */
+}
+
+
+
+/*   end rgb table stuff */
+
+/* begin colornames stuff */
+#cnalphabetic
+{
+   cursor: pointer;                              /* */
+   border-radius: .5rem; /* */
+}
+#cnalphabetic:focus
+{
+   outline: none; /* */
+}
+
+.cngrid
+{
+   height:             100vh;                    /* */
+   display:            grid;                     /* */
+   grid-template-rows: max-content auto;         /* */
+}
+
+/* begin colornames sort form */
+#cnsortpanels
+{
+   border:                thin solid black;      /* */
+
+   display:               grid;                  /* */
+   grid-template-columns: repeat(6, auto);       /* */
+   padding:               .5rem;                 /* */
+   gap:                   .5rem;                 /* */
+}
+
+.cnpaneldummybutton
+{
+   border-radius: .5rem;                         /* */
+}
+.cnpaneldummybutton:focus
+{
+   outline: none;                                /* */
+}
+
+.cnpanel
+{
+/* border:                thin solid black;      /* */
+/* border-radius:         .5rem;                 /* */
+   padding:               .5rem;                 /* */
+   text-align:            left;                  /* */
+
+   display:               grid;                  /* */
+   grid-template-columns: auto auto auto;        /* */
+   gap:                   0;                     /* */
+
+/* background-color:      hsl(  0,   0%,  95%);  /* */
+}
+
+.cnpanel input[type=checkbox]
+{
+   display:    none;                             /* */
+}
+
+.cnpanel label
+{
+   padding:      0 0.2rem;                       /* */
+   font-family: 'Segoe UI Symbol';     /* otherwise strange font in Egde */
+   cursor:       pointer;                        /* */
+/* border:          none;                        /* */
+}
+
+.cnpanel input[type=checkbox] + label,
+.cnpanel input[type=checkbox] + label + label
+{
+   border-radius: 1rem;                          /* */
+   border:        thin   solid transparent;      /* */
+   text-align:    center;
+}
+
+.cnpanel input[type=checkbox] + label,
+.cnpanel input[type=checkbox]:checked + label + label
+{
+   border-color: hsl(0, 0%, 50%);                /* */
+   color:        hsl(0, 0%, 100%);               /* */
+}
+
+.cnpanel input[type=checkbox] + label
+{
+   background-color: hsl(210, 100%, 80%);        /* */
+}
+
+.cnpanel input[type=checkbox]:checked + label + label
+{
+   background-color: hsl(300, 100%, 80%);        /* */
+}
+
+.cnpanel input[type=checkbox]:checked + label,
+.cnpanel input[type=checkbox] + label + label
+{
+   border-color:     transparent;                /* */
+   background-color: transparent;                /* */
+   color:            hsl(0, 0%, 0%);             /* */
+}
+
+.cnpanel input[type=checkbox]:disabled + label,
+.cnpanel input[type=checkbox]:disabled + label + label
+{
+   background-color: transparent;                /* */
+   color:            hsl(0, 0%, 0%);             /* */
+}
+
+
+
+/*   end colornames sort form */
+
+/* begin colornames table */
+#cntable
+{
+   overflow:              auto;                  /* */
+
+   display:               grid;
+   grid-template-columns: repeat(5, auto);       /* */
+   padding:               .5rem;                 /* */
+   gap:                   .5rem;                 /* */
+}
+
+#cntable > div
+{
+   border:           thin solid black;           /* */
+   padding:          .5rem;                      /* */
+   background-color: hsl(000, 000%, 095%);       /* */
+}
+/*   end colornames table */
+/*   end colornames stuff */
+
+
+/* begin page grid style */
+.my-header { grid-area: my-header; }
+.my-left   { grid-area: my-left;   }
+.my-main   { grid-area: my-main;   }
+.my-right  { grid-area: my-right;  }
+.my-footer { grid-area: my-footer; }
+
+.my-container
+{
+   display:             grid;                    /* */
+   grid-template-areas:
+                        'my-header'
+                        'my-left'
+                        'my-main'
+                        'my-right'
+                        'my-footer';
+}
+
+.my-main
+{
+   background-color: hsl(000, 000%, 100%);       /* */
+}
+
+.my-header:not(:empty)
+{
+   margin-bottom: 1rem;                          /* */
+}
+
+@media screen and (orientation: landscape)
+{
+   .my-container
+   {
+      grid-template-areas:
+                           'my-header my-header  my-header'  /* */
+/*                         'my-left   my-header  my-right'   /* */
+                           'my-left   my-main    my-right'   /* */
+/*                         'my-footer my-footer  my-footer'; /* */
+                           'my-left   my-footer  my-right';  /* */
+   }
+
+   .my-main
+   {
+   /* width:         70vh;                       /* A4 */
+      width:         62vw;                       /* 2/(1+sqrt(5)) */
+      min-height:    90vh;                       /* */
+/*    justify-self:  center;                     /* */
+/*    border:        hsl(0, 0%, 20%) thin solid; /* */
+      box-shadow:    0 0 .5rem;                  /* */
+      border-radius: 5px;                        /* */
+      padding:       1rem;                       /* */
+   }
+
+   .my-left, .my-right
+   {
+      min-width: 15vw;                           /* */
+   }
+}
+/* end page grid style */
+
+/* begin sections style */
+@media screen and (orientation: portrait)        /* */
+{
+   .my-sections:not(:empty)::before
+   {
+      content: 'Jump to:';                       /* */
+   }
+   .my-sections:not(:empty):lang(nl)::before
+   {
+      content: 'Meteen naar:';                   /* */
+   }
+}
+@media print
+{
+   .my-sections
+   {
+      display: none;                             /* */
+   }
+}
+/* end sections style */
+
+/* begin listings style */
+ol.my-listing
+{
+   font-family:      monospace;                  /* */
+   text-align:       left;                       /* */
+   line-height:      1.2;                        /* */
+   white-space:      pre-wrap;                   /* */
+   background-color: hsl(60, 100%, 90%);         /* */
+   border-radius:    .5rem;                      /* */
+   padding:          .5rem 0 .5rem 3rem;         /* */
+}
+ol.my-listing li
+{
+   border-left:    thin solid black;             /* */
+   padding:        0 .5rem;                      /* */
+}
+
+ol.my-listing.table
+{
+   display: table;                               /* */
+/* display: inline-table;                        /* */
+}
+
+ol.my-listing.nolinenrs
+{
+   list-style-type: none;                        /* */
+   padding-left:    0;                           /* */
+}
+ol.my-listing.nolinenrs li:empty::after
+{
+   content: '\000a';                             /* */
+}
+ol.my-listing.nolinenrs li
+{
+   border-left:     initial;                     /* */
+}
+/* end listings style */
+
+/* begin references style */
+.my-refs-ref
+{
+   vertical-align: super;                        /* */
+   font-size:      smaller;                      /* */
+}
+.my-refs-ref::before { content: '['; }           /* */
+.my-refs-ref::after  { content: ']'; }           /* */
+
+.my-refs-list > * { margin-top: 0; }             /* */
+
+@media screen
+{
+   .my-refs-list
+   {
+      column-width:     25vw;                              /* */
+      border:           hsl(0, 0%, 30%) thin solid;        /* */
+      background-color: hsl(60, 100%,  90%);               /* */
+   }
+}
+
+@media print
+{
+   * { color: hsl(0, 0%, 0%); }                  /* */
+
+   .my-refs-cites { display: none; }             /* */
+   .my-refs-list a[href]::after { content: ' (' attr(href) ')'; }  /* */
+}
+
+.my-refs-author
+{
+   white-space:   pre-wrap;                      /* */
+   padding-right: .3rem;                         /* */
+}
+
+.my-refs-link
+{
+   font-style:    italic;                        /* */
+   color:         hsl(240, 100%, 50%);           /* */
+}
+
+.my-refs-origin
+{
+   font-variant: small-caps;                     /* */
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}
+
+.my-refs-cites
+{
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}
+/* end references style */
+
+/* begin copyright style */
+.my-copy
+{
+   border-top:  hsl(0, 0%, 20%) thin solid;      /* */
+   color:       hsl(0, 0%, 20%);                 /* */
+   font-size:   0.9rem;                          /* */
+   text-align:  right;                           /* */
+   margin:      1rem 0.5rem;                     /* */
+   padding:     0.5rem;                          /* */
+   user-select: none;                            /* */
+}
+.my-copy::before { content: '\00a9 '; }          /* */
+.my-copy::after  { content: ' jcr'; }            /* */
+/* end copyright style */
+</style>
+<script>
+'use strict';
+const hsl_js_object = {};
+document.addEventListener('DOMContentLoaded', () => hsl_js_object.onload(), false);
+
+(function(api)
+{
+   api.onload = function()
+   {
+      try
+      {
+         setupHSLGrid();
+         setupHueGrid();
+
+         jcrColorWidget.init({decimals: 2});
+
+         setupColorNames();
+
+         createListings();
+         createReferences();
+         setSectionLinks();
+         let year = new Date(document.lastModified).getFullYear();
+         document.querySelectorAll('.my-copy').forEach(y => y.innerHTML = year);
+      }  catch(err) { console.log('oops', err) }
+   }
+
+
+   // hsl grid and hue grid stuff
+
+   const intre = /\d+/g;
+
+   const setColorTileTitle = function(element, hslstring)
+   {
+      let rgbstring = getComputedStyle(element).backgroundColor;
+
+      let hexstring = '#';
+      for (let val of rgbstring.match(intre))
+      {  hexstring += parseInt(val).toString(16).padStart(2, '0');
+      }
+
+      element.title = hslstring + '\n' + rgbstring + '\n' + hexstring;
+   }
+
+   const fillHSLGrid = function(grid, hue)
+   {
+      hue = (((hue - 0) || (hue - 360) || 300) + 360) % 360;
+      let sat = 0;
+      let lum = 100;
+
+      for (let item of grid.querySelectorAll('div'))
+      {
+         let hsl = 'hsl('+hue+', '+sat+'%, '+lum+'%)';
+         item.style.backgroundColor = hsl;
+
+         setColorTileTitle(item, hsl);
+
+         sat += 10;
+         if (sat > 100)
+         {
+//          lum = (lum + 10) % 110;
+            lum -= 10;
+            sat = 0;
+         }
+      }
+   }
+
+   const setupHSLGrid = function()
+   {
+      for (let grid of document.querySelectorAll('.hslgrid'))
+      {
+         for (let i = 0; i < 11 * 11; i++)
+         {
+            let div = document.createElement('div');
+            grid.appendChild(div);
+         }
+
+         fillHSLGrid(grid, grid.dataset.hue);
+      }
+   }
+
+   const setupHueGrid = function()
+   {
+      let tiles = 24; // must equal the value in css (the grid columms)
+
+      for (let grid of document.querySelectorAll('.huegrid'))
+      {
+         let hslgrid = (grid.dataset.hslgrid) ? document.querySelector(`#${grid.dataset.hslgrid}`) : null;
+
+         for (let i = 0; i < tiles; i++)
+         {
+            let div = document.createElement('div');
+
+            let hue = i * 360 / tiles;
+            let hsl = `hsl(${hue}, 100%, 50%)`;
+            div.style.backgroundColor = hsl;
+
+            div.style.cursor = 'pointer';
+
+            if (hslgrid) { div.onclick = () => fillHSLGrid(hslgrid, hue); }
+
+            grid.appendChild(div);
+            setColorTileTitle(div, hsl);
+         }
+      }
+   }
+
+   // color names stuff
+   const colorList = {}; // arrays with sorted orders of colors list,
+                         // these arrays are built on first demand
+                         // keys will look like ['hue', -1, 'sat', 1, 'lum' ,-1]
+
+   const fillNamesTable = function(panel)
+   {
+      let sortrule = ['hue', 0, 'sat', 0, 'lum', 0]; // alphabetic
+      if (panel)
+      {
+         sortrule = [];
+
+         for (let cb of panel.querySelectorAll('input[type="checkbox"]'))
+         {
+            sortrule.push(cb.name);
+            if (cb.checked) { sortrule.push(-1) } else { sortrule.push(1) };
+         }
+      }
+
+      // create colorList for this sortrule if it is not present yet
+      if (colorList[sortrule] === undefined)
+      {
+         colorList[sortrule] = [...Array(colors.length).keys()].sort(
+            function(a, b)
+            {
+               let compare = 0;
+
+               for (let i of [0, 2, 4])
+               {
+                  compare  = colors[a][sortrule[i]]   // sortrule[i] is
+                           - colors[b][sortrule[i]];  //    name, like 'hue'
+                  compare *= sortrule[i+1];           // sortrule[i+1] is +/-1
+
+                  if (compare) { break; }             // if 0 try 'sat', 'lum'
+               }
+
+               if(!compare) // still 0, sort alphabetically
+                  compare = colors[a]['name'].localeCompare(colors[b]['name']);
+
+               return compare;
+            });
+      }
+
+      let grid = document.querySelector('#cntable');
+      if (grid)
+      {
+         grid.innerHTML = '';
+
+         let div, bgdiv;
+         for (let i of colorList[sortrule])
+         {
+            div = document.createElement('div');
+            div.innerText = colors[i]['name'];
+            grid.appendChild(div);
+
+            bgdiv = document.createElement('div');
+            bgdiv.style.backgroundColor = colors[i]['name'];
+            grid.appendChild(bgdiv);
+
+            div = document.createElement('div');
+            div.innerText = colors[i]['hsl'];
+            grid.appendChild(div);
+
+            div = document.createElement('div');
+            div.innerText = getComputedStyle(bgdiv).backgroundColor;
+            grid.appendChild(div);
+
+            div = document.createElement('div');
+            div.innerText = colors[i]['hex'];
+            grid.appendChild(div);
+         }
+      }
+   }
+
+   const resetPanels = function(activate)
+   {
+      for (let panel of document.querySelectorAll('#cnsortpanels .cnpanel'))
+      {
+         // reset active panel
+         if (!panel.onclick) // all but current active panel have onclick()
+         {
+            // disable checkboxes
+            for (let cb of panel.querySelectorAll('input[type="checkbox"]'))
+            {
+               cb.disabled = true;
+            }
+
+            // add onclick handler for button itself
+            panel.onclick      = function(e) { resetPanels(this);
+                                               e.preventDefault();
+                                             };
+            panel.style.cursor = 'pointer';
+         }
+      }
+
+      if (activate) // no active panel in case of alphabetical order requested
+      {
+         for (let cb of activate.querySelectorAll('input[type="checkbox"]'))
+         {
+            cb.disabled = false;
+         }
+
+         // remove onclick from activated panel itself
+         activate.onclick      = null;
+         activate.style.cursor = 'default';
+      }
+      fillNamesTable(activate);
+   }
+
+   const setupColorNames = function()
+   {
+      let alphabutton = document.querySelector('#cnalphabetic');
+      if (alphabutton)
+      {
+         alphabutton.addEventListener('click', () => resetPanels(null), false);
+      }
+
+      // handler for checkboxes
+      for (let cb of document.querySelectorAll('#cnsortpanels input[type="checkbox"]'))
+      {
+         cb.onclick = function(e) { fillNamesTable(e.target.parentElement); };
+      }
+
+      // activate first button
+      resetPanels(document.querySelector('#cnsortpanels .cnpanel'));
+   }
+
+   const colors = [
+                    {
+                      'name': 'aliceblue',
+                      'hex':  '#F0F8FF',
+                      'hue':   208.000000000,
+                      'sat':   100.000000000,
+                      'lum':   97.058823529,
+                      'hsl':  'hsl(208.00, 100.00%, 97.06%)'
+                    },
+                    {
+                      'name': 'antiquewhite',
+                      'hex':  '#FAEBD7',
+                      'hue':   34.285714286,
+                      'sat':   77.777777778,
+                      'lum':   91.176470588,
+                      'hsl':  'hsl(34.29, 77.78%, 91.18%)'
+                    },
+                    {
+                      'name': 'aqua',
+                      'hex':  '#00FFFF',
+                      'hue':   180.000000000,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(180.00, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'aquamarine',
+                      'hex':  '#7FFFD4',
+                      'hue':   159.843750000,
+                      'sat':   100.000000000,
+                      'lum':   74.901960784,
+                      'hsl':  'hsl(159.84, 100.00%, 74.90%)'
+                    },
+                    {
+                      'name': 'azure',
+                      'hex':  '#F0FFFF',
+                      'hue':   180.000000000,
+                      'sat':   100.000000000,
+                      'lum':   97.058823529,
+                      'hsl':  'hsl(180.00, 100.00%, 97.06%)'
+                    },
+                    {
+                      'name': 'beige',
+                      'hex':  '#F5F5DC',
+                      'hue':   60.000000000,
+                      'sat':   55.555555556,
+                      'lum':   91.176470588,
+                      'hsl':  'hsl(60.00, 55.56%, 91.18%)'
+                    },
+                    {
+                      'name': 'bisque',
+                      'hex':  '#FFE4C4',
+                      'hue':   32.542372881,
+                      'sat':   100.000000000,
+                      'lum':   88.431372549,
+                      'hsl':  'hsl(32.54, 100.00%, 88.43%)'
+                    },
+                    {
+                      'name': 'black',
+                      'hex':  '#000000',
+                      'hue':   0.000000000,
+                      'sat':   0.000000000,
+                      'lum':   0.000000000,
+                      'hsl':  'hsl(0.00, 0.00%, 0.00%)'
+                    },
+                    {
+                      'name': 'blanchedalmond',
+                      'hex':  '#FFEBCD',
+                      'hue':   36.000000000,
+                      'sat':   100.000000000,
+                      'lum':   90.196078431,
+                      'hsl':  'hsl(36.00, 100.00%, 90.20%)'
+                    },
+                    {
+                      'name': 'blue',
+                      'hex':  '#0000FF',
+                      'hue':   240.000000000,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(240.00, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'blueviolet',
+                      'hex':  '#8A2BE2',
+                      'hue':   271.147540984,
+                      'sat':   75.933609959,
+                      'lum':   52.745098039,
+                      'hsl':  'hsl(271.15, 75.93%, 52.75%)'
+                    },
+                    {
+                      'name': 'brown',
+                      'hex':  '#A52A2A',
+                      'hue':   0.000000000,
+                      'sat':   59.420289855,
+                      'lum':   40.588235294,
+                      'hsl':  'hsl(0.00, 59.42%, 40.59%)'
+                    },
+                    {
+                      'name': 'burlywood',
+                      'hex':  '#DEB887',
+                      'hue':   33.793103448,
+                      'sat':   56.862745098,
+                      'lum':   70.000000000,
+                      'hsl':  'hsl(33.79, 56.86%, 70.00%)'
+                    },
+                    {
+                      'name': 'cadetblue',
+                      'hex':  '#5F9EA0',
+                      'hue':   181.846153846,
+                      'sat':   25.490196078,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(181.85, 25.49%, 50.00%)'
+                    },
+                    {
+                      'name': 'chartreuse',
+                      'hex':  '#7FFF00',
+                      'hue':   90.117647059,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(90.12, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'chocolate',
+                      'hex':  '#D2691E',
+                      'hue':   25.000000000,
+                      'sat':   75.000000000,
+                      'lum':   47.058823529,
+                      'hsl':  'hsl(25.00, 75.00%, 47.06%)'
+                    },
+                    {
+                      'name': 'coral',
+                      'hex':  '#FF7F50',
+                      'hue':   16.114285714,
+                      'sat':   100.000000000,
+                      'lum':   65.686274510,
+                      'hsl':  'hsl(16.11, 100.00%, 65.69%)'
+                    },
+                    {
+                      'name': 'cornflowerblue',
+                      'hex':  '#6495ED',
+                      'hue':   218.540145985,
+                      'sat':   79.190751445,
+                      'lum':   66.078431373,
+                      'hsl':  'hsl(218.54, 79.19%, 66.08%)'
+                    },
+                    {
+                      'name': 'cornsilk',
+                      'hex':  '#FFF8DC',
+                      'hue':   48.000000000,
+                      'sat':   100.000000000,
+                      'lum':   93.137254902,
+                      'hsl':  'hsl(48.00, 100.00%, 93.14%)'
+                    },
+                    {
+                      'name': 'crimson',
+                      'hex':  '#DC143C',
+                      'hue':   348.000000000,
+                      'sat':   83.333333333,
+                      'lum':   47.058823529,
+                      'hsl':  'hsl(348.00, 83.33%, 47.06%)'
+                    },
+                    {
+                      'name': 'cyan',
+                      'hex':  '#00FFFF',
+                      'hue':   180.000000000,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(180.00, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'darkblue',
+                      'hex':  '#00008B',
+                      'hue':   240.000000000,
+                      'sat':   100.000000000,
+                      'lum':   27.254901961,
+                      'hsl':  'hsl(240.00, 100.00%, 27.25%)'
+                    },
+                    {
+                      'name': 'darkcyan',
+                      'hex':  '#008B8B',
+                      'hue':   180.000000000,
+                      'sat':   100.000000000,
+                      'lum':   27.254901961,
+                      'hsl':  'hsl(180.00, 100.00%, 27.25%)'
+                    },
+                    {
+                      'name': 'darkgoldenrod',
+                      'hex':  '#B8860B',
+                      'hue':   42.658959538,
+                      'sat':   88.717948718,
+                      'lum':   38.235294118,
+                      'hsl':  'hsl(42.66, 88.72%, 38.24%)'
+                    },
+                    {
+                      'name': 'darkgray',
+                      'hex':  '#A9A9A9',
+                      'hue':   0.000000000,
+                      'sat':   0.000000000,
+                      'lum':   66.274509804,
+                      'hsl':  'hsl(0.00, 0.00%, 66.27%)'
+                    },
+                    {
+                      'name': 'darkgreen',
+                      'hex':  '#006400',
+                      'hue':   120.000000000,
+                      'sat':   100.000000000,
+                      'lum':   19.607843137,
+                      'hsl':  'hsl(120.00, 100.00%, 19.61%)'
+                    },
+                    {
+                      'name': 'darkgrey',
+                      'hex':  '#A9A9A9',
+                      'hue':   0.000000000,
+                      'sat':   0.000000000,
+                      'lum':   66.274509804,
+                      'hsl':  'hsl(0.00, 0.00%, 66.27%)'
+                    },
+                    {
+                      'name': 'darkkhaki',
+                      'hex':  '#BDB76B',
+                      'hue':   55.609756098,
+                      'sat':   38.317757009,
+                      'lum':   58.039215686,
+                      'hsl':  'hsl(55.61, 38.32%, 58.04%)'
+                    },
+                    {
+                      'name': 'darkmagenta',
+                      'hex':  '#8B008B',
+                      'hue':   300.000000000,
+                      'sat':   100.000000000,
+                      'lum':   27.254901961,
+                      'hsl':  'hsl(300.00, 100.00%, 27.25%)'
+                    },
+                    {
+                      'name': 'darkolivegreen',
+                      'hex':  '#556B2F',
+                      'hue':   82.000000000,
+                      'sat':   38.961038961,
+                      'lum':   30.196078431,
+                      'hsl':  'hsl(82.00, 38.96%, 30.20%)'
+                    },
+                    {
+                      'name': 'darkorange',
+                      'hex':  '#FF8C00',
+                      'hue':   32.941176471,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(32.94, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'darkorchid',
+                      'hex':  '#9932CC',
+                      'hue':   280.129870130,
+                      'sat':   60.629921260,
+                      'lum':   49.803921569,
+                      'hsl':  'hsl(280.13, 60.63%, 49.80%)'
+                    },
+                    {
+                      'name': 'darkred',
+                      'hex':  '#8B0000',
+                      'hue':   0.000000000,
+                      'sat':   100.000000000,
+                      'lum':   27.254901961,
+                      'hsl':  'hsl(0.00, 100.00%, 27.25%)'
+                    },
+                    {
+                      'name': 'darksalmon',
+                      'hex':  '#E9967A',
+                      'hue':   15.135135135,
+                      'sat':   71.612903226,
+                      'lum':   69.607843137,
+                      'hsl':  'hsl(15.14, 71.61%, 69.61%)'
+                    },
+                    {
+                      'name': 'darkseagreen',
+                      'hex':  '#8FBC8F',
+                      'hue':   120.000000000,
+                      'sat':   25.139664804,
+                      'lum':   64.901960784,
+                      'hsl':  'hsl(120.00, 25.14%, 64.90%)'
+                    },
+                    {
+                      'name': 'darkslateblue',
+                      'hex':  '#483D8B',
+                      'hue':   248.461538462,
+                      'sat':   39.000000000,
+                      'lum':   39.215686275,
+                      'hsl':  'hsl(248.46, 39.00%, 39.22%)'
+                    },
+                    {
+                      'name': 'darkslategray',
+                      'hex':  '#2F4F4F',
+                      'hue':   180.000000000,
+                      'sat':   25.396825397,
+                      'lum':   24.705882353,
+                      'hsl':  'hsl(180.00, 25.40%, 24.71%)'
+                    },
+                    {
+                      'name': 'darkslategrey',
+                      'hex':  '#2F4F4F',
+                      'hue':   180.000000000,
+                      'sat':   25.396825397,
+                      'lum':   24.705882353,
+                      'hsl':  'hsl(180.00, 25.40%, 24.71%)'
+                    },
+                    {
+                      'name': 'darkturquoise',
+                      'hex':  '#00CED1',
+                      'hue':   180.861244019,
+                      'sat':   100.000000000,
+                      'lum':   40.980392157,
+                      'hsl':  'hsl(180.86, 100.00%, 40.98%)'
+                    },
+                    {
+                      'name': 'darkviolet',
+                      'hex':  '#9400D3',
+                      'hue':   282.085308057,
+                      'sat':   100.000000000,
+                      'lum':   41.372549020,
+                      'hsl':  'hsl(282.09, 100.00%, 41.37%)'
+                    },
+                    {
+                      'name': 'deeppink',
+                      'hex':  '#FF1493',
+                      'hue':   327.574468085,
+                      'sat':   100.000000000,
+                      'lum':   53.921568627,
+                      'hsl':  'hsl(327.57, 100.00%, 53.92%)'
+                    },
+                    {
+                      'name': 'deepskyblue',
+                      'hex':  '#00BFFF',
+                      'hue':   195.058823529,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(195.06, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'dimgray',
+                      'hex':  '#696969',
+                      'hue':   0.000000000,
+                      'sat':   0.000000000,
+                      'lum':   41.176470588,
+                      'hsl':  'hsl(0.00, 0.00%, 41.18%)'
+                    },
+                    {
+                      'name': 'dimgrey',
+                      'hex':  '#696969',
+                      'hue':   0.000000000,
+                      'sat':   0.000000000,
+                      'lum':   41.176470588,
+                      'hsl':  'hsl(0.00, 0.00%, 41.18%)'
+                    },
+                    {
+                      'name': 'dodgerblue',
+                      'hex':  '#1E90FF',
+                      'hue':   209.600000000,
+                      'sat':   100.000000000,
+                      'lum':   55.882352941,
+                      'hsl':  'hsl(209.60, 100.00%, 55.88%)'
+                    },
+                    {
+                      'name': 'firebrick',
+                      'hex':  '#B22222',
+                      'hue':   0.000000000,
+                      'sat':   67.924528302,
+                      'lum':   41.568627451,
+                      'hsl':  'hsl(0.00, 67.92%, 41.57%)'
+                    },
+                    {
+                      'name': 'floralwhite',
+                      'hex':  '#FFFAF0',
+                      'hue':   40.000000000,
+                      'sat':   100.000000000,
+                      'lum':   97.058823529,
+                      'hsl':  'hsl(40.00, 100.00%, 97.06%)'
+                    },
+                    {
+                      'name': 'forestgreen',
+                      'hex':  '#228B22',
+                      'hue':   120.000000000,
+                      'sat':   60.693641618,
+                      'lum':   33.921568627,
+                      'hsl':  'hsl(120.00, 60.69%, 33.92%)'
+                    },
+                    {
+                      'name': 'fuchsia',
+                      'hex':  '#FF00FF',
+                      'hue':   300.000000000,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(300.00, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'gainsboro',
+                      'hex':  '#DCDCDC',
+                      'hue':   0.000000000,
+                      'sat':   0.000000000,
+                      'lum':   86.274509804,
+                      'hsl':  'hsl(0.00, 0.00%, 86.27%)'
+                    },
+                    {
+                      'name': 'ghostwhite',
+                      'hex':  '#F8F8FF',
+                      'hue':   240.000000000,
+                      'sat':   100.000000000,
+                      'lum':   98.627450980,
+                      'hsl':  'hsl(240.00, 100.00%, 98.63%)'
+                    },
+                    {
+                      'name': 'gold',
+                      'hex':  '#FFD700',
+                      'hue':   50.588235294,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(50.59, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'goldenrod',
+                      'hex':  '#DAA520',
+                      'hue':   42.903225806,
+                      'sat':   74.400000000,
+                      'lum':   49.019607843,
+                      'hsl':  'hsl(42.90, 74.40%, 49.02%)'
+                    },
+                    {
+                      'name': 'gray',
+                      'hex':  '#808080',
+                      'hue':   0.000000000,
+                      'sat':   0.000000000,
+                      'lum':   50.196078431,
+                      'hsl':  'hsl(0.00, 0.00%, 50.20%)'
+                    },
+                    {
+                      'name': 'green',
+                      'hex':  '#008000',
+                      'hue':   120.000000000,
+                      'sat':   100.000000000,
+                      'lum':   25.098039216,
+                      'hsl':  'hsl(120.00, 100.00%, 25.10%)'
+                    },
+                    {
+                      'name': 'greenyellow',
+                      'hex':  '#ADFF2F',
+                      'hue':   83.653846154,
+                      'sat':   100.000000000,
+                      'lum':   59.215686275,
+                      'hsl':  'hsl(83.65, 100.00%, 59.22%)'
+                    },
+                    {
+                      'name': 'grey',
+                      'hex':  '#808080',
+                      'hue':   0.000000000,
+                      'sat':   0.000000000,
+                      'lum':   50.196078431,
+                      'hsl':  'hsl(0.00, 0.00%, 50.20%)'
+                    },
+                    {
+                      'name': 'honeydew',
+                      'hex':  '#F0FFF0',
+                      'hue':   120.000000000,
+                      'sat':   100.000000000,
+                      'lum':   97.058823529,
+                      'hsl':  'hsl(120.00, 100.00%, 97.06%)'
+                    },
+                    {
+                      'name': 'hotpink',
+                      'hex':  '#FF69B4',
+                      'hue':   330.000000000,
+                      'sat':   100.000000000,
+                      'lum':   70.588235294,
+                      'hsl':  'hsl(330.00, 100.00%, 70.59%)'
+                    },
+                    {
+                      'name': 'indianred',
+                      'hex':  '#CD5C5C',
+                      'hue':   0.000000000,
+                      'sat':   53.051643192,
+                      'lum':   58.235294118,
+                      'hsl':  'hsl(0.00, 53.05%, 58.24%)'
+                    },
+                    {
+                      'name': 'indigo',
+                      'hex':  '#4B0082',
+                      'hue':   274.615384615,
+                      'sat':   100.000000000,
+                      'lum':   25.490196078,
+                      'hsl':  'hsl(274.62, 100.00%, 25.49%)'
+                    },
+                    {
+                      'name': 'ivory',
+                      'hex':  '#FFFFF0',
+                      'hue':   60.000000000,
+                      'sat':   100.000000000,
+                      'lum':   97.058823529,
+                      'hsl':  'hsl(60.00, 100.00%, 97.06%)'
+                    },
+                    {
+                      'name': 'khaki',
+                      'hex':  '#F0E68C',
+                      'hue':   54.000000000,
+                      'sat':   76.923076923,
+                      'lum':   74.509803922,
+                      'hsl':  'hsl(54.00, 76.92%, 74.51%)'
+                    },
+                    {
+                      'name': 'lavender',
+                      'hex':  '#E6E6FA',
+                      'hue':   240.000000000,
+                      'sat':   66.666666667,
+                      'lum':   94.117647059,
+                      'hsl':  'hsl(240.00, 66.67%, 94.12%)'
+                    },
+                    {
+                      'name': 'lavenderblush',
+                      'hex':  '#FFF0F5',
+                      'hue':   340.000000000,
+                      'sat':   100.000000000,
+                      'lum':   97.058823529,
+                      'hsl':  'hsl(340.00, 100.00%, 97.06%)'
+                    },
+                    {
+                      'name': 'lawngreen',
+                      'hex':  '#7CFC00',
+                      'hue':   90.476190476,
+                      'sat':   100.000000000,
+                      'lum':   49.411764706,
+                      'hsl':  'hsl(90.48, 100.00%, 49.41%)'
+                    },
+                    {
+                      'name': 'lemonchiffon',
+                      'hex':  '#FFFACD',
+                      'hue':   54.000000000,
+                      'sat':   100.000000000,
+                      'lum':   90.196078431,
+                      'hsl':  'hsl(54.00, 100.00%, 90.20%)'
+                    },
+                    {
+                      'name': 'lightblue',
+                      'hex':  '#ADD8E6',
+                      'hue':   194.736842105,
+                      'sat':   53.271028037,
+                      'lum':   79.019607843,
+                      'hsl':  'hsl(194.74, 53.27%, 79.02%)'
+                    },
+                    {
+                      'name': 'lightcoral',
+                      'hex':  '#F08080',
+                      'hue':   0.000000000,
+                      'sat':   78.873239437,
+                      'lum':   72.156862745,
+                      'hsl':  'hsl(0.00, 78.87%, 72.16%)'
+                    },
+                    {
+                      'name': 'lightcyan',
+                      'hex':  '#E0FFFF',
+                      'hue':   180.000000000,
+                      'sat':   100.000000000,
+                      'lum':   93.921568627,
+                      'hsl':  'hsl(180.00, 100.00%, 93.92%)'
+                    },
+                    {
+                      'name': 'lightgoldenrodyellow',
+                      'hex':  '#FAFAD2',
+                      'hue':   60.000000000,
+                      'sat':   80.000000000,
+                      'lum':   90.196078431,
+                      'hsl':  'hsl(60.00, 80.00%, 90.20%)'
+                    },
+                    {
+                      'name': 'lightgray',
+                      'hex':  '#D3D3D3',
+                      'hue':   0.000000000,
+                      'sat':   0.000000000,
+                      'lum':   82.745098039,
+                      'hsl':  'hsl(0.00, 0.00%, 82.75%)'
+                    },
+                    {
+                      'name': 'lightgreen',
+                      'hex':  '#90EE90',
+                      'hue':   120.000000000,
+                      'sat':   73.437500000,
+                      'lum':   74.901960784,
+                      'hsl':  'hsl(120.00, 73.44%, 74.90%)'
+                    },
+                    {
+                      'name': 'lightgrey',
+                      'hex':  '#D3D3D3',
+                      'hue':   0.000000000,
+                      'sat':   0.000000000,
+                      'lum':   82.745098039,
+                      'hsl':  'hsl(0.00, 0.00%, 82.75%)'
+                    },
+                    {
+                      'name': 'lightpink',
+                      'hex':  '#FFB6C1',
+                      'hue':   350.958904110,
+                      'sat':   100.000000000,
+                      'lum':   85.686274510,
+                      'hsl':  'hsl(350.96, 100.00%, 85.69%)'
+                    },
+                    {
+                      'name': 'lightsalmon',
+                      'hex':  '#FFA07A',
+                      'hue':   17.142857143,
+                      'sat':   100.000000000,
+                      'lum':   73.921568627,
+                      'hsl':  'hsl(17.14, 100.00%, 73.92%)'
+                    },
+                    {
+                      'name': 'lightseagreen',
+                      'hex':  '#20B2AA',
+                      'hue':   176.712328767,
+                      'sat':   69.523809524,
+                      'lum':   41.176470588,
+                      'hsl':  'hsl(176.71, 69.52%, 41.18%)'
+                    },
+                    {
+                      'name': 'lightskyblue',
+                      'hex':  '#87CEFA',
+                      'hue':   202.956521739,
+                      'sat':   92.000000000,
+                      'lum':   75.490196078,
+                      'hsl':  'hsl(202.96, 92.00%, 75.49%)'
+                    },
+                    {
+                      'name': 'lightslategray',
+                      'hex':  '#778899',
+                      'hue':   210.000000000,
+                      'sat':   14.285714286,
+                      'lum':   53.333333333,
+                      'hsl':  'hsl(210.00, 14.29%, 53.33%)'
+                    },
+                    {
+                      'name': 'lightslategrey',
+                      'hex':  '#778899',
+                      'hue':   210.000000000,
+                      'sat':   14.285714286,
+                      'lum':   53.333333333,
+                      'hsl':  'hsl(210.00, 14.29%, 53.33%)'
+                    },
+                    {
+                      'name': 'lightsteelblue',
+                      'hex':  '#B0C4DE',
+                      'hue':   213.913043478,
+                      'sat':   41.071428571,
+                      'lum':   78.039215686,
+                      'hsl':  'hsl(213.91, 41.07%, 78.04%)'
+                    },
+                    {
+                      'name': 'lightyellow',
+                      'hex':  '#FFFFE0',
+                      'hue':   60.000000000,
+                      'sat':   100.000000000,
+                      'lum':   93.921568627,
+                      'hsl':  'hsl(60.00, 100.00%, 93.92%)'
+                    },
+                    {
+                      'name': 'lime',
+                      'hex':  '#00FF00',
+                      'hue':   120.000000000,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(120.00, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'limegreen',
+                      'hex':  '#32CD32',
+                      'hue':   120.000000000,
+                      'sat':   60.784313725,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(120.00, 60.78%, 50.00%)'
+                    },
+                    {
+                      'name': 'linen',
+                      'hex':  '#FAF0E6',
+                      'hue':   30.000000000,
+                      'sat':   66.666666667,
+                      'lum':   94.117647059,
+                      'hsl':  'hsl(30.00, 66.67%, 94.12%)'
+                    },
+                    {
+                      'name': 'magenta',
+                      'hex':  '#FF00FF',
+                      'hue':   300.000000000,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(300.00, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'maroon',
+                      'hex':  '#800000',
+                      'hue':   0.000000000,
+                      'sat':   100.000000000,
+                      'lum':   25.098039216,
+                      'hsl':  'hsl(0.00, 100.00%, 25.10%)'
+                    },
+                    {
+                      'name': 'mediumaquamarine',
+                      'hex':  '#66CDAA',
+                      'hue':   159.611650485,
+                      'sat':   50.738916256,
+                      'lum':   60.196078431,
+                      'hsl':  'hsl(159.61, 50.74%, 60.20%)'
+                    },
+                    {
+                      'name': 'mediumblue',
+                      'hex':  '#0000CD',
+                      'hue':   240.000000000,
+                      'sat':   100.000000000,
+                      'lum':   40.196078431,
+                      'hsl':  'hsl(240.00, 100.00%, 40.20%)'
+                    },
+                    {
+                      'name': 'mediumorchid',
+                      'hex':  '#BA55D3',
+                      'hue':   288.095238095,
+                      'sat':   58.878504673,
+                      'lum':   58.039215686,
+                      'hsl':  'hsl(288.10, 58.88%, 58.04%)'
+                    },
+                    {
+                      'name': 'mediumpurple',
+                      'hex':  '#9370DB',
+                      'hue':   259.626168224,
+                      'sat':   59.776536313,
+                      'lum':   64.901960784,
+                      'hsl':  'hsl(259.63, 59.78%, 64.90%)'
+                    },
+                    {
+                      'name': 'mediumseagreen',
+                      'hex':  '#3CB371',
+                      'hue':   146.722689076,
+                      'sat':   49.790794979,
+                      'lum':   46.862745098,
+                      'hsl':  'hsl(146.72, 49.79%, 46.86%)'
+                    },
+                    {
+                      'name': 'mediumslateblue',
+                      'hex':  '#7B68EE',
+                      'hue':   248.507462687,
+                      'sat':   79.761904762,
+                      'lum':   67.058823529,
+                      'hsl':  'hsl(248.51, 79.76%, 67.06%)'
+                    },
+                    {
+                      'name': 'mediumspringgreen',
+                      'hex':  '#00FA9A',
+                      'hue':   156.960000000,
+                      'sat':   100.000000000,
+                      'lum':   49.019607843,
+                      'hsl':  'hsl(156.96, 100.00%, 49.02%)'
+                    },
+                    {
+                      'name': 'mediumturquoise',
+                      'hex':  '#48D1CC',
+                      'hue':   177.810218978,
+                      'sat':   59.825327511,
+                      'lum':   55.098039216,
+                      'hsl':  'hsl(177.81, 59.83%, 55.10%)'
+                    },
+                    {
+                      'name': 'mediumvioletred',
+                      'hex':  '#C71585',
+                      'hue':   322.247191011,
+                      'sat':   80.909090909,
+                      'lum':   43.137254902,
+                      'hsl':  'hsl(322.25, 80.91%, 43.14%)'
+                    },
+                    {
+                      'name': 'midnightblue',
+                      'hex':  '#191970',
+                      'hue':   240.000000000,
+                      'sat':   63.503649635,
+                      'lum':   26.862745098,
+                      'hsl':  'hsl(240.00, 63.50%, 26.86%)'
+                    },
+                    {
+                      'name': 'mintcream',
+                      'hex':  '#F5FFFA',
+                      'hue':   150.000000000,
+                      'sat':   100.000000000,
+                      'lum':   98.039215686,
+                      'hsl':  'hsl(150.00, 100.00%, 98.04%)'
+                    },
+                    {
+                      'name': 'mistyrose',
+                      'hex':  '#FFE4E1',
+                      'hue':   6.000000000,
+                      'sat':   100.000000000,
+                      'lum':   94.117647059,
+                      'hsl':  'hsl(6.00, 100.00%, 94.12%)'
+                    },
+                    {
+                      'name': 'moccasin',
+                      'hex':  '#FFE4B5',
+                      'hue':   38.108108108,
+                      'sat':   100.000000000,
+                      'lum':   85.490196078,
+                      'hsl':  'hsl(38.11, 100.00%, 85.49%)'
+                    },
+                    {
+                      'name': 'navajowhite',
+                      'hex':  '#FFDEAD',
+                      'hue':   35.853658537,
+                      'sat':   100.000000000,
+                      'lum':   83.921568627,
+                      'hsl':  'hsl(35.85, 100.00%, 83.92%)'
+                    },
+                    {
+                      'name': 'navy',
+                      'hex':  '#000080',
+                      'hue':   240.000000000,
+                      'sat':   100.000000000,
+                      'lum':   25.098039216,
+                      'hsl':  'hsl(240.00, 100.00%, 25.10%)'
+                    },
+                    {
+                      'name': 'oldlace',
+                      'hex':  '#FDF5E6',
+                      'hue':   39.130434783,
+                      'sat':   85.185185185,
+                      'lum':   94.705882353,
+                      'hsl':  'hsl(39.13, 85.19%, 94.71%)'
+                    },
+                    {
+                      'name': 'olive',
+                      'hex':  '#808000',
+                      'hue':   60.000000000,
+                      'sat':   100.000000000,
+                      'lum':   25.098039216,
+                      'hsl':  'hsl(60.00, 100.00%, 25.10%)'
+                    },
+                    {
+                      'name': 'olivedrab',
+                      'hex':  '#6B8E23',
+                      'hue':   79.626168224,
+                      'sat':   60.451977401,
+                      'lum':   34.705882353,
+                      'hsl':  'hsl(79.63, 60.45%, 34.71%)'
+                    },
+                    {
+                      'name': 'orange',
+                      'hex':  '#FFA500',
+                      'hue':   38.823529412,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(38.82, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'orangered',
+                      'hex':  '#FF4500',
+                      'hue':   16.235294118,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(16.24, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'orchid',
+                      'hex':  '#DA70D6',
+                      'hue':   302.264150943,
+                      'sat':   58.888888889,
+                      'lum':   64.705882353,
+                      'hsl':  'hsl(302.26, 58.89%, 64.71%)'
+                    },
+                    {
+                      'name': 'palegoldenrod',
+                      'hex':  '#EEE8AA',
+                      'hue':   54.705882353,
+                      'sat':   66.666666667,
+                      'lum':   80.000000000,
+                      'hsl':  'hsl(54.71, 66.67%, 80.00%)'
+                    },
+                    {
+                      'name': 'palegreen',
+                      'hex':  '#98FB98',
+                      'hue':   120.000000000,
+                      'sat':   92.523364486,
+                      'lum':   79.019607843,
+                      'hsl':  'hsl(120.00, 92.52%, 79.02%)'
+                    },
+                    {
+                      'name': 'paleturquoise',
+                      'hex':  '#AFEEEE',
+                      'hue':   180.000000000,
+                      'sat':   64.948453608,
+                      'lum':   80.980392157,
+                      'hsl':  'hsl(180.00, 64.95%, 80.98%)'
+                    },
+                    {
+                      'name': 'palevioletred',
+                      'hex':  '#DB7093',
+                      'hue':   340.373831776,
+                      'sat':   59.776536313,
+                      'lum':   64.901960784,
+                      'hsl':  'hsl(340.37, 59.78%, 64.90%)'
+                    },
+                    {
+                      'name': 'papayawhip',
+                      'hex':  '#FFEFD5',
+                      'hue':   37.142857143,
+                      'sat':   100.000000000,
+                      'lum':   91.764705882,
+                      'hsl':  'hsl(37.14, 100.00%, 91.76%)'
+                    },
+                    {
+                      'name': 'peachpuff',
+                      'hex':  '#FFDAB9',
+                      'hue':   28.285714286,
+                      'sat':   100.000000000,
+                      'lum':   86.274509804,
+                      'hsl':  'hsl(28.29, 100.00%, 86.27%)'
+                    },
+                    {
+                      'name': 'peru',
+                      'hex':  '#CD853F',
+                      'hue':   29.577464789,
+                      'sat':   58.677685950,
+                      'lum':   52.549019608,
+                      'hsl':  'hsl(29.58, 58.68%, 52.55%)'
+                    },
+                    {
+                      'name': 'pink',
+                      'hex':  '#FFC0CB',
+                      'hue':   349.523809524,
+                      'sat':   100.000000000,
+                      'lum':   87.647058824,
+                      'hsl':  'hsl(349.52, 100.00%, 87.65%)'
+                    },
+                    {
+                      'name': 'plum',
+                      'hex':  '#DDA0DD',
+                      'hue':   300.000000000,
+                      'sat':   47.286821705,
+                      'lum':   74.705882353,
+                      'hsl':  'hsl(300.00, 47.29%, 74.71%)'
+                    },
+                    {
+                      'name': 'powderblue',
+                      'hex':  '#B0E0E6',
+                      'hue':   186.666666667,
+                      'sat':   51.923076923,
+                      'lum':   79.607843137,
+                      'hsl':  'hsl(186.67, 51.92%, 79.61%)'
+                    },
+                    {
+                      'name': 'purple',
+                      'hex':  '#800080',
+                      'hue':   300.000000000,
+                      'sat':   100.000000000,
+                      'lum':   25.098039216,
+                      'hsl':  'hsl(300.00, 100.00%, 25.10%)'
+                    },
+                    {
+                      'name': 'rebeccapurple',
+                      'hex':  '#663399',
+                      'hue':   270.000000000,
+                      'sat':   50.000000000,
+                      'lum':   40.000000000,
+                      'hsl':  'hsl(270.00, 50.00%, 40.00%)'
+                    },
+                    {
+                      'name': 'red',
+                      'hex':  '#FF0000',
+                      'hue':   0.000000000,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(0.00, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'rosybrown',
+                      'hex':  '#BC8F8F',
+                      'hue':   0.000000000,
+                      'sat':   25.139664804,
+                      'lum':   64.901960784,
+                      'hsl':  'hsl(0.00, 25.14%, 64.90%)'
+                    },
+                    {
+                      'name': 'royalblue',
+                      'hex':  '#4169E1',
+                      'hue':   225.000000000,
+                      'sat':   72.727272727,
+                      'lum':   56.862745098,
+                      'hsl':  'hsl(225.00, 72.73%, 56.86%)'
+                    },
+                    {
+                      'name': 'saddlebrown',
+                      'hex':  '#8B4513',
+                      'hue':   25.000000000,
+                      'sat':   75.949367089,
+                      'lum':   30.980392157,
+                      'hsl':  'hsl(25.00, 75.95%, 30.98%)'
+                    },
+                    {
+                      'name': 'salmon',
+                      'hex':  '#FA8072',
+                      'hue':   6.176470588,
+                      'sat':   93.150684932,
+                      'lum':   71.372549020,
+                      'hsl':  'hsl(6.18, 93.15%, 71.37%)'
+                    },
+                    {
+                      'name': 'sandybrown',
+                      'hex':  '#F4A460',
+                      'hue':   27.567567568,
+                      'sat':   87.058823529,
+                      'lum':   66.666666667,
+                      'hsl':  'hsl(27.57, 87.06%, 66.67%)'
+                    },
+                    {
+                      'name': 'seagreen',
+                      'hex':  '#2E8B57',
+                      'hue':   146.451612903,
+                      'sat':   50.270270270,
+                      'lum':   36.274509804,
+                      'hsl':  'hsl(146.45, 50.27%, 36.27%)'
+                    },
+                    {
+                      'name': 'seashell',
+                      'hex':  '#FFF5EE',
+                      'hue':   24.705882353,
+                      'sat':   100.000000000,
+                      'lum':   96.666666667,
+                      'hsl':  'hsl(24.71, 100.00%, 96.67%)'
+                    },
+                    {
+                      'name': 'sienna',
+                      'hex':  '#A0522D',
+                      'hue':   19.304347826,
+                      'sat':   56.097560976,
+                      'lum':   40.196078431,
+                      'hsl':  'hsl(19.30, 56.10%, 40.20%)'
+                    },
+                    {
+                      'name': 'silver',
+                      'hex':  '#C0C0C0',
+                      'hue':   0.000000000,
+                      'sat':   0.000000000,
+                      'lum':   75.294117647,
+                      'hsl':  'hsl(0.00, 0.00%, 75.29%)'
+                    },
+                    {
+                      'name': 'skyblue',
+                      'hex':  '#87CEEB',
+                      'hue':   197.400000000,
+                      'sat':   71.428571429,
+                      'lum':   72.549019608,
+                      'hsl':  'hsl(197.40, 71.43%, 72.55%)'
+                    },
+                    {
+                      'name': 'slateblue',
+                      'hex':  '#6A5ACD',
+                      'hue':   248.347826087,
+                      'sat':   53.488372093,
+                      'lum':   57.843137255,
+                      'hsl':  'hsl(248.35, 53.49%, 57.84%)'
+                    },
+                    {
+                      'name': 'slategray',
+                      'hex':  '#708090',
+                      'hue':   210.000000000,
+                      'sat':   12.598425197,
+                      'lum':   50.196078431,
+                      'hsl':  'hsl(210.00, 12.60%, 50.20%)'
+                    },
+                    {
+                      'name': 'slategrey',
+                      'hex':  '#708090',
+                      'hue':   210.000000000,
+                      'sat':   12.598425197,
+                      'lum':   50.196078431,
+                      'hsl':  'hsl(210.00, 12.60%, 50.20%)'
+                    },
+                    {
+                      'name': 'snow',
+                      'hex':  '#FFFAFA',
+                      'hue':   0.000000000,
+                      'sat':   100.000000000,
+                      'lum':   99.019607843,
+                      'hsl':  'hsl(0.00, 100.00%, 99.02%)'
+                    },
+                    {
+                      'name': 'springgreen',
+                      'hex':  '#00FF7F',
+                      'hue':   149.882352941,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(149.88, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'steelblue',
+                      'hex':  '#4682B4',
+                      'hue':   207.272727273,
+                      'sat':   44.000000000,
+                      'lum':   49.019607843,
+                      'hsl':  'hsl(207.27, 44.00%, 49.02%)'
+                    },
+                    {
+                      'name': 'tan',
+                      'hex':  '#D2B48C',
+                      'hue':   34.285714286,
+                      'sat':   43.750000000,
+                      'lum':   68.627450980,
+                      'hsl':  'hsl(34.29, 43.75%, 68.63%)'
+                    },
+                    {
+                      'name': 'teal',
+                      'hex':  '#008080',
+                      'hue':   180.000000000,
+                      'sat':   100.000000000,
+                      'lum':   25.098039216,
+                      'hsl':  'hsl(180.00, 100.00%, 25.10%)'
+                    },
+                    {
+                      'name': 'thistle',
+                      'hex':  '#D8BFD8',
+                      'hue':   300.000000000,
+                      'sat':   24.271844660,
+                      'lum':   79.803921569,
+                      'hsl':  'hsl(300.00, 24.27%, 79.80%)'
+                    },
+                    {
+                      'name': 'tomato',
+                      'hex':  '#FF6347',
+                      'hue':   9.130434783,
+                      'sat':   100.000000000,
+                      'lum':   63.921568627,
+                      'hsl':  'hsl(9.13, 100.00%, 63.92%)'
+                    },
+                    {
+                      'name': 'turquoise',
+                      'hex':  '#40E0D0',
+                      'hue':   174.000000000,
+                      'sat':   72.072072072,
+                      'lum':   56.470588235,
+                      'hsl':  'hsl(174.00, 72.07%, 56.47%)'
+                    },
+                    {
+                      'name': 'violet',
+                      'hex':  '#EE82EE',
+                      'hue':   300.000000000,
+                      'sat':   76.056338028,
+                      'lum':   72.156862745,
+                      'hsl':  'hsl(300.00, 76.06%, 72.16%)'
+                    },
+                    {
+                      'name': 'wheat',
+                      'hex':  '#F5DEB3',
+                      'hue':   39.090909091,
+                      'sat':   76.744186047,
+                      'lum':   83.137254902,
+                      'hsl':  'hsl(39.09, 76.74%, 83.14%)'
+                    },
+                    {
+                      'name': 'white',
+                      'hex':  '#FFFFFF',
+                      'hue':   0.000000000,
+                      'sat':   0.000000000,
+                      'lum':   100.000000000,
+                      'hsl':  'hsl(0.00, 0.00%, 100.00%)'
+                    },
+                    {
+                      'name': 'whitesmoke',
+                      'hex':  '#F5F5F5',
+                      'hue':   0.000000000,
+                      'sat':   0.000000000,
+                      'lum':   96.078431373,
+                      'hsl':  'hsl(0.00, 0.00%, 96.08%)'
+                    },
+                    {
+                      'name': 'yellow',
+                      'hex':  '#FFFF00',
+                      'hue':   60.000000000,
+                      'sat':   100.000000000,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(60.00, 100.00%, 50.00%)'
+                    },
+                    {
+                      'name': 'yellowgreen',
+                      'hex':  '#9ACD32',
+                      'hue':   79.741935484,
+                      'sat':   60.784313725,
+                      'lum':   50.000000000,
+                      'hsl':  'hsl(79.74, 60.78%, 50.00%)'
+                    }
+                  ];
+   // end colors
+
+
+   const createListings = function()
+   {
+      for (let element of document.querySelectorAll('textarea.my-listing'))
+      {
+         let ol = document.createElement('ol');
+         ol.className = element.className;
+
+         for (let line of element.innerHTML.replace(/\n$/, '').split('\n'))
+         {
+            let li = document.createElement('li');
+            li.innerHTML = line;
+            ol.appendChild(li);
+         }
+
+         element.replaceWith(ol);
+      }
+   }
+
+   const createReferences = function()
+   {
+      let refnr = 1;
+      let refitem = {};
+
+
+      // the references
+      for (let element of document.querySelectorAll('textarea.my-refs-list'))
+      {
+         let ol = document.createElement('ol');
+         ol.className = element.className;
+         ol.start = refnr;
+
+         for (let record of element.innerHTML.replace(/\n\s*?\n\s*/, '\n\n').split('\n\n'))
+         {
+            let [line1, url, text, origin] = record.split('\n').map(s => s.trim());
+
+            let [hash, ...rest] = line1.split(' ');
+            let author = rest.join(' ');
+
+            if (!hash.startsWith('#')) { continue }
+
+            let li = document.createElement('li');
+            li.id = hash.substr(1);
+
+            if (author)
+            {
+               let span_author = document.createElement('span');
+               span_author.className = 'my-refs-author';
+               span_author.innerHTML = author;
+               li.appendChild(span_author);
+            }
+
+            let span_link = document.createElement('span');
+            span_link.className = 'my-refs-link';
+
+            let a = document.createElement('a');
+            a.href = url;
+            a.innerHTML = text || url;
+            span_link.appendChild(a);
+            li.appendChild(span_link);
+
+            if (origin)
+            {
+               let span_origin = document.createElement('span');
+               span_origin.className = 'my-refs-origin';
+               span_origin.innerHTML = origin;
+               li.appendChild(span_origin);
+            }
+
+            ol.appendChild(li);
+
+            refitem[hash] = { item: li, refnr: refnr, cited: [] }
+            refnr++;
+         }
+
+         element.replaceWith(ol);
+      }
+
+      // the citations (referrals)
+      for (let element of document.querySelectorAll('.my-refs-ref'))
+      {
+         if (!element.hash) { continue }
+
+         let span = document.createElement('span');
+         span.className = 'nowrap';
+         span.innerHTML = element.innerHTML;
+
+         if (refitem[element.hash])
+         {
+            element.innerHTML     = refitem[element.hash].refnr;
+            let hash_for_citation = `${[element.hash]}_${refitem[element.hash].cited.length}`;
+            element.id            = hash_for_citation.substr(1);
+            refitem[element.hash].cited.push(hash_for_citation);
+         }
+         else
+         {
+            element.innerHTML = 'link not present';
+         }
+
+         element.parentNode.insertBefore(span, element);
+         span.appendChild(element);
+      }
+
+
+      // reduce citations array (of hashes) to string of hyperlinks
+      function reduceCitations(accum, next, i, all)
+      {
+         let concat = accum;
+         if (i) { concat += ',' }
+         concat += `<a href="${next}">&uarr;`;
+         if (all.length > 1) { concat += `<sub>${i+1}</sub>` }
+         concat += '</a>';
+
+         return concat;
+      }
+
+      // add citations to items in hyperlink list
+      for (let hash in refitem)
+      {
+         if (!refitem[hash].cited.length) { continue }
+
+         refitem[hash].item.innerHTML += '<span class="my-refs-cites">'
+//                                    +  '<sub>cited:</sub>'
+                                      +  refitem[hash].cited.reduce(reduceCitations, '')
+                                      + '</span>';
+      }
+   }
+
+   const setSectionLinks = function()
+   {
+      let sectionlist = document.querySelector('#my_sections');
+      if (sectionlist)
+      {
+//       sectionlist.innerHTML += '<li><a href="/">Home</a></li>';
+         for (let section of document.querySelectorAll('.my-section[id]'))
+         {
+            if (section.offsetParent) // meaning: not hidden (display: none;)
+            {
+               let text = section.innerHTML;
+               sectionlist.innerHTML += `<li><a href="#${section.id}">${text}</a></li>`;
+
+               section.innerHTML = `<a href="#">${text}</a>`;
+               section.title     = 'to top of page';
+            }
+         }
+      }
+   }
+})(hsl_js_object);
+
+// create colorwidget object
+const jcrColorWidget = {};
+(function(api)
+{
+   let widgetclass;
+   let pubsub;
+   let decimals;
+
+   api.init = function(options)
+   {
+      options     = options             || {};
+      widgetclass = options.widgetclass || 'jcrColorWidget';
+      pubsub      = options.pubsub      || null;
+      decimals    = options.decimals    || 0;             // HSL decimals
+
+      for (let form of document.querySelectorAll(`.${widgetclass}`))
+      {
+         for (let name of ['red', 'green', 'blue'])
+         {
+            form[name].onfocus = focusRGB;
+            form[name].oninput = inputRGB;
+         }
+
+         for (let name of ['hue', 'sat', 'lum'])
+         {
+            form[name].onfocus = focusHSL;
+            form[name].oninput = inputHSL;
+         }
+
+         applyHSL(form);
+      }
+   }
+
+   api.applyColor = function(id, str)
+   {
+      let form = document.querySelector(`#${id}.${widgetclass}`);
+      if (form === null)
+      {
+         console.log(`no element found with id="${id}" and class="${widgetclass}"`);
+         return;
+      }
+
+      setColor(form, str);   // order is important here:
+      setRGB(form);          // setRGB reads rgb() from color element
+      setHSL(form);          // setHSL computes from RGB elements
+   }
+
+   api.setEventAggregator = function(ps)
+   {
+      pubsub = ps;
+   }
+
+   const focusHSL = function(e)
+   {
+      let form  = e.target.form;
+
+      if (validRGB(form))
+         return;
+
+      if (validHSL(form))
+         applyHSL(form);
+   }
+
+   const focusRGB = function(e)
+   {
+      let form  = e.target.form;
+
+      if (validHSL(form))
+         return;
+
+      if (validRGB(form))
+         applyRGB(form);
+   }
+
+   const inputHSL = function(e)
+   {
+      let form  = e.target.form;
+
+      if (validHSL(form))
+         applyHSL(form);
+      else
+         setColor(form, 'transparent');
+   }
+
+   const inputRGB = function(e)
+   {
+      let form  = e.target.form;
+
+      if (validRGB(form))
+         applyRGB(form);
+      else
+         setColor(form, 'transparent');
+   }
+
+   const applyRGB = function(form)
+   {
+      let func = `rgb(${form['red'].value}, ${form['green'].value}, ${form['blue'].value})`;
+
+      setColor(form, func);
+
+      // calculate and set HSL
+      setHSL(form);
+   }
+
+   const intre = /\d+/g;
+
+   const applyHSL = function(form)
+   {
+      let func = `hsl(${form['hue'].value}, ${form['sat'].value}%, ${form['lum'].value}%)`;
+
+      setColor(form, func);
+
+      setRGB(form);
+   }
+
+   const setColor = function(form, str)
+   {
+      form['clr'].style.backgroundColor = str;
+      if (pubsub)
+         pubsub.trigger(form.id, str);
+   }
+
+   const setHSL = function(form)
+   {
+      let rgb  = {};
+      let cmax = 0;
+      let cmin = 255;
+
+      for (let name of ['red', 'green', 'blue'])
+      {
+         rgb[name] = parseInt(form[name].value);
+         if (rgb[name] > cmax)
+            cmax = rgb[name];
+         if (rgb[name] < cmin)
+            cmin = rgb[name];
+      }
+
+      let delta = cmax - cmin;
+      let sigma = (cmax + cmin)/255;
+      let lambda = (sigma > 1)
+                 ? 2 - sigma
+                 : sigma;
+
+      let hue = (cmax == cmin)
+              ? 0
+              : (cmax == rgb['red'])
+              ? (60 * (rgb['green'] - rgb['blue']) / delta + 360) % 360
+              : (cmax == rgb['green'])
+              ? 60 * (rgb['blue'] - rgb['red'])   / delta + 120
+              : 60 * (rgb['red']  - rgb['green']) / delta + 240;
+      form['hue'].value = hue.toFixed(decimals);
+
+      let sat = (cmax == cmin)
+              ? 0
+              : (delta / 255) / lambda * 100;
+      form['sat'].value = sat.toFixed(decimals);
+
+      let lum = sigma / 2 * 100;
+      form['lum'].value = lum.toFixed(decimals);
+   }
+
+   const setRGB = function(form)
+   {
+      // let browser do the computing of rgb:
+      let func = getComputedStyle(form['clr']).backgroundColor;
+      let rgb = func.match(intre);
+      if (rgb && rgb.length > 2)
+      {
+         form['red'].value   = rgb[0];
+         form['green'].value = rgb[1];
+         form['blue'].value  = rgb[2];
+      }
+      else
+         console.log('unexpected background color: ' + func);
+   }
+
+   const validHSL = function(form)
+   {
+      return allValid(form, ['hue', 'sat', 'lum']);
+   }
+
+   const validRGB = function(form)
+   {
+      return allValid(form, ['red', 'green', 'blue']);
+   }
+
+   const allValid = function(form, names)
+   {
+      let valid = true;
+
+      for (let name of names)
+//       if (!form[name].validity.valid || form[name].value == '')
+         if (form[name].value == '')
+         {
+            valid = false;
+            break;
+         }
+
+      return valid;
+   }
+})(jcrColorWidget);
+
+</script>
+</head>
+<body>
+
+<div class="my-container">
+
+<div class="my-header"></div> <!-- my-header -->
+<div class="my-left">
+<ul class="my-sections" id="my_sections"></ul>
+</div> <!-- my-left -->
+
+<div class="my-main">
+
+De letters HSL staan voor
+Hue (tint),
+Saturation (verzadiging) en
+Lightness of Luminosity (helderheid).
+<br/>
+De hue is verdeeld in 360&deg;,
+saturation en lightness worden in een percentage uitgedrukt.
+<br/>
+De hue bepaalt de kleur, als het ware een cirkel doorlopend van rood (0&deg;)
+via groen (120&deg;) en blauw (240&deg;) weer naar rood (360&deg;);
+saturation loopt van grijs (0%) tot de volledig verzadigde kleur (100%),
+en lightness loopt op van donker (0% is zwart) naar licht (100% is wit).
+Een lightness van 50% is de "normale" helderheid.
+<br/>
+
+<div class="hslgrid" id="hsltiles" data-hue="240"></div>
+
+Bovenstaand schema geeft de variatie in saturation (van links naar rechts
+oplopend) en lightness (van beneden naar boven oplopend) in stappen van 10%
+voor een bepaalde hue.
+<br/>
+Hieronder hue waarden oplopend in stappen van 15,
+alle met 100% saturation en 50% lightness;
+als je er op klikt wordt de hue in het schema hierboven toegepast.
+<br/>
+
+<div class="huegrid" data-hslgrid="hsltiles"></div>
+
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="section_cssjs">CSS, JavaScript</h4>
+
+In CSS
+bestaat de functie
+<a href="#ref_w3chsl" class="my-refs-ref"><code>hsl(<i>hue</i>, <i>sat</i>, <i>lum</i>)</code></a>,
+zoals er ook een <code>rgb(<i>red</i>, <i>green</i>, <i>blue</i>)</code> is.
+<br/>
+De <code>rgb()</code> functie gebruikt een systeem, RGB (Red Green Blue),
+waarin rood, groen en blauw elk een "gewicht" van 0 tot en met 255 kan hebben.
+<br/>
+<br/>
+
+Je kunt een HTML element een kleur (of achtergrondkleur) geven met de
+<code>hsl()</code> functie in CSS:
+<br/>
+<code>background-color: hsl(240, 100%, 50%);</code>
+<br/>
+In de <code>hsl()</code>
+functie geef je de hue als alleen een getal (of als
+<a href="#ref_angles" class="my-refs-ref"><i>angle unit</i></a>) op,
+maar de saturation en lightness moet als percentage opgeven.
+In de <code>hsl()</code> functie mogen decimalen staan:
+<code>hsl(177.81, 59.83%, 55.10%)</code>, in de
+<code>rgb()</code> functie gebruik je alleen gehele getallen.
+<br/>
+In JavaScript codeer je de functies als <i>string</i>, tussen <i>quotes</i>:
+<br/>
+<code><i>element</i>.style.backgroundColor = "hsl(240, 100%, 50%)";</code>
+<br/>
+Als je in JavaScript een de kleur weer <i>opvraagt</i>, bijvoorbeeld met:
+<br/>
+<code>var clr = getComputedStyle(<i>element</i>).backgroundColor;</code>
+<br/>
+dan krijg je <i>de <code>rgb()</code> functie</i> terug,
+als string: <code>clr</code> krijgt waarde <code>"rgb(0, 0, 255)"</code>.
+<br/>
+
+<div class="pointerscreen">
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="section_widget">Widget</h4>
+
+In het <i>widget</i> hieronder kun je de HSL en RGB waarden vari&euml;ren
+en zien wat het effect is.
+
+<div class="center">
+<form id="widget" class="jcrColorWidget">
+<label for="widget-hue">hue:</label>
+<label for="widget-sat">saturation:</label>
+<label for="widget-lum">lightness:</label>
+
+<input id="widget_hue"
+       form="widget"
+       name="hue"
+       type="number"
+       step="1.00"
+       placeholder="degrees"
+       value="300"/>
+<input id="widget_sat"
+       form="widget"
+       name="sat"
+       type="number"
+       step="1.00"
+       min="0"
+       max="100"
+       placeholder="percentage"
+       value="100"/>
+<input id="widget_lum"
+       form="widget"
+       name="lum"
+       type="number"
+       step="1.00"
+       min="0"
+       max="100"
+       placeholder="percentage"
+       value="25"/>
+
+<label for="widget_hue">&deg;</label>
+<label for="widget_sat">%</label>
+<label for="widget_lum">%</label>
+
+<input id="widget_clr"
+       class="jcrColorWidget-pane"
+       form="widget"
+       tabindex="-1"
+       name="clr"
+       type="text"
+       readonly=""/>
+<!-- clr spans 3 rows -->
+
+<label for="widget_red">red:</label>
+<label for="widget_green">green:</label>
+<label for="widget_blue">blue:</label>
+
+<input id="widget_red"
+       form="widget"
+       name="red"
+       type="number"
+       min="0"
+       max="255"
+       placeholder="0-255"
+       value="0"/>
+<input id="widget_green"
+       form="widget"
+       name="green"
+       type="number"
+       min="0"
+       max="255"
+       placeholder="0-255"
+       value="0"/>
+<input id="widget_blue"
+       form="widget"
+       name="blue"
+       type="number"
+       min="0"
+       max="255"
+       placeholder="0-255"
+       value="0"/>
+</form>
+</div>
+
+</div> <!-- pointerscreen -->
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="section_rgb2hsl">RGB naar HSL</h4>
+
+Bij de vertaling van RGB naar HSL wordt gekeken naar de maximale en minimale
+bijdrage van rood, groen en blauw:
+<pre>
+C<sub>max</sub> = max(red, green, blue) / 255
+C<sub>min</sub> = min(red, green, blue) / 255
+</pre>
+De lightness wordt gedefinieerd als
+<pre>L = (C<sub>max</sub> + C<sub>min</sub>) / 2</pre>
+Een lightness van 100% (<code>L = 1</code>) treedt op bij <code>rgb(255, 255, 255)</code>
+ofwel wit; en 0% bij <code>rgb(0, 0, 0)</code> ofwel zwart.
+<br/>
+Definieer <code>&lambda; = 1 - |2L - 1|</code>.
+Dus <code>&lambda;</code> is
+minimaal <code>0</code> als <code>L = 0</code> of  <code>L = 1</code>
+en
+maximaal <code>1</code> als <code>L = 0.5</code>.
+<br/>
+Definieer <code>&Delta; = C<sub>max</sub> - C<sub>min</sub></code>.
+<br/>
+De saturation wordt gedefinieerd als
+<pre>
+&lambda; = 0 : S = 0
+&lambda; &ne; 0 : S = &Delta; / &lambda;
+</pre>
+Een 0% saturation treedt dus op als <code>&Delta; = 0</code> ofwel als
+de hoeveelheden rood, groen en blauw even groot zijn.
+(Of bij <code>&lambda; = 0 &#x21d4; L = 0 &#x2228; L = 1</code> ofwel wit of zwart.)
+<br/>
+<code>S</code> uitgedrukt in <code>C<sub>max</sub></code> en <code>C<sub>min</sub></code>:
+<code>(C<sub>max</sub> - C<sub>min</sub>) / (C<sub>max</sub> + C<sub>min</sub>)</code>
+als <code>C<sub>max</sub> + C<sub>min</sub> &lt; 1</code> of
+<code>(C<sub>max</sub> - C<sub>min</sub>) / (2 - (C<sub>max</sub> + C<sub>min</sub>))</code>
+als <code>C<sub>max</sub> + C<sub>min</sub> &gt; 1</code>.
+<br/>
+Een 100% saturation treedt dus op als <code>&Delta; = &lambda; (&ne; 0)</code>
+ofwel als <code>C<sub>min</sub> = 0</code> of als <code>C<sub>max</sub> = 1</code>.
+<br/>
+<br/>
+De hue hangt samen met de mate waarin rood groen en blauw vertegenwoordigd zijn.
+Definieer geschaalde waarden voor rood, groen en blauw:
+<code>R = red/255</code>,
+<code>G = green/255</code> en
+<code>B = blue/255</code>.
+<br/>
+De hue wordt gedefinieerd als
+<br/>
+<pre>
+&Delta; = 0   : H = 0
+C<sub>max</sub> = R : H = 60 &times;(G - B) / &Delta; (mod 360)
+C<sub>max</sub> = G : H = 60 &times;(B - R) / &Delta; + 120
+C<sub>max</sub> = B : H = 60 &times;(R - G) / &Delta; + 240
+</pre>
+Dus als <code>R</code> de grootste is heb je <code>-60&deg; &le; H &le; 60&deg;</code>,
+als <code>G</code> de grootste is <code>60&deg; &le; H &le; 180&deg;</code>
+en als <code>B</code> de grootste is <code>180&deg; &le; H &le; 300&deg;</code>.
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="section_hsl2rgb">HSL naar RGB</h4>
+
+De vertaling van HSL naar RGB is uiteraard het omgekeerde van bovenstaande.
+<br/>
+Waar we naar toe werken is zoiets als
+<code>(red, green, blue) = (R &times; 255, G &times; 255, B &times; 255)</code>,
+met <code>0 &le; R,G,B &le; 1</code>. Deze <code>R</code>, <code>G</code>
+en <code>B</code> zijn een permutatie van <code>C<sub>max</sub></code>,
+<code>C<sub>min</sub></code> en een waarde daar tussenin,
+<code>C<sub>2</sub></code>.
+
+<br/>
+Uit de saturation en de lightness kunnen <code>C<sub>min</sub></code>
+en <code>C<sub>max</sub></code> berekend worden.
+<pre>
+C<sub>max</sub> + C<sub>min</sub>     = 2L                      C<sub>min</sub> = L - &#x00bd;&lambda;S
+C<sub>max</sub> - C<sub>min</sub> = &Delta; = &lambda;S                      C<sub>max</sub> = L + &#x00bd;&lambda;S
+</pre>
+De waarde van de laatste
+kleur, <code>C<sub>2</sub></code>, en hoe <code>C<sub>min</sub></code>,
+<code>C<sub>2</sub></code> en <code>C<sub>max</sub></code>
+aan <code>R</code>, <code>G</code> en <code>B</code>
+worden gekoppeld moet uit de hue volgen.
+<br/>
+De definitie van de hue zegt: <code>H = 60 &times; (X - Y) / &Delta; + &alpha; (&alpha; = 0, 120, 240, 360)</code>.
+<br/>
+Definieer <code>(H / 60) %2 = &gamma;</code>, dit is een getal tussen 0 en 2;
+als <code>&gamma; &le; 1</code>
+dan was <code>X = C<sub>2</sub>, Y = C<sub>min</sub></code> en als
+<code>&gamma; &gt; 1</code>
+dan was <code>X = C<sub>min</sub>, Y = C<sub>2</sub></code>.
+<br/>
+Dus als <code>&gamma; &le; 1</code> dan is <code>(C<sub>2</sub> - C<sub>min) / &Delta;</sub> = &gamma;</code>
+<br/>
+En als <code>&gamma; &gt; 1</code> dan is <code>(C<sub>min</sub> - C<sub>2</sub>) / &Delta; + 2 = &gamma;</code>
+<br/>
+Definieer <code>&eta; = 1 - |&gamma; - 1|</code>
+<br/>
+Dan krijg je
+<br/>
+<code>C<sub>2</sub> = &eta;&Delta; + C<sub>min</sub> = L + (&eta; - &#x00bd;)&lambda;S</code>
+<br/>
+<br/>
+Onderstaande tabel geeft de koppeling van <code>C<sub>max</sub></code>,
+<code>C<sub>min</sub></code> en <code>C<sub>2</sub></code> aan
+<code>R</code>, <code>G</code> en <code>B</code>.
+
+<div class="rgbtable">
+<div></div><div>  0</div><div>&le; hue &lt;</div><div> 60</div><div>&le; hue &lt;</div><div>120</div><div>&le; hue &lt;</div><div>180</div><div>&le; hue &lt;</div><div>240</div><div>&le; hue &lt;</div><div>300</div><div>&le; hue &lt;</div><div>360</div>
+<div>R</div><div></div><div>C<sub>max</sub></div><div></div><div>C<sub>2</sub></div><div></div><div>C<sub>min</sub></div><div></div><div>C<sub>min</sub></div><div></div><div>C<sub>2</sub></div><div></div><div>C<sub>max</sub></div><div></div>
+<div>G</div><div></div><div>C<sub>2</sub></div><div></div><div>C<sub>max</sub></div><div></div><div>C<sub>max</sub></div><div></div><div>C<sub>2</sub></div><div></div><div>C<sub>min</sub></div><div></div><div>C<sub>min</sub></div><div></div>
+<div>B</div><div></div><div>C<sub>min</sub></div><div></div><div>C<sub>min</sub></div><div></div><div>C<sub>2</sub></div><div></div><div>C<sub>max</sub></div><div></div><div>C<sub>max</sub></div><div></div><div>C<sub>2</sub></div><div></div>
+</div>
+
+Bijvoorbeeld <code>hsl(165, 80%, 60%)</code>:
+<pre>
+&lambda; = 1 - |2&times;0.6 - 1| = 0.8
+&eta; = 1 - |(165/60) % 2 - 1| = 1 - |2.75 % 2 - 1| = 1 - |0.75 - 1| = 0.75
+C<sub>max</sub> = L + &#x00bd;&lambda;S       = 0.6 + 0.5 &times; 0.8 &times; 0.8          = 0.92
+C<sub>min</sub> = L - &#x00bd;&lambda;S       = 0.6 - 0.5 &times; 0.8 &times; 0.8          = 0.28
+C<sub>2</sub>   = L + (&eta; - &#x00bd;)&lambda;S = 0.6 + (0.75 - 0.5) &times; 0.8 &times; 0.8 = 0.76
+</pre>
+En omdat <code>120 &le; H &lt; 180</code> is
+<code>(red, green, blue) = (C<sub>min</sub> &times; 255, C<sub>max</sub> &times; 255, C<sub>2</sub> &times; 255) = (71, 235, 194)</code>
+<br/>
+<br/>
+Je ziet dat <code>C<sub>max</sub></code>, <code>C<sub>min</sub></code> en <code>C<sub>2</sub></code>
+alle drie de vorm <code>L + &beta;S</code> hebben; begrijpelijk, want als
+<code>S = 0</code> is de HSL een grijstint die alleen van de lightness afhangt.
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="section_colornames">Kleurnamen</h4>
+
+Er zijn ook kleuren die je via een
+<a href="#ref_colornames" class="my-refs-ref">naam</a>
+kunt toepassen in CSS.
+Hieronder een overzicht dat je op allerlei manieren kunt sorteren,
+eventueel <button id="cnalphabetic">alfabetisch</button>.
+(Je ziet dat <code>darkgrey</code> in feite <i>lichter</i> is dan
+<code>grey</code> &#x1f642;.)
+<br/>
+<br/>
+
+<div class="cngrid">
+
+<form id="cnsortpanels">
+<button type="button" class="cnpaneldummybutton">
+<div class="cnpanel">
+<label for="panelHSLhue">hue</label>
+<input id="panelHSLhue" type="checkbox" name="hue" disabled=""/>
+<label for="panelHSLhue">&#x2197;</label>
+<label for="panelHSLhue">&#x2198;</label>
+
+<label for="panelHSLsat">saturation</label>
+<input id="panelHSLsat" type="checkbox" name="sat" disabled=""/>
+<label for="panelHSLsat">&#x2197;</label>
+<label for="panelHSLsat">&#x2198;</label>
+
+<label for="panelHSLlum">lightness</label>
+<input id="panelHSLlum" type="checkbox" name="lum" disabled="" checked=""/>
+<label for="panelHSLlum">&#x2197;</label>
+<label for="panelHSLlum">&#x2198;</label>
+</div>
+</button>
+
+<button type="button" class="cnpaneldummybutton">
+<div class="cnpanel">
+<label for="panelHLShue">hue</label>
+<input id="panelHLShue" type="checkbox" name="hue" disabled=""/>
+<label for="panelHLShue">&#x2197;</label>
+<label for="panelHLShue">&#x2198;</label>
+
+<label for="panelHLSsat">saturation</label>
+<input id="panelHLSsat" type="checkbox" name="sat" disabled="" checked=""/>
+<label for="panelHLSsat">&#x2197;</label>
+<label for="panelHLSsat">&#x2198;</label>
+
+<label for="panelHLSlum">lightness</label>
+<input id="panelHLSlum" type="checkbox" name="lum" disabled=""/>
+<label for="panelHLSlum">&#x2197;</label>
+<label for="panelHLSlum">&#x2198;</label>
+</div>
+</button>
+
+<button type="button" class="cnpaneldummybutton">
+<div class="cnpanel">
+<label for="panelSLHsat">saturation</label>
+<input id="panelSLHsat" type="checkbox" name="sat" disabled=""/>
+<label for="panelSLHsat">&#x2197;</label>
+<label for="panelSLHsat">&#x2198;</label>
+
+<label for="panelSLHlum">lightness</label>
+<input id="panelSLHlum" type="checkbox" name="lum" disabled="" checked=""/>
+<label for="panelSLHlum">&#x2197;</label>
+<label for="panelSLHlum">&#x2198;</label>
+
+<label for="panelSLHhue">hue</label>
+<input id="panelSLHhue" type="checkbox" name="hue" disabled=""/>
+<label for="panelSLHhue">&#x2197;</label>
+<label for="panelSLHhue">&#x2198;</label>
+</div>
+</button>
+
+<button type="button" class="cnpaneldummybutton">
+<div class="cnpanel">
+<label for="panelSHLsat">saturation</label>
+<input id="panelSHLsat" type="checkbox" name="sat" disabled=""/>
+<label for="panelSHLsat">&#x2197;</label>
+<label for="panelSHLsat">&#x2198;</label>
+
+<label for="panelSHLhue">hue</label>
+<input id="panelSHLhue" type="checkbox" name="hue" disabled=""/>
+<label for="panelSHLhue">&#x2197;</label>
+<label for="panelSHLhue">&#x2198;</label>
+
+<label for="panelSHLlum">lightness</label>
+<input id="panelSHLlum" type="checkbox" name="lum" disabled="" checked=""/>
+<label for="panelSHLlum">&#x2197;</label>
+<label for="panelSHLlum">&#x2198;</label>
+</div>
+</button>
+
+<button type="button" class="cnpaneldummybutton">
+<div class="cnpanel">
+<label for="panelLHSlum">lightness</label>
+<input id="panelLHSlum" type="checkbox" name="lum" disabled="" checked=""/>
+<label for="panelLHSlum">&#x2197;</label>
+<label for="panelLHSlum">&#x2198;</label>
+
+<label for="panelLHShue">hue</label>
+<input id="panelLHShue" type="checkbox" name="hue" disabled=""/>
+<label for="panelLHShue">&#x2197;</label>
+<label for="panelLHShue">&#x2198;</label>
+
+<label for="panelLHSsat">saturation</label>
+<input id="panelLHSsat" type="checkbox" name="sat" disabled=""/>
+<label for="panelLHSsat">&#x2197;</label>
+<label for="panelLHSsat">&#x2198;</label>
+</div>
+</button>
+
+<button type="button" class="cnpaneldummybutton">
+<div class="cnpanel">
+<label for="panelLSHlum">lightness</label>
+<input id="panelLSHlum" type="checkbox" name="lum" disabled="" checked=""/>
+<label for="panelLSHlum">&#x2197;</label>
+<label for="panelLSHlum">&#x2198;</label>
+
+<label for="panelLSHsat">saturation</label>
+<input id="panelLSHsat" type="checkbox" name="sat" disabled=""/>
+<label for="panelLSHsat">&#x2197;</label>
+<label for="panelLSHsat">&#x2198;</label>
+
+<label for="panelLSHhue">hue</label>
+<input id="panelLSHhue" type="checkbox" name="hue" disabled=""/>
+<label for="panelLSHhue">&#x2197;</label>
+<label for="panelLSHhue">&#x2198;</label>
+</div>
+</button>
+</form>
+
+<div id="cntable"></div>
+
+</div> <!-- cngrid -->
+
+</div> <!-- my-main -->
+
+<div class="my-right"></div> <!-- my-right -->
+
+<div class="my-footer">
+
+<div class="my-copy"></div>
+
+<!-- references -->
+<h3 class="my-section" id="section_references">Referenties</h3>
+<!-- refer as:
+<a href="#ref_something" class="my-refs-ref"></a>
+   references in textarea:
+#id [author]
+url
+text
+[origin (website)]
+   separate references with empty lines
+-->
+
+<textarea class="my-refs-list">
+#ref_w3chsl CSS Color Module Level 4
+https://www.w3.org/TR/2019/WD-css-color-4-20190305/#the-hsl-notation
+HSL Colors
+W3C
+
+#ref_angles CSS Values and Units Module Level 4
+https://www.w3.org/TR/2019/WD-css-values-4-20190131/#angles
+Angle Units
+W3C
+
+#ref_colornames CSS Color Module Level 4
+https://drafts.csswg.org/css-color/#named-colors
+Named Colors
+W3C
+
+</textarea> <!-- my-refs-list -->
+</div> <!-- my-footer -->
+
+</div> <!-- my-container -->
+</body>
+</html>
