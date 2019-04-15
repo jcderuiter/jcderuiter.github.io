@@ -632,8 +632,10 @@ document.addEventListener('DOMContentLoaded', () => hsl_js_object.onload(), fals
 
             div.style.cursor = 'pointer';
 
-            if (hslgrid) { div.onclick = () => fillHSLGrid(hslgrid, hue); }
-
+            if (hslgrid) 
+            { 
+               div.onclick = ((g, h) => () => fillHSLGrid(g, h))(hslgrid, hue);
+            }
             grid.appendChild(div);
             setColorTileTitle(div, hsl);
          }
@@ -728,9 +730,7 @@ document.addEventListener('DOMContentLoaded', () => hsl_js_object.onload(), fals
             }
 
             // add onclick handler for button itself
-            panel.onclick      = function(e) { resetPanels(this);
-                                               e.preventDefault();
-                                             };
+            panel.onclick      = ((p) => (e) => { resetPanels(p); e.preventDefault(); })(panel);
             panel.style.cursor = 'pointer';
          }
       }
