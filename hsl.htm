@@ -730,7 +730,7 @@ document.addEventListener('DOMContentLoaded', () => hsl_js_object.onload(), fals
             }
 
             // add onclick handler for button itself
-            panel.onclick      = ((p) => (e) => { resetPanels(p); e.preventDefault(); })(panel);
+            panel.onclick      = (p => e => { resetPanels(p); e.preventDefault(); })(panel);
             panel.style.cursor = 'pointer';
          }
       }
