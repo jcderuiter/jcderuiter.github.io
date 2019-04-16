@@ -1,0 +1,1014 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta http-equiv="expires" content="now"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="version" content="0.0.0"/>
+<title>closures</title>
+<!--
+<script type="text/x-mathjax-config">
+   MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true},
+                        TeX:     {extensions: ["extpfeil.js"]}
+                     });
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML">
+// http://docs.mathjax.org/en/latest/start.html
+</script>
+-->
+<style>
+
+*
+{
+   box-sizing:       border-box;                 /* */
+}
+
+body
+{
+/* background-color: hsl(0, 0%, 85%);            /* */
+   line-height:      1.6;                        /* */
+}
+
+a
+{
+   text-decoration: none;                        /* */
+   transition:      .5s;                         /* */
+}
+a, a:visited
+{
+   color: inherit;                               /* */
+/* color:           hsl(  0,   0%, 50%);         /* */
+}
+a:hover
+{
+/* text-decoration: underline;                   /* */
+   color:           hsl(315, 100%, 50%);         /* */
+}
+
+.center { text-align: center; }                  /* */
+.nowrap { white-space: nowrap; }                 /* */
+
+/* examples code and html in grid */
+.examples
+{
+   display:               grid;                  /* */
+   grid-template-columns: auto auto;             /* */
+}
+
+/* begin page grid style */
+.my-header { grid-area: my-header; }
+.my-left   { grid-area: my-left;   }
+.my-main   { grid-area: my-main;   }
+.my-right  { grid-area: my-right;  }
+.my-footer { grid-area: my-footer; }
+
+.my-container
+{
+   display:             grid;                    /* */
+   grid-template-areas:
+                        'my-header'
+                        'my-left'
+                        'my-main'
+                        'my-right'
+                        'my-footer';
+}
+
+.my-main
+{
+   background-color: hsl(0, 0%, 100%);           /* */
+}
+
+.my-header:not(:empty)
+{
+   margin-bottom: 1rem;                          /* */
+}
+
+@media screen and (orientation: landscape)
+{
+   .my-container
+   {
+      grid-template-areas:
+                           'my-header my-header  my-header'  /* */
+/*                         'my-left   my-header  my-right'   /* */
+                           'my-left   my-main    my-right'   /* */
+                           'my-footer my-footer  my-footer'; /* */
+/*                         'my-left   my-footer  my-right';  /* */
+   }
+
+   .my-main
+   {
+   /* width:         70vh;                       /* A4 */
+      width:         62vw;                       /* 2/(1+sqrt(5)) */
+      min-height:    90vh;                       /* */
+/*    justify-self:  center;                     /* */
+/*    border:        hsl(0, 0%, 20%) thin solid; /* */
+      box-shadow:    0 0 .5rem;                  /* */
+      border-radius: 5px;                        /* */
+      padding:       1rem;                       /* */
+   }
+
+   .my-left, .my-right
+   {
+      min-width: 15vw;                           /* */
+   }
+}
+/* end page grid style */
+
+/* begin sections style */
+@media screen and (orientation: portrait)        /* */
+{
+   .my-sections:not(:empty)::before
+   {
+      content: 'Jump to:';                       /* */
+   }
+   .my-sections:not(:empty):lang(nl)::before
+   {
+      content: 'Meteen naar:';                   /* */
+   }
+}
+@media print
+{
+   .my-sections
+   {
+      display: none;                             /* */
+   }
+}
+/* end sections style */
+
+/* begin listings style */
+ol.my-listing
+{
+   font-family:      monospace;                  /* */
+   text-align:       left;                       /* */
+   line-height:      1.2;                        /* */
+   white-space:      pre-wrap;                   /* */
+   background-color: hsl(60, 100%, 90%);         /* */
+   border-radius:    .5rem;                      /* */
+   padding:          .5rem 0 .5rem 3rem;         /* */
+}
+ol.my-listing li
+{
+   border-left:    thin solid black;             /* */
+   padding:        0 .5rem;                      /* */
+}
+
+ol.my-listing.table
+{
+   display: table;                               /* */
+/* display: inline-table;                        /* */
+}
+
+ol.my-listing.nolinenrs
+{
+   list-style-type: none;                        /* */
+   padding-left:    0;                           /* */
+}
+ol.my-listing.nolinenrs li:empty::after
+{
+   content: '\000a';                             /* */
+}
+ol.my-listing.nolinenrs li
+{
+   border-left:     initial;                     /* */
+}
+/* end listings style */
+
+/* begin references style */
+.my-refs-ref
+{
+   vertical-align: super;                        /* */
+   font-size:      smaller;                      /* */
+}
+.my-refs-ref::before { content: '['; }           /* */
+.my-refs-ref::after  { content: ']'; }           /* */
+
+.my-refs-list > * { margin-top: 0; }             /* */
+
+@media screen
+{
+   .my-refs-list
+   {
+      column-width:     25vw;                              /* */
+      border:           hsl(0, 0%, 30%) thin solid;        /* */
+      background-color: hsl(60, 100%,  90%);               /* */
+   }
+}
+
+@media print
+{
+   * { color: hsl(0, 0%, 0%); }                  /* */
+
+   .my-refs-cites { display: none; }             /* */
+   .my-refs-list a[href]::after { content: ' (' attr(href) ')'; }  /* */
+}
+
+.my-refs-author
+{
+   white-space:   pre-wrap;                      /* */
+   padding-right: .3rem;                         /* */
+}
+
+.my-refs-link
+{
+   font-style:    italic;                        /* */
+   color:         hsl(240, 100%, 50%);           /* */
+}
+
+.my-refs-origin
+{
+   font-variant: small-caps;                     /* */
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}
+
+.my-refs-cites
+{
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}
+/* end references style */
+
+/* begin copyright style */
+.my-copy
+{
+   border-top:  hsl(0, 0%, 20%) thin solid;      /* */
+   color:       hsl(0, 0%, 20%);                 /* */
+   font-size:   0.9rem;                          /* */
+   text-align:  right;                           /* */
+   margin:      1rem 0.5rem;                     /* */
+   padding:     0.5rem;                          /* */
+   user-select: none;                            /* */
+}
+.my-copy::before { content: '\00a9 '; }          /* */
+.my-copy::after  { content: ' jcr'; }            /* */
+/* end copyright style */
+</style>
+<script>
+'use strict';
+const closures_js_object = {};
+document.addEventListener('DOMContentLoaded', () => closures_js_object.onload(), false);
+//window.addEventListener('load', () => closures_js_object.onload(), false);
+//onload = (function(other) {  return function() {  if (other) other(); closures_js_object.onload(); } })(onload);
+
+(function(api)
+{
+   api.onload = function()
+   {
+      try
+      {
+         createListings();
+
+         setupExamples();
+
+         createReferences();
+         setSectionLinks();
+         let year = new Date(document.lastModified).getFullYear();
+         document.querySelectorAll('.my-copy').forEach(y => y.innerHTML = year);
+      }  catch(err) { console.log('oops', err) }
+   }
+
+   const setupExamples = function()
+   {
+      example1();
+      example2();
+      example3();
+   }
+
+   const example1 = function()
+   {
+      let ol = document.querySelector('#xmp1');
+      if (ol)
+      {
+         let color = ['yellow', 'green', 'blue', 'red'];
+         let bg;
+
+         for (let i = 0; i < 4; i++)
+         {
+            bg = color[i];
+
+            let li     = document.createElement('li');
+            let button = document.createElement('button');
+
+            button.innerHTML   = bg;
+            button.style.color = 'white';
+            button.style.cursor = 'pointer';
+            button.style.width  = '4rem';
+
+            button.onclick = function() { button.style.backgroundColor = bg; };
+
+            li.appendChild(button);
+            ol.appendChild(li);
+         }
+      }
+   }
+
+   const example2 = function()
+   {
+      let ol = document.querySelector('#xmp2');
+      if (ol)
+      {
+         let color = ['yellow', 'green', 'blue', 'red'];
+
+         for (let i = 0; i < 4; i++)
+         {
+            let bg = color[i];
+
+            let li     = document.createElement('li');
+            var button = document.createElement('button');
+
+            button.innerHTML   = bg;
+            button.style.color = 'white';
+            button.style.cursor = 'pointer';
+            button.style.width  = '4rem';
+
+            button.onclick = function() { button.style.backgroundColor = bg; };
+
+            li.appendChild(button);
+            ol.appendChild(li);
+         }
+      }
+   }
+
+   const example3 = function()
+   {
+      let ol = document.querySelector('#xmp3');
+      if (ol)
+      {
+         let color = ['yellow', 'green', 'blue', 'red'];
+         let bg;
+
+         for (let i = 0; i < 4; i++)
+         {
+            bg = color[i];
+
+            let li     = document.createElement('li');
+            let button = document.createElement('button');
+
+            button.innerHTML   = bg;
+            button.style.color = 'white';
+            button.style.cursor = 'pointer';
+            button.style.width  = '4rem';
+
+            button.onclick = (function(btn, bgclr) { return function() { btn.style.backgroundColor = bgclr; }})(button, bg);
+
+            li.appendChild(button);
+            ol.appendChild(li);
+         }
+      }
+   }
+
+   const createListings = function()
+   {
+      for (let element of document.querySelectorAll('textarea.my-listing'))
+      {
+         let ol = document.createElement('ol');
+         ol.className = element.className;
+
+         for (let line of element.innerHTML.replace(/\n$/, '').split('\n'))
+         {
+            let li = document.createElement('li');
+            li.innerHTML = line;
+            ol.appendChild(li);
+         }
+
+         element.replaceWith(ol);
+      }
+   }
+
+   const createReferences = function()
+   {
+      let refnr = 1;
+      let refitem = {};
+
+
+      // the references
+      for (let element of document.querySelectorAll('textarea.my-refs-list'))
+      {
+         let ol = document.createElement('ol');
+         ol.className = element.className;
+         ol.start = refnr;
+
+         for (let record of element.innerHTML.replace(/\n\s*?\n\s*/, '\n\n').split('\n\n'))
+         {
+            let [line1, url, text, origin] = record.split('\n').map(s => s.trim());
+
+            let [hash, ...rest] = line1.split(' ');
+            let author = rest.join(' ');
+
+            if (!hash.startsWith('#')) { continue }
+
+            let li = document.createElement('li');
+            li.id = hash.substr(1);
+
+            if (author)
+            {
+               let span_author = document.createElement('span');
+               span_author.className = 'my-refs-author';
+               span_author.innerHTML = author;
+               li.appendChild(span_author);
+            }
+
+            let span_link = document.createElement('span');
+            span_link.className = 'my-refs-link';
+
+            let a = document.createElement('a');
+            a.href = url;
+            a.innerHTML = text || url;
+            span_link.appendChild(a);
+            li.appendChild(span_link);
+
+            if (origin)
+            {
+               let span_origin = document.createElement('span');
+               span_origin.className = 'my-refs-origin';
+               span_origin.innerHTML = origin;
+               li.appendChild(span_origin);
+            }
+
+            ol.appendChild(li);
+
+            refitem[hash] = { item: li, refnr: refnr, cited: [] }
+            refnr++;
+         }
+
+         element.replaceWith(ol);
+      }
+
+      // the citations (referrals)
+      for (let element of document.querySelectorAll('.my-refs-ref'))
+      {
+         if (!element.hash) { continue }
+
+         let span = document.createElement('span');
+         span.className = 'nowrap';
+         span.innerHTML = element.innerHTML;
+
+         if (refitem[element.hash])
+         {
+            element.innerHTML     = refitem[element.hash].refnr;
+            let hash_for_citation = `${[element.hash]}_${refitem[element.hash].cited.length}`;
+            element.id            = hash_for_citation.substr(1);
+            refitem[element.hash].cited.push(hash_for_citation);
+         }
+         else
+         {
+            element.innerHTML = 'link not present';
+         }
+
+         element.parentNode.insertBefore(span, element);
+         span.appendChild(element);
+      }
+
+
+      // reduce citations array (of hashes) to string of hyperlinks
+      function reduceCitations(accum, next, i, all)
+      {
+         let concat = accum;
+         if (i) { concat += ',' }
+         concat += `<a href="${next}">&uarr;`;
+         if (all.length > 1) { concat += `<sub>${i+1}</sub>` }
+         concat += '</a>';
+
+         return concat;
+      }
+
+      // add citations to items in hyperlink list
+      for (let hash in refitem)
+      {
+         if (!refitem[hash].cited.length) { continue }
+
+         refitem[hash].item.innerHTML += '<span class="my-refs-cites">'
+//                                    +  '<sub>cited:</sub>'
+                                      +  refitem[hash].cited.reduce(reduceCitations, '')
+                                      + '</span>';
+      }
+   }
+
+   const setSectionLinks = function()
+   {
+      let sectionlist = document.querySelector('#my-sections');
+      if (sectionlist)
+      {
+//       sectionlist.innerHTML += '<li><a href="/">Home</a></li>';
+         for (let section of document.querySelectorAll('.my-section[id]'))
+         {
+            let text = section.innerHTML;
+            sectionlist.innerHTML += `<li><a href="#${section.id}">${text}</a></li>`;
+
+            section.innerHTML = `<a href="#">${text}</a>`;
+            section.title     = 'to top of page';
+         }
+      }
+   }
+})(closures_js_object);
+</script>
+</head>
+<body>
+
+<div class="my-container">
+
+<div class="my-header"></div> <!-- my-header -->
+<div class="my-left">
+<ul class="my-sections" id="my-sections"></ul>
+</div> <!-- my-left -->
+
+<div class="my-main">
+
+Een <i><b>closure</b></i> is een structuur bestaande uit een
+<code><b>function</b></code> en een <i>environment</i> met <b>free variables</b></i>.
+Free variables zijn variabelen die door de <code>function</code> gebruikt
+worden, maar niet binnen de <code>function</code> gedefinieerd zijn en ook
+geen <i>parameter</i> van de <code>function</code> zijn.
+
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="section_lc">Lexical scope</h4>
+
+JavaScript werkt net als de meeste andere programmeertalen met
+<i>lexical</i>, of <i>static scope</i>.
+<br/>
+Lexical scope wil zeggen dat de plek in de code waar iets
+gedefinieerd is bepaalt wat z'n scope is.
+Dat is misschien beter te begrijpen aan de hand van een voorbeeld:
+<textarea class="my-listing">
+let x = 'x: global scope';
+let y = 'y: global scope';
+
+function foo() { console.log(x) }
+
+function bar()
+{
+   let x = 'x: bar scope';
+   console.log(x);                     // 'x: bar scope'
+   foo();                              // 'x: global scope'
+   console.log(y);                     // 'y: global scope'
+}
+
+bar();
+</textarea>
+Binnen de <i>function</i> <code>bar</code> wordt, in regel 8,
+een variabele <code>x</code> gedefinieerd
+die dezelfde naam heeft als een variabele in
+de context waarin <code>bar</code>
+zelf is gedefinieerd.
+Dat heeft tot gevolg dat deze <code>x</code> uit regel 1
+binnen <code>bar</code> onzichtbaar geworden is. Dat heet <i>shadowing</i>.
+<br/>
+Een <code>function</code> heeft als het ware een eigen <i>environment</i> met namen
+die bestaat uit de environment waarin de <code>function</code> zelf gedefinieerd is plus
+namen die binnen de <code>function</code> gedefinieerd worden, en waarbij shadowing van
+toepassing is. Dat is de lexical scope van de <code>function</code>.
+<br/>
+De variabele <code>y</code> uit regel 2 is in <code>bar</code> dus beschikbaar,
+met de waarde die hij in de 'bovenliggende' environment heeft.
+Omdat <code>y</code> niet lokaal in <code>bar</code> gedefinieerd is,
+niet "gebonden" aan <code>bar</code>, wordt hij ook wel een <i>free variable</i>
+genoemd.
+<br/>
+Wat in <code>bar</code> voor <code>y</code> geldt,
+geldt in <code>foo</code> voor <code>x</code>:
+<code>foo</code> heeft in zijn eigen environment geen <code>x</code>,
+maar kent wel de <code>x</code> uit de bovenliggende environment.
+<br/>
+Maar dat is dus niet de <code>x</code> uit de <code>bar</code> environment,
+ook niet als <code>foo</code> vanuit <code>bar</code> wordt aangeroepen.
+<br/>
+(Tegenover static scope staat <i>dynamic</i> scope;
+in Perl kun je, waar je normaal gesproken in <code>bar</code> een
+<code>my $x</code> zou maken,
+door middel van <code>local $x</code> kiezen
+voor een dynamic scope voor <code>$x</code>:
+gedurende de uitvoering van <code>bar</code>
+heeft <code>$x</code> dan overal de waarde uit <code>bar</code>,
+ook in <code>foo</code>.)
+<br/>
+Een <code>function</code> die, zoals dus in JavaScript, de environment waarin
+hij is gedefinieerd gebruikt voor de free variables wordt een
+<i>closure</i>
+<a href="#ref_mdnclosures" class="my-refs-ref"></a>
+genoemd. In plaats van "gebruikt" kun je beter "afvangt"
+zeggen, omdat de environment waarin de <code>function</code> gedefinieerd is
+op het moment van uitvoeren al verdwenen zou kunnen zijn, ware het niet dat
+hij ten behoeve van de closure bewaard blijft. Meer hierover verderop bij het
+<i>"upwards funarg problem"</i>.
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="section_fcf">First-class functions</h4>
+
+In JavaScript kun je een <code>function</code> als "data" in een
+variabele opslaan, als argument meegeven en als <code>return</code> waarde
+van een andere <code>function</code> terugkrijgen.
+Dat heet <i>first-class function</i>.
+<br/>
+Een argument voor een <code>function</code> dat zelf een <code>function</code>
+is wordt wel <i>funarg</i>
+<a href="#ref_wikifunarg" class="my-refs-ref"></a>
+genoemd.
+
+<br/>
+Omdat een JavaScript <code>function</code> een closure is worden de
+free variables in een funarg aanroep uit de lexical scope gehaald.
+<br/>
+Dit staat bekend als de <i>downward funarg problem</i>, waar de vraag is
+of de waarden van free variables uit de static (lexical) scope
+(de environment van de <i>callee</i>, de aangeroepen <code>function</code>)
+of uit de dynamic scope (de environment van de <i>caller</i>, de aanroepende
+<code>function</code>) komen.
+
+<textarea class="my-listing nolinenrs table">
+let x = 'x: global scope';
+
+function foo()
+{
+   console.log(x);
+}
+
+function bar(funarg)
+{
+   let x = 'x: bar scope';
+
+   funarg();
+}
+
+bar(foo);                              // 'x: global scope'
+</textarea>
+
+Maar nu het <i>upward funarg problem</i>, dat optreedt als je een
+<code>function</code> als <code>return</code> waarde van een andere
+<code>function</code> hebt.
+In onderstaand voorbeeld is dat het geval (overigens wordt hier ook het
+derde kenmerk van <i>first-class functions</i> gebruikt:
+een <code>function</code> als data
+(de waarde van de variabele <code>foo</code> is een <code>function</code>):
+
+<textarea class="my-listing nolinenrs table">
+function bar()
+{
+   let x = 'x: bar scope';
+
+   return function() { console.log(x); }
+}
+
+let x = 'global';
+
+let foo = bar();   // dus: foo = function() { console.log(x) }, maar wat is x?
+                   // is bar's local x verdwenen? nee:
+foo();             // 'x: bar scope'
+</textarea>
+
+Bij de uitvoering van <code>bar</code> wordt zoals altijd een
+nieuwe environment gemaakt die normaal gesproken niet meer nodig is
+en zou verdwijnen als <code>bar</code> uitgevoerd is.
+Maar de in <code>function</code> die in de <code>return</code> waarde van
+<code>bar</code> staat is de variabele <code>x</code> uit de environment
+van <code>bar</code> een <i>free variable</i> en dus wordt ten behoeve van
+deze closure de environment van <code>bar</code> bewaard.
+<br/>
+<br/>
+Bij opeenvolgende aanroepen van een <code>function</code> worden nieuwe
+environments gemaakt, wat leidt tot verschillende closures. In het volgende
+voorbeeld hebben <code>incr</code> en <code>decr</code> elk een eigen
+closure, terwijl <code>baz.incr</code> en <code>baz.decr</code> een
+gedeelde closure hebben:
+
+<textarea class="my-listing">
+function bar(increment)
+{
+   let counter = 0;
+
+   if (increment)
+   {
+      return function() { console.log(++counter); }
+   }
+   else
+   {
+      return function() { console.log(--counter); }
+   }
+}
+
+function foo()
+{
+   let counter = 0;
+
+   return {
+             incr() { console.log(++counter); },
+             decr() { console.log(--counter); }
+          }
+}
+
+let incr = bar(true);
+let decr = bar(false);
+let baz  = foo();
+
+incr();                    // 1
+incr();                    // 2
+decr();                    // -1
+
+baz.incr()                 // 1
+baz.incr()                 // 2
+baz.decr()                 // 1
+</textarea>
+In regel 25 wordt <code>bar</code> uitgevoerd waardoor er een closure met
+een <code>counter</code> variabele gemaakt wordt. Die <code>counter</code>
+wordt in regel 29 en 30 gebruikt.
+<br/>
+In regel 26 wordt een ander closure, met een eigen <code>counter</code>
+variabele gemaakt, die in regel 31 gebruikt wordt.
+<br/>
+In regel 27 wordt <code>foo</code> uitgevoerd waardoor er een closure gemaakt
+wordt met daarin een variabele die alweer <code>counter</code> genoemd wordt.
+Deze closure, en dus deze variabele, wordt in de regels 33, 34 en 35 gebruikt.
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="section_dc">Dynamic scope: this</h4>
+
+Er is een uitzondering op de static scope in JavaScript: het <i><code>this</code></i>
+object. Een <code>function</code> krijgt impliciet een extra parameter
+mee: een object genaamd <code>this</code>.
+<br/>
+Wat <code>this</code> is hangt af van de manier waarop de <code>function</code>
+wordt aangeroepen.
+Als hetgeen dat v&ograve;&ograve;r de <code>()</code> staat
+een <i>property</i> van een <i>base object</i> is, zoals in
+<code>foo.bar()</code>,
+waar <code>bar</code> een property van het base object <code>foo</code> is,
+dan wordt <code>this</code> het base object.
+<br/>
+In alle andere gevallen krijgt <code>this</code> de waarde <code>undefined</code>.
+(Dat wil zeggen, in <i>strict mode</i>
+<a href="#ref_mdnstrict" class="my-refs-ref"></a>, in
+<i>sloppy mode</i> wordt <code>this</code> het <i>globale object</i>;
+in een browser is dat <code>window</code>.)
+<br/>
+Dat klinkt eenvoudig, maar deze voorbeelden laten zien dat het soms lastig
+kan zijn:
+
+<textarea class="my-listing">
+function foo() { console.log(this); }
+
+foo();                                            // undefined/global
+
+// een beetje buiten de scope van dit verhaal, een andere schrijfwijze voor het 'ding' foo:
+console.log(foo.prototype.constructor === foo);   // true
+
+foo.prototype.constructor();                      // foo {}   (dit is het object foo.prototype)
+
+let bar = { baz: foo };                           // NB: bar.baz === foo
+bar.baz();                                        // { baz: [Function: foo] }  (het bar object)
+
+let qux = bar.baz;                                // weer: qux === foo
+qux();                                            // undefined/global
+
+// voor de () kan iets binnen een grouping operator () staan en die levert een waarde
+// (weliswaar refererend aan de functie) maar dat is geen object.property
+
+(false || bar.baz)();                             // undefined/global
+(bar.baz = bar.baz)();                            // undefined/global
+</textarea>
+In regel 3, 8, 11, 14, 19 en 20 wordt dus steeds <i>dezefde</i> <code>function</code>
+aangeroepen, maar de manier waarop de aanroep <i>gecodeerd</i> is bepaalt
+wat het <code>this</code> object is.
+<br/>
+<br/>
+JavaScript kent ook het constructie van een <i>anonieme</i>
+<code>function</code>, die heeft bij uitvoering ook een <code>undefined</code>
+c.q. global <code>this</code> object:
+<textarea class="my-listing nolinenrs table">
+(function () { console.log(this); })();           // undefined/global
+</textarea>
+JavaScript kent de <i>arrow</i> notatie voor een <code>function</code>
+waarvan je alleen de return waarde wilt hebben: <code>(a, b) => c</code>
+staat voor <code>function(a, b) { return c }</code> (bij &eacute;&eacute;n
+parameter mag je zelfs de haakjes weglaten: <code>a => c</code>).
+<br/>
+Bij een arrow <code>function</code> wordt echter <i>geen</i> <code>this</code>
+object gemaakt.
+Als je dan <code>this</code> gebruikt dan is het het <code>this</code> object
+uit de <i>executing environment</i>.
+<textarea class="my-listing">
+this.x = 'global x';                                 // NB: in browser is this.x hetzelfde als x,
+                                                     // in nodejs niet
+
+let foo = {
+             x:   'foo x',
+             bar: function() { return this.x },
+             baz: () => this.x                       // bar in arrow notatie
+          }
+
+console.log(foo.bar());                              // 'foo x'
+console.log(foo.baz());                              // 'global x' (ook in strict mode)
+</textarea>
+
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="section_xmp">Houd rekening met closures</h4>
+
+Je kunt met closures makkelijk de fout in gaan.
+Als je bijvoorbeeld <i>event handlers</i> maakt die je de waarde van variabelen
+wilt meegeven dan moet je rekening houden met closures. Om dat te illustreren
+volgt hier een stukje code waarin dynamisch een lijstje met HTML
+button elementen gemaakt wordt die een <i>onclick handler</i>
+krijgen waaraan een variabele meegegeven wordt; de bedoeling is om elke botton
+bij een click aan de hand van die variabele een achtergrondkleur te geven.
+
+<div class="examples">
+
+<textarea class="my-listing">
+const setupButtonList = function()
+{
+   let ol = document.querySelector('#theList');
+   let color = ['yellow', 'green', 'blue', 'red'];
+   let bg;
+
+   for (let i = 0; i < 4; i++)
+   {
+      bg = color[i];
+
+      let li     = document.createElement('li');
+      let button = document.createElement('button');
+
+      button.innerHTML    = bg;
+      button.style.color  = 'white';
+      button.style.cursor = 'pointer';
+      button.style.width  = '4rem';
+
+      button.onclick = function() { button.style.backgroundColor = bg; };
+
+      li.appendChild(button);
+      ol.appendChild(li);
+   }
+}
+</textarea>
+
+<ol id="xmp1"></ol>
+
+</div>
+
+Dit gaat dus niet goed, alle buttons worden rood na een click.
+<br/>
+Wat is er mis? De <code>function</code> in regel 19 heeft een <i>free variable</i>
+<code>bg</code> die dus in de closure komt. Maar als de <code>for</code> loop
+uit regel 7 klaar is heeft <code>bg</code> de waarde <code>'red'</code>.
+En welke <code>button</code> je ook clickt, de achtergrondkleur wordt wat er
+in <code>bg</code> staat, rood dus.
+<br/>
+Als <code>bg</code> <i>binnen</i> de <code>for</code> was gedeclareerd:
+<code><b>let</b> bg = color[i];</code> in regel 9,
+dan zou het wel goed gaan omdat er
+dan bij elke iteratie een nieuwe variabele gemaakt wordt, weliswaar steeds met
+de naam <code>bg</code> maar wel steeds een nieuwe, waardoor elke
+closure een eigen variabele <code>bg</code> krijgt die niet van waarde verandert.
+<br/>
+In de <code>function</code> in regel 19 is <code>button</code> ook een
+free variable. Maar die wordt dus vier keer opnieuw gemaakt, binnen de loop.
+Belangrijk is ook dat hij gedeclareerd is met <code><i>let</i></code>.
+Als het een <code><i>var</i></code> zou zijn dan is z'n <i>scope</i> niet
+de <code>for</code> loop, maar de <i>setupButtonList</i>
+<code>function</code>. Hieronder zie je wat voor een effect dat zou hebben:
+
+<div class="examples">
+
+<textarea class="my-listing">
+const setupButtonList = function()
+{
+   let ol = document.querySelector('#theList');
+   let color = ['yellow', 'green', 'blue', 'red'];
+
+
+   for (let i = 0; i < 4; i++)
+   {
+      let bg = color[i];
+
+      let li     = document.createElement('li');
+      var button = document.createElement('button');
+
+      button.innerHTML    = bg;
+      button.style.color  = 'white';
+      button.style.cursor = 'pointer';
+      button.style.width  = '4rem';
+
+      button.onclick = function() { button.style.backgroundColor = bg; };
+
+      li.appendChild(button);
+      ol.appendChild(li);
+   }
+}
+</textarea>
+
+<ol id="xmp2"></ol>
+</div>
+
+De <i>enige</i> <code>var button</code> zit nu in <i>elke</i> closure en bevat
+uiteindelijk het vierde HTML button element.
+<br/>
+<br/>
+
+Deze potenti&euml;le problemen kunnen worden omzeild door een speciale
+closure te maken waarin je de free variables op een gecontroleerde manier
+verwerkt. Hieronder staat in regel 19-23 een anonieme <code>function</code>
+die ook meteen wordt uitgevoerd. Deze <code>function</code> heeft als
+<code>return</code> de <code>function</code> die we als <code>onclick</code>
+handler willen hebben. Die laatste heeft twee free variables, <code>btn</code>
+en <code>bgclr</code>, en die bevatten de <i>waarden</i> die
+<code>button</code> en <code>bg</code> op dat moment hebben en wijzigen
+daarna niet meer.
+
+<div class="examples">
+
+<textarea class="my-listing">
+const setupButtonList = function()
+{
+   let ol = document.querySelector('#theList');
+   let color = ['yellow', 'green', 'blue', 'red'];
+   let bg;
+
+   for (let i = 0; i < 4; i++)
+   {
+      bg = color[i];
+
+      let li     = document.createElement('li');
+      var button = document.createElement('button');
+
+      button.innerHTML    = bg;
+      button.style.color  = 'white';
+      button.style.cursor = 'pointer';
+      button.style.width  = '4rem';
+
+      button.onclick = (function(btn, bgclr)
+                        {
+                           return function() { btn.style.backgroundColor = bgclr; }
+                        }
+                       )(button, bg);
+
+      li.appendChild(button);
+      ol.appendChild(li);
+   }
+}
+</textarea>
+
+<ol id="xmp3"></ol>
+</div>
+E&eacute;n ding moet voor de volledigheid nog gezegd worden: de variabelen
+<code>btn</code> en <code>bgclr</code> free variables in de scope van regel 21,
+maar <i>niet</i> in de scope van regel 19. In regel 19 zijn ze
+<i>parameters</i> van de
+<code>function</code> en als zodanig lokale variabelen.
+<br/>
+Als zijnde parameters kun je ze elke naam geven die je wilt, zelfs
+<code>button</code> en <code>bg</code>. Dat is verwarrend maar het kan wel,
+is een vorm van <i>shadowing</i>.
+
+
+</div> <!-- my-main -->
+
+<div class="my-right"></div> <!-- my-right -->
+
+<div class="my-footer">
+
+<div class="my-copy"></div>
+
+<!-- references -->
+<h3 class="my-section" id="section_references">Referenties</h3>
+<!-- refer as:
+<a href="#ref_something" class="my-refs-ref"></a>
+   references in textarea:
+#id [author]
+url
+text
+[origin (website)]
+   separate references with empty lines
+-->
+
+<textarea class="my-refs-list">
+#ref_mdnclosures
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
+Closures
+MDN web docs
+
+#ref_wikifunarg
+https://en.wikipedia.org/wiki/Funarg_problem
+Funarg problem
+Wikipedia
+
+#ref_mdnstrict
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
+Strict mode
+MDN web docs
+
+#ref_dimsoscore Dmitry Soshnikov
+http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/
+JavaScript. The Core: 2nd Edition
+
+#ref_dimsos31 Dmitry Soshnikov
+http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-1-lexical-environments-common-theory/
+ECMA-262-5 in detail. Chapter 3.1. Lexical environments: Common Theory.
+
+#ref_balestra Nick Balestra
+https://medium.com/@nickbalestra/javascripts-lexical-scope-hoisting-and-closures-without-mystery-c2324681d4be
+Javascript's lexical scope, hoisting and closures without mystery.
+Medium
+</textarea> <!-- my-refs-list -->
+</div> <!-- my-footer -->
+
+</div> <!-- my-container -->
+</body>
+</html>
