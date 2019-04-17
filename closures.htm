@@ -47,12 +47,41 @@ a:hover
 .center { text-align: center; }                  /* */
 .nowrap { white-space: nowrap; }                 /* */
 
-/* examples code and html in grid */
+/* begin examples stuff */
 .examples
 {
    display:               grid;                  /* */
    grid-template-columns: auto auto;             /* */
 }
+
+.examples button
+{
+   color:  hsl(285, 100%, 100%);                 /* */
+   cursor: pointer;                              /* */
+   width:  4rem;                                 /* */
+
+   font-family:  sans-serif;                     /* */
+   font-variant: small-caps;                     /* */
+}
+
+.examples li.reset
+{
+   list-style-type: disc;                        /* */
+   margin-top:      4rem;                        /* */
+}
+
+.examples li.reset button
+{
+   color: initial;                               /* */
+}
+
+figcaption
+{
+   font-family: sans-serif;                      /* */
+   font-size:   smaller;                         /* */
+}
+/*   end examples stuff */
+
 
 /* begin page grid style */
 .my-header { grid-area: my-header; }
@@ -271,6 +300,8 @@ document.addEventListener('DOMContentLoaded', () => closures_js_object.onload(),
       example1();
       example2();
       example3();
+      example4();
+      example5();
    }
 
    const example1 = function()
@@ -278,6 +309,8 @@ document.addEventListener('DOMContentLoaded', () => closures_js_object.onload(),
       let ol = document.querySelector('#xmp1');
       if (ol)
       {
+         ol.innerHTML = '';
+
          let color = ['yellow', 'green', 'blue', 'red'];
          let bg;
 
@@ -288,16 +321,15 @@ document.addEventListener('DOMContentLoaded', () => closures_js_object.onload(),
             let li     = document.createElement('li');
             let button = document.createElement('button');
 
-            button.innerHTML   = bg;
-            button.style.color = 'white';
-            button.style.cursor = 'pointer';
-            button.style.width  = '4rem';
+            button.innerHTML    = bg;
 
             button.onclick = function() { button.style.backgroundColor = bg; };
 
             li.appendChild(button);
             ol.appendChild(li);
          }
+
+         addReset2Example(ol, example1);
       }
    }
 
@@ -306,6 +338,8 @@ document.addEventListener('DOMContentLoaded', () => closures_js_object.onload(),
       let ol = document.querySelector('#xmp2');
       if (ol)
       {
+         ol.innerHTML = '';
+
          let color = ['yellow', 'green', 'blue', 'red'];
 
          for (let i = 0; i < 4; i++)
@@ -315,16 +349,15 @@ document.addEventListener('DOMContentLoaded', () => closures_js_object.onload(),
             let li     = document.createElement('li');
             var button = document.createElement('button');
 
-            button.innerHTML   = bg;
-            button.style.color = 'white';
-            button.style.cursor = 'pointer';
-            button.style.width  = '4rem';
+            button.innerHTML    = bg;
 
             button.onclick = function() { button.style.backgroundColor = bg; };
 
             li.appendChild(button);
             ol.appendChild(li);
          }
+
+         addReset2Example(ol, example2);
       }
    }
 
@@ -333,6 +366,8 @@ document.addEventListener('DOMContentLoaded', () => closures_js_object.onload(),
       let ol = document.querySelector('#xmp3');
       if (ol)
       {
+         ol.innerHTML = '';
+
          let color = ['yellow', 'green', 'blue', 'red'];
          let bg;
 
@@ -343,17 +378,82 @@ document.addEventListener('DOMContentLoaded', () => closures_js_object.onload(),
             let li     = document.createElement('li');
             let button = document.createElement('button');
 
-            button.innerHTML   = bg;
-            button.style.color = 'white';
-            button.style.cursor = 'pointer';
-            button.style.width  = '4rem';
+            button.innerHTML    = bg;
 
             button.onclick = (function(btn, bgclr) { return function() { btn.style.backgroundColor = bgclr; }})(button, bg);
 
             li.appendChild(button);
             ol.appendChild(li);
          }
+
+         addReset2Example(ol, example3);
       }
+   }
+
+   const example4 = function()
+   {
+      var ol = document.querySelector('#xmp4');
+      if (ol)
+      {
+         ol.innerHTML = '';
+
+         var color = ['yellow', 'green', 'blue', 'red'];
+
+         for (let i = 0; i < 4; i++)
+         {
+            var li     = document.createElement('li');
+            let button = document.createElement('button');
+
+            button.innerHTML    = color[i];
+
+            button.onclick = () => { button.style.backgroundColor = color[i]; };
+
+            li.appendChild(button);
+            ol.appendChild(li);
+         }
+
+         addReset2Example(ol, example4);
+      }
+   }
+
+   const example5 = function()
+   {
+      var ol = document.querySelector('#xmp5');
+      if (ol)
+      {
+         ol.innerHTML = '';
+
+         let color = ['yellow', 'green', 'blue', 'red'];
+
+         for (var i = 0; i < 4; i++)
+         {
+            var li     = document.createElement('li');
+            let button = document.createElement('button');
+
+            button.innerHTML    = color[i];
+
+            button.onclick = () => { button.style.backgroundColor = color[i] };
+
+            li.appendChild(button);
+            ol.appendChild(li);
+         }
+
+//       color.push('cyan');
+         color.push('magenta');
+
+         addReset2Example(ol, example5);
+      }
+   }
+
+   const addReset2Example = function(ol, example)
+   {
+         let resetli     = document.createElement('li');
+         resetli.className = 'reset';
+         let resetbutton = document.createElement('button');
+         resetbutton.innerHTML = 'reset';
+         resetbutton.onclick   = example;
+         resetli.appendChild(resetbutton);
+         ol.appendChild(resetli);
    }
 
    const createListings = function()
@@ -769,7 +869,7 @@ aangeroepen, maar de manier waarop de aanroep <i>gecodeerd</i> is bepaalt
 wat het <code>this</code> object is.
 <br/>
 <br/>
-JavaScript kent ook het constructie van een <i>anonieme</i>
+JavaScript kent ook het concept <i>anonieme</i>
 <code>function</code>, die heeft bij uitvoering ook een <code>undefined</code>
 c.q. global <code>this</code> object:
 <textarea class="my-listing nolinenrs table">
@@ -800,7 +900,7 @@ console.log(foo.baz());                              // 'global x' (ook in stric
 
 
 <h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
-<h4 class="my-section" id="section_xmp">Houd rekening met closures</h4>
+<h4 class="my-section" id="section_xmp">Voorbeelden in een event handler</h4>
 
 Je kunt met closures makkelijk de fout in gaan.
 Als je bijvoorbeeld <i>event handlers</i> maakt die je de waarde van variabelen
@@ -808,12 +908,13 @@ wilt meegeven dan moet je rekening houden met closures. Om dat te illustreren
 volgt hier een stukje code waarin dynamisch een lijstje met HTML
 button elementen gemaakt wordt die een <i>onclick handler</i>
 krijgen waaraan een variabele meegegeven wordt; de bedoeling is om elke botton
-bij een click aan de hand van die variabele een achtergrondkleur te geven.
+bij een muisklik aan de hand van die variabele een achtergrondkleur te geven.
 
+<figure>
 <div class="examples">
 
 <textarea class="my-listing">
-const setupButtonList = function()
+function setupButtonList()
 {
    let ol = document.querySelector('#theList');
    let color = ['yellow', 'green', 'blue', 'red'];
@@ -826,12 +927,9 @@ const setupButtonList = function()
       let li     = document.createElement('li');
       let button = document.createElement('button');
 
-      button.innerHTML    = bg;
-      button.style.color  = 'white';
-      button.style.cursor = 'pointer';
-      button.style.width  = '4rem';
+      button.innerHTML = bg;
 
-      button.onclick = function() { button.style.backgroundColor = bg; };
+      button.onclick   = function() { button.style.backgroundColor = bg; };
 
       li.appendChild(button);
       ol.appendChild(li);
@@ -842,34 +940,37 @@ const setupButtonList = function()
 <ol id="xmp1"></ol>
 
 </div>
+<figcaption>Voorbeeld 1 - variabele in de closure kan wijzigen</figcaption>
+</figure>
 
-Dit gaat dus niet goed, alle buttons worden rood na een click.
+Dit gaat dus niet goed, alle buttons worden rood na een muisklik.
 <br/>
-Wat is er mis? De <code>function</code> in regel 19 heeft een <i>free variable</i>
+Wat is er mis? De <code>function</code> in regel 16 heeft een <i>free variable</i>
 <code>bg</code> die dus in de closure komt. Maar als de <code>for</code> loop
 uit regel 7 klaar is heeft <code>bg</code> de waarde <code>'red'</code>.
-En welke <code>button</code> je ook clickt, de achtergrondkleur wordt wat er
+En welke button je ook aanklikt, de achtergrondkleur wordt wat er
 in <code>bg</code> staat, rood dus.
 <br/>
-Als <code>bg</code> <i>binnen</i> de <code>for</code> was gedeclareerd:
+Als <code>bg</code> <i>binnen</i> de <code>for</code> loop was gedeclareerd:
 <code><b>let</b> bg = color[i];</code> in regel 9,
 dan zou het wel goed gaan omdat er
 dan bij elke iteratie een nieuwe variabele gemaakt wordt, weliswaar steeds met
 de naam <code>bg</code> maar wel steeds een nieuwe, waardoor elke
 closure een eigen variabele <code>bg</code> krijgt die niet van waarde verandert.
 <br/>
-In de <code>function</code> in regel 19 is <code>button</code> ook een
-free variable. Maar die wordt dus vier keer opnieuw gemaakt, binnen de loop,
-in regel 12.   
+In de <code>function</code> in regel 16 is <code>button</code> ook een
+free variable. Maar die wordt dus vier keer opnieuw gemaakt, binnen de
+<code>for</code> loop, in regel 12.
 Belangrijk is ook dat hij gedeclareerd is met <code><i>let</i></code>.
 Als het een <code><i>var</i></code> zou zijn dan is z'n <i>scope</i> niet
 de <code>for</code> loop, maar de <i>setupButtonList</i>
 <code>function</code>. Hieronder zie je wat voor een effect dat zou hebben:
 
+<figure>
 <div class="examples">
 
 <textarea class="my-listing">
-const setupButtonList = function()
+function setupButtonList()
 {
    let ol = document.querySelector('#theList');
    let color = ['yellow', 'green', 'blue', 'red'];
@@ -882,12 +983,9 @@ const setupButtonList = function()
       let li     = document.createElement('li');
       var button = document.createElement('button');
 
-      button.innerHTML    = bg;
-      button.style.color  = 'white';
-      button.style.cursor = 'pointer';
-      button.style.width  = '4rem';
+      button.innerHTML = bg;
 
-      button.onclick = function() { button.style.backgroundColor = bg; };
+      button.onclick   = function() { button.style.backgroundColor = bg; };
 
       li.appendChild(button);
       ol.appendChild(li);
@@ -897,26 +995,27 @@ const setupButtonList = function()
 
 <ol id="xmp2"></ol>
 </div>
+<figcaption>Voorbeeld 2 - let op de scope van een <code>var</code></figcaption>
+</figure>
 
-De <i>enige</i> <code>var button</code> zit nu in <i>elke</i> closure en bevat
-uiteindelijk het vierde HTML button element.
+In <i>elke</i> closure zit nu &eacute;&eacute;n en dezelfde
+<code>var button</code> en die bevat uiteindelijk
+het vierde HTML button element.
 <br/>
 <br/>
 
 Deze potenti&euml;le problemen kunnen worden omzeild door een speciale
 closure te maken waarin je de free variables op een gecontroleerde manier
-verwerkt. Hieronder staat in regel 19-23 een anonieme <code>function</code>
+verwerkt. Hieronder staat in regel 16-20 een anonieme <code>function</code>
 die ook meteen wordt uitgevoerd. Deze <code>function</code> heeft als
-<code>return</code> de <code>function</code> die we als <code>onclick</code>
-handler willen hebben. Die laatste heeft twee free variables, <code>btn</code>
-en <code>bgclr</code>, en die bevatten de <i>waarden</i> die
-<code>button</code> en <code>bg</code> op dat moment hebben en wijzigen
-daarna niet meer.
+<code>return</code> de <code>function</code> die we als onclick
+handler willen hebben.
 
+<figure>
 <div class="examples">
 
 <textarea class="my-listing">
-const setupButtonList = function()
+function setupButtonList()
 {
    let ol = document.querySelector('#theList');
    let color = ['yellow', 'green', 'blue', 'red'];
@@ -929,16 +1028,13 @@ const setupButtonList = function()
       let li     = document.createElement('li');
       var button = document.createElement('button');
 
-      button.innerHTML    = bg;
-      button.style.color  = 'white';
-      button.style.cursor = 'pointer';
-      button.style.width  = '4rem';
+      button.innerHTML = bg;
 
-      button.onclick = (function(btn, bgclr)
-                        {
-                           return function() { btn.style.backgroundColor = bgclr; }
-                        }
-                       )(button, bg);
+      button.onclick   = (function(btn, bgclr)
+                          {
+                             return function() { btn.style.backgroundColor = bgclr; }
+                          }
+                         )(button, bg);
 
       li.appendChild(button);
       ol.appendChild(li);
@@ -948,15 +1044,103 @@ const setupButtonList = function()
 
 <ol id="xmp3"></ol>
 </div>
-E&eacute;n ding moet voor de volledigheid nog gezegd worden: de variabelen
-<code>btn</code> en <code>bgclr</code> free variables in de scope van regel 21,
-maar <i>niet</i> in de scope van regel 19. In regel 19 zijn ze
-<i>parameters</i> van de
+<figcaption>Voorbeeld 3 - veilige closure</figcaption>
+</figure>
+
+De variabelen
+<code>btn</code> en <code>bgclr</code> zijn free variables
+in de scope van regel 18, maar <i>niet</i> in de scope van regel 16.
+In regel 16 zijn ze <i>parameters</i> van de
 <code>function</code> en als zodanig lokale variabelen.
 <br/>
 Als zijnde parameters kun je ze elke naam geven die je wilt, zelfs
 <code>button</code> en <code>bg</code>. Dat is verwarrend maar het kan wel,
 is een vorm van <i>shadowing</i>.
+<br/>
+<br/>
+Je kunt ook de arrow notatie gebruiken:
+<code>button.onclick = ((btn, bgclr) => () => { btn.style.backgroundColor = bgclr; })(button, bg);</code>
+<br/>
+<br/>
+Nu nog even terug naar de situatie waarbij de closure variabelen uit de
+setupButtonList <code>function</code> bevat. Hieronder is de <code>bg</code>
+variabele weggelaten, de <code>onclick</code> handler in arrow notatie (maar
+dus zonder speciale closure)
+en overal waar het kan is <code>let</code>
+vervangen door <code>var</code>.
+
+<figure>
+<div class="examples">
+
+<textarea class="my-listing">
+function setupButtonList()
+{
+   var ol = document.querySelector('#theList');
+   var color = ['yellow', 'green', 'blue', 'red'];
+
+   for (let i = 0; i < 4; i++)
+   {
+      var li     = document.createElement('li');
+      let button = document.createElement('button');
+
+      button.innerHTML = color[i];
+
+      button.onclick   = () => { button.style.backgroundColor = color[i]; };
+
+      li.appendChild(button);
+      ol.appendChild(li);
+   }
+}
+</textarea>
+
+<ol id="xmp4"></ol>
+</div>
+<figcaption>Voorbeeld 4 - potentieel onveilige closure</figcaption>
+</figure>
+
+Hier komen <code>color</code> en <code>i</code> in de closure.
+Het maakt niet uit of <code>color</code> via een <code>var</code> of
+een <code>let</code> gedeclareerd is, z'n scope blijft hetzelfde.
+Maar als je van <code>i</code> een <code>var</code> maakt heb je een probleem:
+
+<figure>
+<div class="examples">
+
+<textarea class="my-listing">
+function setupButtonList()
+{
+   var ol = document.querySelector('#theList');
+   let color = ['yellow', 'green', 'blue', 'red'];
+
+   for (var i = 0; i < 4; i++)
+   {
+      var li     = document.createElement('li');
+      let button = document.createElement('button');
+
+      button.innerHTML = color[i];
+
+      button.onclick   = () => { button.style.backgroundColor = color[i]; };
+
+      li.appendChild(button);
+      ol.appendChild(li);
+   }
+
+   color.push('magenta');
+}
+</textarea>
+<ol id="xmp5"></ol>
+</div>
+<figcaption>Voorbeeld 5 - <code>for</code> loop variabele in <code>function</code> scope en in closure</figcaption>
+</figure>
+
+In tegenstelling tot een <code>let i</code> heeft een <code>var i</code>
+<i>geen lokale scope</i> in de <code>for</code> loop,
+maar de scope van de setupButtonList <code>function</code>.
+In de closure wordt hij daarom uiteindelijk 4 en dat zou
+een <code>undefined</code> waarde voor <code>color[i]</code> opleveren.
+In het voorbeeld is een <code>color[4]</code> in de closure toegevoegd
+zodat er alsnog een kleurtje op elke button komt.
+
 
 
 </div> <!-- my-main -->
@@ -995,19 +1179,6 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 Strict mode
 MDN web docs
 
-#ref_dimsoscore Dmitry Soshnikov
-http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/
-JavaScript. The Core: 2nd Edition
-
-#ref_dimsos31 Dmitry Soshnikov
-http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-1-lexical-environments-common-theory/
-ECMA-262-5 in detail. Chapter 3.1. Lexical environments: Common Theory.
-
-#ref_balestra Nick Balestra
-https://medium.com/@nickbalestra/javascripts-lexical-scope-hoisting-and-closures-without-mystery-c2324681d4be
-Javascript's lexical scope, hoisting and closures without mystery.
-Medium
-</textarea> <!-- my-refs-list -->
 </div> <!-- my-footer -->
 
 </div> <!-- my-container -->
