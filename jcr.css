@@ -1,15 +1,11 @@
-'use strict';
-const jcr_js_object = {};
-document.addEventListener('DOMContentLoaded', () => jcr_js_object.onload(), false);
-   
-(function(api)
+.jcr-copy
 {
-   api.onload = function()
-   {
-      try
-      {  
-         let year = new Date(document.lastModified).getFullYear();
-         document.querySelectorAll('.jcr-copy').forEach(y => y.innerHTML = year);
-      }  catch(e) { console.log(`oops: ${e}`) }
-   }
-})(jcr_js_object);
+   border-top: hsl(0, 0%, 50%) thin solid;       /* */
+   color:      hsl(0, 0%, 50%);                  /* */
+   font-size:  0.9rem;                           /* */
+   text-align: right;                            /* */
+   margin:     1rem 0.5rem;                      /* */
+   padding:    0.5rem;                           /* */
+}
+.jcr-copy::before { content: '\00a9'; }
+.jcr-copy::after  { content: ' jcr'; }
