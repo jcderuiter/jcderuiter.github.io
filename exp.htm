@@ -115,13 +115,12 @@ body
 }
 
 
-.grid2
+.flex2
 {
-   display:               grid;                  /* */
-   grid-template-columns: auto auto;             /* */
+   display:               flex;                  /* */
    gap:                   .5rem;                 /* */
 }
-.grid2 canvas
+.flex2 canvas
 {
    border: 1px solid black;
    padding: 5px;             /* */
@@ -734,7 +733,7 @@ document.addEventListener('DOMContentLoaded', () => exp_js_object.onload(), fals
       let sectionlist = document.querySelector('#my-sections');
       if (sectionlist)
       {
-         sectionlist.innerHTML += '<li><a href="/">Home</a></li>';
+//       sectionlist.innerHTML += '<li><a href="/">Home</a></li>';
          for (let section of document.querySelectorAll('.my-section[id]'))
          {
             let text = section.innerHTML;
@@ -1298,15 +1297,15 @@ En dus is $e^{z+i\tau} = e^z e^{i \tau} = e^z(\cos \tau + i \sin \tau) = e^z(1 +
 De functie $e^z$ is periodiek, met periode $i\tau$.
 <br/>
 <br/>
-Hieronder een grafische voorstelling, links het complexe vlak waarin een
+Hieronder een grafische voorstelling, in figuur 1 het complexe vlak waarin een
 strook gekleurd is. Die strook stelt het gebied $-\tau/2 \le y \lt \tau/2$ voor,
 met voor elke waarde van $y$ een andere tint. Oplopende waarden van $x$
 laten de kleur van donker naar licht gaan.
-Rechts het beeld van deze strook
+In figuur 2 het beeld van deze strook
 onder de functie $e^z$. Dit beeld bestrijkt dus het gehele complexe vlak
 <i>behalve</i> $0$.
 
-<div class="grid2">
+<div class="flex2">
 <figure class="my-figure">
 <canvas id="domain"></canvas>
 <figcaption>$D = \{z \in \mathbb{C} \mid -\tau/2 \le \mathrm{Im}(z) \lt \tau/2 \}$</figcaption>
