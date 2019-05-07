@@ -73,7 +73,7 @@ body
 
 .my-definition
 {
-   background-color: hsl(060, 100%, 090%);       /* */
+   background-color:  hsl(060, 100%, 090%);      /* */
    counter-increment: my-definition;             /* */
 }
 .my-definition::before
@@ -87,7 +87,7 @@ body
 
 .my-theorem
 {
-   background-color: hsl(210, 100%, 090%);       /* */
+   background-color:  hsl(210, 100%, 090%);      /* */
    counter-increment: my-theorem;                /* */
 }
 .my-theorem::before
@@ -107,11 +107,18 @@ body
 }
 .my-figure figcaption::before
 {
-   content: 'Figuur ' counter(my-figure) '. '; /* */
+   content: 'Figuur ' counter(my-figure) '. ';   /* */
 }
 .my-figure[data-text]::before
 {
    content: 'Figuur ' counter(my-figure) ' (' attr(data-text) '). '; /* */
+}
+
+.my-definition,
+.my-theorem,
+.my-figure
+{
+   page-break-inside: avoid;                     /* */
 }
 
 .flex2
@@ -332,15 +339,16 @@ ol.my-listing.nolinenrs li
    color: hsl(000, 000%, 050%);                  /* */
 }
 
-.my-refs-list > * { margin-top: 0; }             /* */
-
 @media screen
 {
    .my-refs-list
    {
-      column-width:     25vw;                              /* */
-      border:           hsl(0, 0%, 30%) thin solid;        /* */
-      background-color: hsl(60, 100%,  90%);               /* */
+      display:               grid;                         /* */
+      grid-template-columns: repeat(3, auto);              /* */
+      column-gap:            2.5rem;                       /* */
+
+      border:                hsl(000, 000%, 030%) thin solid; /* */
+      background-color:      hsl(060, 100%, 090%);         /* */
    }
 }
 
