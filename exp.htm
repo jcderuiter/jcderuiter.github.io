@@ -1,0 +1,1381 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta http-equiv="expires" content="now"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="version" content="0.0.0"/>
+<title>exp</title>
+<script type="text/x-mathjax-config">
+   MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true},
+                        TeX:     {extensions: ["extpfeil.js"]}
+                     });
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML">
+// http://docs.mathjax.org/en/latest/start.html
+</script>
+<style>
+
+*
+{
+   box-sizing:       border-box;                 /* */
+   font-family:      sans-serif;                 /* */
+}
+
+body
+{
+/* background-color: hsl(0, 0%, 85%);            /* */
+   line-height:      1.6;                        /* */
+}
+
+a
+{
+   text-decoration: none;                        /* */
+   transition:      .5s;                         /* */
+}
+a, a:visited
+{
+   color: inherit;                               /* */
+/* color:           hsl(  0,   0%, 50%);         /* */
+}
+a:hover
+{
+/* text-decoration: underline;                   /* */
+   color:           hsl(315, 100%, 50%);         /* */
+}
+
+.center { text-align: center; }                  /* */
+.nowrap { white-space: nowrap; }                 /* */
+
+
+/* math stuff */
+body
+{
+   counter-reset: my-definition;                 /* */
+   counter-reset: my-theorem;                    /* */
+   counter-reset: my-figure;                     /* */
+}
+
+.my-definition,
+.my-theorem
+{
+   margin:     .5rem 0;                          /* */
+   border:     thin solid black;                 /* */
+   padding:    1rem;                             /* */
+
+   font-style: italic;                           /* */
+}
+.my-definition::before,
+.my-theorem::before
+{
+   font-style:  normal;                          /* */
+   font-weight: bold;                            /* */
+}
+
+.my-definition
+{
+   background-color: hsl(060, 100%, 090%);       /* */
+   counter-increment: my-definition;             /* */
+}
+.my-definition::before
+{
+   content: 'Definitie ' counter(my-definition) '.'; /* */
+}
+.my-definition[data-text]::before
+{
+   content: 'Definitie ' counter(my-definition) ' (' attr(data-text) ').'; /* */
+}
+
+.my-theorem
+{
+   background-color: hsl(210, 100%, 090%);       /* */
+   counter-increment: my-theorem;                /* */
+}
+.my-theorem::before
+{
+   content: 'Stelling ' counter(my-theorem) '.'; /* */
+}
+.my-theorem[data-text]::before
+{
+   content: 'Stelling ' counter(my-theorem) ' (' attr(data-text) ').'; /* */
+}
+
+.my-figure figcaption
+{
+   font-family:       sans-serif;                /* */
+   font-size:         smaller;                   /* */
+   counter-increment: my-figure;                 /* */
+}
+.my-figure figcaption::before
+{
+   content: 'Figuur ' counter(my-figure) '. '; /* */
+}
+.my-figure[data-text]::before
+{
+   content: 'Figuur ' counter(my-figure) ' (' attr(data-text) '). '; /* */
+}
+
+
+.grid2
+{
+   display:               grid;                  /* */
+   grid-template-columns: auto auto;             /* */
+   gap:                   .5rem;                 /* */
+}
+.grid2 canvas
+{
+   border: 1px solid black;
+   padding: 5px;             /* */
+/* background-color: white;  /* */
+}
+
+
+
+/* begin page grid style */
+.my-header { grid-area: my-header; }
+.my-left   { grid-area: my-left;   }
+.my-main   { grid-area: my-main;   }
+.my-right  { grid-area: my-right;  }
+.my-footer { grid-area: my-footer; }
+
+.my-container
+{
+   display:             grid;                    /* */
+   grid-template-areas:
+                        'my-header'
+                        'my-left'
+                        'my-main'
+                        'my-right'
+                        'my-footer';
+}
+
+.my-main
+{
+   background-color: hsl(0, 0%, 100%);           /* */
+}
+
+.my-header:not(:empty)
+{
+   margin-bottom: 1rem;                          /* */
+}
+
+@media screen and (orientation: landscape)
+{
+   .my-container
+   {
+      grid-template-areas:
+                           'my-header my-header  my-header'  /* */
+/*                         'my-left   my-header  my-right'   /* */
+                           'my-left   my-main    my-right'   /* */
+                           'my-footer my-footer  my-footer'; /* */
+/*                         'my-left   my-footer  my-right';  /* */
+   }
+
+   .my-main
+   {
+   /* width:         70vh;                       /* A4 */
+      width:         62vw;                       /* 2/(1+sqrt(5)) */
+      min-height:    90vh;                       /* */
+/*    justify-self:  center;                     /* */
+/*    border:        hsl(0, 0%, 20%) thin solid; /* */
+      box-shadow:    0 0 .5rem;                  /* */
+      border-radius: 5px;                        /* */
+      padding:       1rem;                       /* */
+   }
+
+   .my-left, .my-right
+   {
+      min-width: 15vw;                           /* */
+   }
+}
+/*   end page grid style */
+
+/* begin info style */
+/* usage:                                                                   */
+/* <label for="id" class="jcr-info">optional text</label>                   */
+/*    other content                                                         */
+/*    other content                                                         */
+/* <input id="id" class="jcr-info" type="checkbox"/>               */
+/* <div class="jcr-info">                                                   */
+/*    other content                                                         */
+/* <label for="id" class="jcr-info">optional text</label>                   */
+/*    other content                                                         */
+/* </div>                                                                   */
+/* the <div> must be the immediate successor of the <input>                 */
+/* the first <label> gets a small 'i'                                       */
+/* the second <label> puts a 'close cross' in the right top of the <div>    */
+/* both labels trigger an invisible checkbox on which CSS toggles the <div> */
+
+label.jcr-info
+{
+   cursor:         pointer;                      /* */
+}
+
+label.jcr-info::after
+{
+   content:        '\01f6c8';                    /* */
+   font-weight:    bolder;                       /* */
+   color:          hsl(240, 100%, 050%);         /* */
+   vertical-align: super;                        /* */
+   font-size:      smaller;                      /* */
+}
+
+input[type="checkbox"].jcr-info
+{
+   width:            0;                          /* */
+   height:           0;                          /* */
+}
+
+input[type="checkbox"].jcr-info + div.jcr-info
+{
+   height:           0;                          /* */
+   overflow:         hidden;                     /* */
+   padding:          0;                          /* */
+
+   position:         relative;                   /* */
+
+   background-color: hsl(060, 100%, 090%);       /* */
+   box-shadow:       0 0 .5rem;                  /* */
+   border-radius:    5px;                        /* */
+
+   transform:        scale(0.0);                 /* */
+   opacity:          0.0;                        /* */
+   transition:       all .5s ease-in-out;        /* */
+}
+
+input[type="checkbox"].jcr-info:checked + div.jcr-info
+{
+   height:           auto;                       /* */
+   margin:           .5rem 1rem;                 /* */
+   padding:          1rem;                       /* */
+
+   transform:        scale(1.0);                 /* */
+   opacity:          1.0;                        /* */
+   transition:       all 2s ease-in-out;         /* */
+}
+
+div.jcr-info label.jcr-info::after
+{
+   content:  '\02612';                           /* */
+   position: absolute;                           /* */
+   top:      0;                                  /* */
+   right:    .5rem;                              /* */
+}
+/*   end info style */
+
+/* begin sections style */
+@media screen and (orientation: portrait)        /* */
+{
+   .my-sections:not(:empty)::before
+   {
+      content: 'Jump to:';                       /* */
+   }
+   .my-sections:not(:empty):lang(nl)::before
+   {
+      content: 'Meteen naar:';                   /* */
+   }
+}
+@media print
+{
+   .my-sections
+   {
+      display: none;                             /* */
+   }
+}
+/* end sections style */
+
+/* begin listings style */
+ol.my-listing
+{
+   font-family:      monospace;                  /* */
+   text-align:       left;                       /* */
+   line-height:      1.2;                        /* */
+   white-space:      pre-wrap;                   /* */
+   background-color: hsl(60, 100%, 90%);         /* */
+   border-radius:    .5rem;                      /* */
+   padding:          .5rem 0 .5rem 3rem;         /* */
+}
+ol.my-listing li
+{
+   border-left:    thin solid black;             /* */
+   padding:        0 .5rem;                      /* */
+}
+
+ol.my-listing.table
+{
+   display: table;                               /* */
+/* display: inline-table;                        /* */
+}
+
+ol.my-listing.nolinenrs
+{
+   list-style-type: none;                        /* */
+   padding-left:    0;                           /* */
+}
+ol.my-listing.nolinenrs li:empty::after
+{
+   content: '\000a';                             /* */
+}
+ol.my-listing.nolinenrs li
+{
+   border-left:     initial;                     /* */
+}
+/*   end listings style */
+
+/* begin references style */
+.my-refs-ref
+{
+   vertical-align: super;                        /* */
+   font-size:      smaller;                      /* */
+}
+.my-refs-ref::before { content: '['; }           /* */
+.my-refs-ref::after  { content: ']'; }           /* */
+.my-refs-ref,
+.my-refs-ref:visited
+{
+   color: hsl(000, 000%, 050%);                  /* */
+}
+
+.my-refs-list > * { margin-top: 0; }             /* */
+
+@media screen
+{
+   .my-refs-list
+   {
+      column-width:     25vw;                              /* */
+      border:           hsl(0, 0%, 30%) thin solid;        /* */
+      background-color: hsl(60, 100%,  90%);               /* */
+   }
+}
+
+@media print
+{
+   * { color: hsl(0, 0%, 0%); }                  /* */
+
+   .my-refs-cites { display: none; }             /* */
+   .my-refs-list a[href]::after { content: ' (' attr(href) ')'; }  /* */
+}
+
+.my-refs-author
+{
+   white-space:   pre-wrap;                      /* */
+   padding-right: .3rem;                         /* */
+}
+
+.my-refs-link
+{
+   font-style:    italic;                        /* */
+   color:         hsl(240, 100%, 50%);           /* */
+}
+
+.my-refs-origin
+{
+   font-variant: small-caps;                     /* */
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}
+
+.my-refs-cites
+{
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}
+/*   end references style */
+
+/* begin copyright style */
+.my-copy
+{
+   border-top:  hsl(0, 0%, 20%) thin solid;      /* */
+   color:       hsl(0, 0%, 20%);                 /* */
+   font-size:   0.9rem;                          /* */
+   text-align:  right;                           /* */
+   margin:      1rem 0.5rem;                     /* */
+   padding:     0.5rem;                          /* */
+   user-select: none;                            /* */
+}
+.my-copy::before { content: '\00a9 '; }          /* */
+.my-copy::after  { content: ' jcr'; }            /* */
+/* end copyright style */
+</style>
+<script>
+'use strict';
+const exp_js_object = {};
+document.addEventListener('DOMContentLoaded', () => exp_js_object.onload(), false);
+//window.addEventListener('load', () => exp_js_object.onload(), false);
+//onload = (function(other) {  return function() {  if (other) other(); exp_js_object.onload(); } })(onload);
+
+(function(api)
+{
+   api.onload = function()
+   {
+      try
+      {
+         createListings();
+         createReferences();
+         setSectionLinks();
+         let year = new Date(document.lastModified).getFullYear();
+         document.querySelectorAll('.my-copy').forEach(y => y.innerHTML = year);
+
+         expPictures();
+      }  catch(err) { console.log('oops', err) }
+   }
+
+
+   const expPictures = function()
+   {
+      setColorBandPixels(colorBand);
+      planeWithCenteredPixels(document.querySelector('canvas#domain'));
+      planeExpFromPixels(document.querySelector('canvas#range'));
+   }
+
+   const TAU = 2 * Math.PI;
+   const intre = /\d+/g;
+   const colorBand = new ImageData(2*256-1, 6*255);
+
+   const setColorBandPixels = function(colorBand)
+   {
+      let xMax = colorBand.width;
+      let yMax = colorBand.height;
+
+      let huePhase = 1;
+      let incrHue  = 6 * 255 / yMax;
+
+      let lumStepsDark  = Math.floor(xMax/2);
+      let lumStepsLight = Math.ceil(xMax/2);
+
+
+      let red   = 255;
+      let green = 0;
+      let blue  = 0;
+
+
+      let i = 0;
+
+      for (let y = 0; y < yMax; y++)
+      {
+         let pixelRed   = 0;
+         let pixelGreen = 0;
+         let pixelBlue  = 0;
+
+
+         let incrRed   = red   / lumStepsDark;
+         let incrGreen = green / lumStepsDark;
+         let incrBlue  = blue  / lumStepsDark;
+
+         for (let x = 0; x < xMax; x++)
+         {
+            colorBand.data[i]   = Math.round(pixelRed);
+            colorBand.data[i+1] = Math.round(pixelGreen);
+            colorBand.data[i+2] = Math.round(pixelBlue);
+            colorBand.data[i+3] = 255;
+
+            if (x == lumStepsDark)
+            {
+               incrRed   = (255 - red)   / (lumStepsLight - 1);
+               incrGreen = (255 - green) / (lumStepsLight - 1);
+               incrBlue  = (255 - blue)  / (lumStepsLight - 1);
+            }
+
+            pixelRed   += incrRed;
+            pixelGreen += incrGreen;
+            pixelBlue  += incrBlue;
+
+            i += 4;
+         }
+
+
+         // set hue for next row
+
+         switch (huePhase)
+         {
+            case 1:
+               green += incrHue;
+               if (green >= 255) { green = 255; huePhase++ }
+               break;
+            case 2:
+               red   -= incrHue;
+               if (red <= 0) { red = 0; huePhase++ }
+               break;
+            case 3:
+               blue   += incrHue;
+               if (blue >= 255) { blue = 255; huePhase++ }
+               break;
+            case 4:
+               green -= incrHue;
+               if (green <= 0) { green = 0; huePhase++ }
+               break;
+            case 5:
+               red    += incrHue;
+               if (red >= 255) { red = 255; huePhase++ }
+               break;
+            case 6:
+               blue  -= incrHue;
+               if (blue <= 0) { blue = 0; huePhase++ }
+               break;
+            default:
+               console.log(`phase ${huePhase} of fillColorBand() should not be processed`);
+         }
+      }
+   }
+
+   const planeWithCenteredPixels = function(canvas, bandheight, pixels)
+   {
+      if (!(canvas instanceof HTMLCanvasElement)) { return; }
+      bandheight = Number(bandheight) || .5;
+      if (bandheight < 0) { bandheight = 0; }
+      if (bandheight > 1) { bandheight = 1; }
+      pixels = pixels || colorBand;
+      if (!(pixels instanceof ImageData)) { return; }
+
+
+      // save current size from style
+      let style  = getComputedStyle(canvas);
+      let width  = style.width;
+      let height = style.height;
+
+      let context = canvas.getContext('2d');
+
+      // adjust dimensions to fit image data
+      canvas.width  = pixels.width;
+      canvas.height = pixels.height / bandheight;
+
+      context.putImageData(pixels, 0, canvas.height * (1 - bandheight) / 2);
+
+      // reset style sizes (may have been replaced by dimensions: if no explicit style was given)
+      canvas.style.width  = width;
+      canvas.style.height = height;
+   }
+
+   const planeExpFromPixels = function(canvas, pixels, squeeze)
+   {
+      if (!(canvas instanceof HTMLCanvasElement)) { return; }
+      pixels = pixels || colorBand;
+      if (!(pixels instanceof ImageData)) { return; }
+      squeeze = Number(squeeze) || .7;
+      if (squeeze > 1)  { squeeze = 1; }
+      if (squeeze <= 0) { squeeze = .7; }
+
+
+      let context = canvas.getContext('2d');
+      let target  = context.getImageData(0, 0, canvas.width, canvas.height);
+
+      let uMax = Math.ceil(canvas.width  / 2) - .5;
+      let vMax = Math.ceil(canvas.height / 2) - .5;
+
+      let uMin = .5;
+      let vMin = .5;
+
+      let ln_rMax = Math.log(uMax * uMax + vMax * vMax) / 2;
+      let ln_rMin = Math.log(uMin * uMin + vMin * vMin) / 2;
+      let ln_rRange = ln_rMax - ln_rMin;
+
+      let xScale = squeeze * (pixels.width - 1) / ln_rRange;
+
+      let shift  = TAU/2;
+      let yScale = (pixels.height - 1) / TAU;
+
+      let i = 0;
+
+      for (let row = 0; row < canvas.height; row++)
+      {
+         let v =  vMax - row;
+
+         for (let col = 0; col < canvas.width; col++)
+         {
+            let u = col - uMax;
+
+            let x = Math.round(xScale * (Math.log(u*u + v*v)/2 - ln_rMin));
+
+            let y = Math.round(yScale * (shift - Math.atan2(v, u)));
+
+            let j = 4 * (y * pixels.width + x);
+
+            target.data[i]   = pixels.data[j];
+            target.data[i+1] = pixels.data[j+1];
+            target.data[i+2] = pixels.data[j+2];
+
+            target.data[i+3] = 255;
+
+            i += 4;
+         }
+      }
+
+      context.putImageData(target, 0, 0);
+   }
+
+   const createListings = function()
+   {
+      for (let element of document.querySelectorAll('textarea.my-listing'))
+      {
+         let ol = document.createElement('ol');
+         ol.className = element.className;
+
+         for (let line of element.innerHTML.replace(/\n$/, '').split('\n'))
+         {
+            let li = document.createElement('li');
+            li.innerHTML = line;
+            ol.appendChild(li);
+         }
+
+         element.replaceWith(ol);
+      }
+   }
+
+   const createReferences = function()
+   {
+      let refnr = 1;
+      let refitem = {};
+
+
+      // the references
+      for (let element of document.querySelectorAll('textarea.my-refs-list'))
+      {
+         let ol = document.createElement('ol');
+         ol.className = element.className;
+         ol.start = refnr;
+
+         for (let record of element.innerHTML.replace(/\n\s*?\n\s*/, '\n\n').split('\n\n'))
+         {
+            let [line1, url, text, origin] = record.split('\n').map(s => s.trim());
+
+            let [hash, ...rest] = line1.split(' ');
+            let author = rest.join(' ');
+
+            if (!hash.startsWith('#')) { continue }
+
+            let li = document.createElement('li');
+            li.id = hash.substr(1);
+
+            if (author)
+            {
+               let span_author = document.createElement('span');
+               span_author.className = 'my-refs-author';
+               span_author.innerHTML = author;
+               li.appendChild(span_author);
+            }
+
+            let span_link = document.createElement('span');
+            span_link.className = 'my-refs-link';
+
+            let a = document.createElement('a');
+            a.href = url;
+            a.innerHTML = text || url;
+            span_link.appendChild(a);
+            li.appendChild(span_link);
+
+            if (origin)
+            {
+               let span_origin = document.createElement('span');
+               span_origin.className = 'my-refs-origin';
+               span_origin.innerHTML = origin;
+               li.appendChild(span_origin);
+            }
+
+            ol.appendChild(li);
+
+            refitem[hash] = { item: li, refnr: refnr, cited: [] }
+            refnr++;
+         }
+
+         element.replaceWith(ol);
+      }
+
+      // the citations (referrals)
+      for (let element of document.querySelectorAll('.my-refs-ref'))
+      {
+         if (!element.hash) { continue }
+
+         let span = document.createElement('span');
+         span.className = 'nowrap';
+         span.innerHTML = element.innerHTML;
+
+         if (refitem[element.hash])
+         {
+            element.innerHTML     = refitem[element.hash].refnr;
+            let hash_for_citation = `${[element.hash]}_${refitem[element.hash].cited.length}`;
+            element.id            = hash_for_citation.substr(1);
+            refitem[element.hash].cited.push(hash_for_citation);
+         }
+         else
+         {
+            element.innerHTML = 'link not present';
+         }
+
+         element.parentNode.insertBefore(span, element);
+         span.appendChild(element);
+      }
+
+
+      // reduce citations array (of hashes) to string of hyperlinks
+      function reduceCitations(accum, next, i, all)
+      {
+         let concat = accum;
+         if (i) { concat += ',' }
+         concat += `<a href="${next}">&uarr;`;
+         if (all.length > 1) { concat += `<sub>${i+1}</sub>` }
+         concat += '</a>';
+
+         return concat;
+      }
+
+      // add citations to items in hyperlink list
+      for (let hash in refitem)
+      {
+         if (!refitem[hash].cited.length) { continue }
+
+         refitem[hash].item.innerHTML += '<span class="my-refs-cites">'
+//                                    +  '<sub>cited:</sub>'
+                                      +  refitem[hash].cited.reduce(reduceCitations, '')
+                                      + '</span>';
+      }
+   }
+
+   const setSectionLinks = function()
+   {
+      let sectionlist = document.querySelector('#my-sections');
+      if (sectionlist)
+      {
+         sectionlist.innerHTML += '<li><a href="/">Home</a></li>';
+         for (let section of document.querySelectorAll('.my-section[id]'))
+         {
+            let text = section.innerHTML;
+            sectionlist.innerHTML += `<li><a href="#${section.id}">${text}</a></li>`;
+
+            section.innerHTML = `<a href="#">${text}</a>`;
+            section.title     = 'to top of page';
+         }
+      }
+   }
+})(exp_js_object);
+</script>
+</head>
+<body>
+
+<div class="my-container">
+
+<div class="my-header"></div> <!-- my-header -->
+<div class="my-left">
+<ul class="my-sections" id="my-sections"></ul>
+</div> <!-- my-left -->
+
+<div class="my-main">
+
+Over exponenti&euml;le functies valt heel wat te vertellen.
+Maar waar hebben we het dan eigenlijk over?
+<br/>
+Je hebt het concept van machtsverheffen: $a$ tot de $n^e$ macht, waarbij
+$n$ een positief geheel getal is.
+<br/>
+$a^n = a\times a\times \cdots \times a$ ($n$ factoren).
+<br/>
+Dat kun je dan uitbreiden met definities
+als $a^0 = 1$, $a^{-n} = \dfrac{1}{a^n}$, $a^{\frac{1}{n}} = \sqrt[n]{a}$
+<br/>
+Bij die laatste zie je al een probleem ontstaan: daar kun je namelijk
+niet altijd iets mee, bijvoorbeeld met $n=2$, wat dan voor getallen
+<span class="nowrap">$a<0$?</span>
+
+<br/>
+<br/>
+Een andere vraag is: wat als we ons niet beperken tot $n \in \mathbb{N}$?
+Wat is $a^x$ als $x\in \mathbb{R}$, en kunnen we nog een stap verder:
+$x \in \mathbb{C}$?
+<br/>
+<br/>
+In <a href="#myref_wiki" class="my-refs-ref">Wikipedia</a> wordt $a^x$
+exponenti&euml;le functie genoemd,
+maar als formele definitie van <i>de</i> exponenti&euml;le functie
+wordt $e^x$ gebruikt ($e$ is het getal van
+<label for="info_euler" class="jcr-info">Euler</label>).
+<a href="#myref_wolfram" class="my-refs-ref">Wolfram</a>
+neemt zelfs $e^z$ met $z \in \mathbb{C}$ als definitie.
+
+<input id="info_euler" class="jcr-info" type="checkbox"/>
+<div class="jcr-info">
+<label for="info_euler" class="jcr-info"></label>
+Het getal van Euler is de constante van Napier die door (Jacob) Bernouilli
+werd ontdekt. Verbonden aan de namen van drie grootheden moet het wel
+een belangrijk ding zijn &#x1f609;.
+Euler introduceerde de letter $e$ voor de basis van de natuurlijke logaritme
+$\ln$.
+<br/>
+Als getal kun je het op verschillende manieren beschrijven:
+<br/>
+$e = \lim\limits_{n \to \infty}\Big(1+\dfrac{1}{n}\Bigr)^n$ (dat is waar Bernouilli naar keek)
+<br/>
+$e = \sum\limits_{n=0}^\infty\dfrac{1}{n!}$
+<br/>
+$e = 2.71828\dots$
+</div>
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="my_definition">Een alternatieve definitie</h4>
+
+Als we even teruggaan naar het machtsverheffen, dat heeft een interessante
+eigenschap: $a^p a^q = a^{p+q}$
+<br/>
+Immers, $a^p$ is het product van $p$ factoren $a$, en dat vermenigvuldigd
+met de $q$ factoren $a$ van $a^q$ geeft in totaal $p+q$ factoren $a$,
+ofwel $a^{p+q}$.
+<br/>
+Die eigenschap is de achterliggende gedachte van de
+<label for="info_powerdefs" class="jcr-info">definities</label>
+van $a^0$, $a^{-n}$ en $a^{\frac{1}{n}}$.
+
+<input id="info_powerdefs" class="jcr-info" type="checkbox"/>
+<div class="jcr-info">
+<label for="info_powerdefs" class="jcr-info"></label>
+$a^n = a^{n+0} = a^n a^0 \rightarrow a^0 = 1$
+<br/>
+$1 = a^0 = a^{n-n} = a^n a^{-n} \rightarrow a^{-n} = \dfrac{1}{a^n}$
+<br/>
+$a = a^1 = a^{\frac{n}{n}} = a^{\frac{1}{n}+\frac{1}{n}+\cdots+\frac{1}{n}} = a^{\frac{1}{n}} a^{\frac{1}{n}}\cdots a^{\frac{1}{n}} = (a^{\frac{1}{n}})^n \rightarrow a^{\frac{1}{n}} = \sqrt[n]{a}$
+</div>
+
+Een andere eigenschap is dat $a^n \neq 0$ voor alle $n$.
+
+<br/>
+<br/>
+Als we die twee eigenschappen nu eens als <i>definitie</i> nemen, en meteen
+vereisen dat de functie differentieerbaar is (altijd handig) en over
+complexe getallen gaat (toe maar):
+<br/>
+<br/>
+<div class="my-definition" data-text="exponenti&euml;le functie">
+Een exponenti&euml;le functie is een differentieerbare functie
+$f: \mathbb{C} \rightarrow \mathbb{C}$, zodanig dat
+$\forall z_1, z_2, z \in \mathbb{C}:$
+<br/>
+<br/>
+$\begin{align}
+f(z_1 + z_2) & = f(z_1) f(z_2) \tag{1}\label{1} \\
+f(z)         & \neq 0 \tag{2}\label{2}
+\end{align}$
+</div>
+Deze definitie komt uit een
+<a href="#myref_freudenthal" class="my-refs-ref">boekje</a>
+van Hans
+Freudenthal over complexe getallen en de rest van dit verhaal volgt dit boekje.
+
+<br/>
+Een functie die wel aan $\eqref{1}$ voldoet maar niet aan $\eqref{2}$ heeft
+een $\alpha \in \mathbb{C}$ waarvoor $f(\alpha) = 0$.
+Maar dan $\forall z \in \mathbb{C}: f(z) = f((z-\alpha) + \alpha) = f(z-\alpha) f(\alpha) = 0$.
+<br/>
+Deze <i>nulfunctie</i> $f: z \mapsto 0$ is dus <i>geen</i> exponenti&euml;le functie.
+<br/>
+De functie $f: z \mapsto 1$ is dan weer <i>wel</i> een exponenti&euml;le functie.
+<br/>
+<br/>
+Wat ook <i>geen</i> exponenti&euml;le functie is volgens deze definitie,
+is $g(z) = \alpha f(z)$ waarbij $f(z)$ exponentieel en $\alpha \neq 1$ is.
+<br/>
+Immers,
+$g(z_1)g(z_2) = \alpha f(z_1) \alpha f(z_2) = \alpha (\alpha f(z_1) f(z_2))
+= \alpha (\alpha f(z_1 + z_2)) = \alpha g(z_1 + z_2) \neq g(z_1 + z_2)$.
+<br/>
+<br/>
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="my_derivative">De afgeleide</h4>
+
+Laten we eens naar de afgeleide van een exponenti&euml;le functie kijken:
+<br/>
+$\begin{align}
+f'(z) & = \lim\limits_{h \to 0} \dfrac{f(z+h)-f(z)}{h} \\
+      & = \lim\limits_{h \to 0} \dfrac{f(z+0+h)-f(z+0)}{h} \\
+      & = \lim\limits_{h \to 0} \dfrac{f(z)f(0+h)-f(z)f(0)}{h} \\
+      & = \lim\limits_{h \to 0} \dfrac{f(0+h)-f(0)}{h} f(z) \\
+      & = f'(0) f(z)
+\end{align}$
+<br/>
+De afgeleide is dus een <i>constante</i> maal $f(z)$.
+<br/>
+<br/>
+Daarnaast volgt uit de definitie dat
+<br/>
+
+$f(z) = f(z+0) \stackrel{\eqref{1}}= f(z) f(0) \stackrel{\eqref{2}}\Rightarrow f(0) = 1$
+<br/>
+<br/>
+
+Hiermee is de volgende stelling bewezen:
+<div class="my-theorem">
+Een exponenti&euml;le functie voldoet aan:
+
+$\begin{align}
+f'(z) & = \kappa f(z), \; \kappa \in \mathbb{C} \tag{3}\label{3} \\
+f(0)  & = 1 \tag{4}\label{4}
+\end{align}$
+
+$\tag*{$\square$}$
+</div>
+
+Die $f(0) = 1$ zit in de stelling omdat we gaan bewijzen dat ook het
+omgekeerde geldt: als $f(z)$ aan $\eqref{3}$ en $\eqref{4}$ voldoet dan is
+$f(z)$ exponenti&euml;el.
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="my_kappa">Evenredig met de afgeleide</h4>
+
+Laten we nu eens naar functies kijken die evenredig zijn met hun afgeleide,
+functies die voldoen aan:
+<br/>
+$\exists \kappa \in \mathbb{C}: f'(z) = \kappa f(z)$
+<br/>
+<br/>
+Als $\kappa = 0$ dan: $f'(z) = 0 \Rightarrow f(z) = \gamma$, een constante
+$\gamma \in \mathbb{C}$.
+<br/>
+<br/>
+Stel $f$, $f_1$ en $f_2$ zijn zulke functies, en stel:
+<br/>
+<br/>
+$p(z) = f_1(z)f_2(z)$, het product van twee zulke functies.
+<br/>
+$s(z) = f(-z)$, zeg maar de spiegeling in de $y$-as van zo'n functie.
+<br/>
+$t(z) = f(z+\alpha)$, waarin $\alpha \in \mathbb{C}$ een constante is, een translatie.
+<br/>
+<br/>
+De afgeleide van $p(z)$ is:
+<br/>
+$p'(z) = f_1'(z)f_2(z) + f_1(z)f_2'(z)
+       = \kappa_1f_1(z)f_2(z) + \kappa_2f_1(z)f_2(z)
+       = (\kappa_1 + \kappa_2)f_1(z)f_2(z)
+       = (\kappa_1 + \kappa_2)p(z)$
+<br/>
+<br/>
+De afgeleide van $s(z)$ is:
+<br/>
+$\begin{align}
+s'(z)  & = \lim\limits_{h\to 0}\dfrac{s(z+h) - s(z)}{h}
+         = \lim\limits_{h\to 0}\dfrac{f(-z-h) - f(-z)}{h}
+         = -\lim\limits_{h\to 0}\dfrac{f(-z-h) - f(-z)}{-h} \\
+       & = -\lim\limits_{(-h)\to 0}\dfrac{f(-z+(-h)) - f(-z)}{-h}
+         = -f'(-z) = -\kappa f(-z) = -\kappa s(z)
+\end{align}$
+<br/>
+<br/>
+En de afgeleide van $t(z)$ is:
+<br/>
+$t'(z)   = \lim\limits_{h\to 0}\dfrac{t(z+h) - t(z)}{h}
+         = \lim\limits_{h\to 0}\dfrac{f(z+\alpha + h) - f(z+\alpha)}{h}
+         = f'(z+\alpha) = \kappa f(z+\alpha) = \kappa t(z)
+$
+<br/>
+<br/>
+$p(z)$, $s(z)$ en $t(z)$ zijn dus ook gelijk aan een constante maal hun eigen
+afgeleide.
+<br/>
+Wat nu als we $p_1(z) = f(z)s(z)$ nemen?
+<br/>
+Dan is $p_1'(z) = (\kappa - \kappa)p_1(z) = 0$, dus $p_1(z) = f(z)f(-z)$ is constant, zeg $p_1(0) = (f(0))^2$.
+<br/>
+En als we $p_2(z) = t(z)s(z)$ nemen?
+<br/>
+Dan is $p_2'(z) = (\kappa - \kappa)p_2(z) = 0$, dus ook $p_2(z) = f(z+\alpha)f(-z)$ is constant, zeg $p_2(0) = f(\alpha)f(0)$.
+<br/>
+<br/>
+Als $f(0) \neq 0$ dan kun dus zeggen: $f(z+\alpha)f(-z) = f(\alpha)f(0) = \dfrac{f(\alpha)}{f(0)}(f(0))^2 = \dfrac{f(\alpha)}{f(0)} f(z)f(-z)$.
+<br/>
+Maar als $f(0) \neq 0$ dan is dus ook $f(z)f(-z) = (f(0))^2 \neq 0$, ofwel $\forall z \in \mathbb{C}: f(-z) \neq 0$, ofwel:
+<br/>
+<br/>
+$f(z+\alpha) = \dfrac{f(z)f(\alpha)}{f(0)}$
+<br/>
+<br/>
+We hadden aan $\alpha$ geen bijzondere eisen gesteld: $\alpha \in \mathbb{C}$,
+dus eigenlijk hebben we:
+<br/>
+<br/>
+$\forall z_1,z_2 \in \mathbb{C}: f(z_1 + z_2) = \dfrac{f(z_1)f(z_2)}{f(0)}$
+<br/>
+<br/>
+Als nu $f(0) = 1$ dan hebben dus $f(0) \neq 0$ en dus $f(z)f(-z) = (f(0))^2 \neq 0$ en dus:
+<br/>
+$\forall z \in \mathbb{C}: f(z) \neq 0$, en
+<br/>
+$\forall z_1,z_2 \in \mathbb{C}: f(z_1 + z_2) = f(z_1)f(z_2)$
+<br/>
+En dan hebben we bewezen dat:
+<div class="my-theorem">
+Een functie waarvoor:
+<br/>
+$\begin{align}
+f'(z) & = \kappa f(z), \; \kappa \in \mathbb{C} \tag*{\eqref{3}}\\
+f(0)  & = 1  \tag*{\eqref{4}}
+\end{align}$
+<br/>
+is een exponenti&euml;le functie.
+
+$\tag*{$\square$}$
+</div>
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="my_exp">Hij is uniek</h4>
+
+Zo'n functie waarvoor $f'(z) = \kappa f(z)$ en $f(0) = 1$ is uniek
+(per $\kappa = f'(0)$).
+<br/>
+<br/>
+Want met elke $g(z)$ met $g'(z) = \kappa g(z)$ en $g(0) = 1$ kun je
+net als in het voorgaande $p_1(z) = f(z)f(-z)$ en $p_2(z) = g(z)f(-z)$
+maken en dan krijg je $p_1(z) = p_2(z) = 1$.
+<br/>
+$p_1'(z) = (\kappa - \kappa)p_1(z) = 0$ ofwel $p_1(z)$ is constant: $f(z)f(-z) = (f(0))^2 = 1$ en
+<br/>
+$p_2'(z) = (\kappa - \kappa)p_2(z) = 0$ ofwel $p_2(z)$ is constant: $g(z)f(-z) = g(0)f(0) = g(0) = 1$.
+<br/>
+En $g(z)f(-z) = f(z)f(-z) \Rightarrow g(z) = f(z)$ want $f(-z)$ is nooit $0$.
+<br/>
+<br/>
+Daar maken we maar een stelling van:
+<div class="my-theorem">
+Een exponenti&euml;le functie wordt uniek bepaald door de afgeleide in $0$.
+$\tag*{$\square$}$
+</div>
+Dus elke $\kappa$ levert een eigen unieke exponenti&euml;le functie.
+Met $\kappa = 0$ wordt dit $f: z \mapsto 1$.
+<br/>
+Met $\kappa = 1$ is het de functie waarvoor $f'(z) = f(z)$.
+
+<br/>
+<br/>
+De functie $f(z) = 1 + z + \frac{z^2}{2!} + \frac{z^3}{3!} + \cdots$
+voldoet aan
+$f'(z) = f(z)$<label for="info_sumz" class="jcr-info" title="hoe zat dat ook al weer?"></label>:
+<input id="info_sumz" class="jcr-info" type="checkbox"/>
+<div class="jcr-info">
+De afgeleide van $g(z) = \alpha z^n$:
+<br/>
+<br/>
+$\begin{align}
+g'(z) & = \lim\limits_{h \to 0}\dfrac{g(z+h)-g(z)}{h}                                                                    \\
+      & = \lim\limits_{h \to 0}\dfrac{\alpha(z+h)^n - \alpha z^n}{h}                                                     \\
+      & = \alpha\lim\limits_{h \to 0}\dfrac{(z+h)^n - z^n}{h}                                                            \\
+      & = \alpha\lim\limits_{h \to 0}\dfrac{z^n + \binom{n}{1}z^{n-1}h + \binom{n}{2}z^{n-2}h^2 + \cdots + h^n - z^n}{h} \\
+      & = \alpha\lim\limits_{h \to 0}\dfrac{nz^{n-1}h + \Bigl(\binom{n}{2}z^{n-2} + \cdots + h^{n-2}\Bigr)h^2}{h}        \\
+      & = \alpha nz^{n-1} + \alpha\lim\limits_{h \to 0}\Bigl(\tbinom{n}{2}z^{n-2} + \cdots + h^{n-2}\Bigr)h             \\
+      & = \alpha nz^{n-1}
+\end{align}$
+<br/>
+<br/>
+<label for="info_sumz" class="jcr-info"></label>
+</div>
+<br/>
+
+$\begin{align}
+f'(z) & = 0 + 1 + \frac{2z}{2!} + \cdots + \frac{jz^{j-1}}{j!} + \cdots \\
+      & = 1 + z + \cdots + \frac{z^{j-1}}{(j-1)!} + \cdots \\
+      & = 1 + z + \frac{z^2}{2!} + \frac{z^3}{3!} + \cdots \\
+      & = f(z)
+\end{align}$
+<br/>
+
+Het is overigens niet vanzelfsprekend dat je hier
+<a href="#myref_uniformconvergence" class="my-refs-ref"><i>termsgewijs
+mag differenti&euml;ren</i></a>. Zonder bewijs: het mag hier.
+
+<br/>
+<br/>
+Omdat ook $f(0) = 1$ hebben we hier dus de <i>unieke</i> exponenti&euml;le
+functie met $f'(0) = 1$.
+
+<br/>
+<br/>
+$f(1) = \sum\limits_{n=0}^\infty\dfrac{1}{n!} = e$
+<br/>
+Daarom <b><i>noteren</i></b> we de functie als $e^z$:
+<br/>
+<div class="my-definition">
+$e^z = 1 + z + \frac{z^2}{2!} + \frac{z^3}{3!} + \cdots \tag{5}\label{5}$
+</div>
+Dat $f(z)$ uniek is leidt ook tot het volgende:
+<br/>
+<a href="#myref_uniformconvergence" class="my-refs-ref">Vooropgesteld</a>
+dat de limiet $\lim\limits_{n\to\infty}(1+\frac{z}{n})^n$ bestaat, noem
+$h(z) = \lim\limits_{n\to\infty}(1+\frac{z}{n})^n = \lim\limits_{n\to\infty}g(z)$.
+<br/>
+Dan is $h'(z) = \lim\limits_{n\to\infty}g'(z)$.
+<br/>
+$g'(z) = (1+\frac{z}{n})^{n-1} = \dfrac{(1+\frac{z}{n})^n}{1+\frac{z}{n}} = \dfrac{g(z)}{1+\frac{z}{n}}$
+<br/>
+$\lim\limits_{n\to\infty}g'(z) = \lim\limits_{n\to\infty} \dfrac{g(z)}{1+\frac{z}{n}} = \lim\limits_{n\to\infty} g(z)$
+<br/>
+Met andere woorden: $h(z) = h'(z)$ en omdat $h(0) = 1$ krijgen we:
+<br/>
+<div class="my-theorem">
+$e^z = \lim\limits_{n\to\infty}(1+\frac{z}{n})^n \tag{6}\label{6}$
+$\tag*{$\square$}$
+</div>
+En met $z=1$ krijg je dan de uitdrukking $e=\lim\limits_{n\to\infty}(1+\frac{1}{n})^n$.
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="my_euler">De formule van Euler</h4>
+
+Laten we vervolgens eens kijken naar $f(z) = e^{\kappa z}$.
+<br/>
+De <label for="info_ekappaz" class="jcr-info">afgeleide</label>
+ is $f'(z) = \kappa e^{\kappa z}$
+<input id="info_ekappaz" class="jcr-info" type="checkbox"/>
+<div class="jcr-info">
+Noem $\kappa z = w$, dan is $\frac{dw}{dz} = \frac{d(\kappa z)}{dz} = \kappa$
+<br/>
+$f'(z) = \frac{d(e^{\kappa z)}}{dz} = \frac{d(e^w)}{dz} = \kappa\frac{d(e^w)}{dw} = \kappa e^w = \kappa e^{\kappa z}$
+<label for="info_ekappaz" class="jcr-info"></label>
+</div>
+en $f(0) = e^0 = 1$. Dus we hebben $f'(z) = \kappa f(z)$, die uniek moet zijn.
+<br/>
+Met andere woorden, elke exponenti&euml;le functie kun je schrijven als
+$f(z) = e^{\kappa z}$.
+
+
+<br/>
+<br/>
+Als je $e$ zegt, zeg je
+<a href="#myref_euler" class="my-refs-ref">Euler</a>
+<label for="info_euler2" class="jcr-info"></label>
+<input id="info_euler2" class="jcr-info" type="checkbox"/>
+<div class="jcr-info">
+Euler introduceerde overigens niet alleen het symbool $e$, maar onder meer ook
+de $i$ in $i^2=-1$ en de notatie $f(x)$ voor een functie.
+<label for="info_euler2" class="jcr-info"></label>
+</div>
+En als je Euler zegt dan zeg je $\cos x + i\sin x$.
+<br/>
+Hier is $x \in \mathbb{R}$ en $i$ het imaginaire getal met de eigenschap $i^2=-1$.
+<br/>
+De afgeleide van $f(x) = \cos x + i\sin x$ is
+$f'(x) = -\sin x + i \cos x = i(\cos x + i\sin x) = i f(x)$,
+en $f(0) = 1$ en dat brengt ons uiteraard op een idee &hellip;
+<br/>
+<br/>
+Wat te zeggen van een exponenti&euml;le functie met
+$f'(z) = i f(z)$?
+<br/>
+Die is dus te schrijven als $e^{iz}$.
+<br/>
+Voor re&euml;le $x$ krijg je dan:
+$e^{ix} = \cos x + i\sin x \tag{7}\label{7}$
+de <i>formule van Euler</i>.
+<br/>
+<br/>
+Als je $z=ix$ neemt in $\eqref{5}$ dan krijg je:
+<br/>
+$\begin{align}
+e^{ix} & = 1 + ix - \frac{x^2}{2!} - i \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots \\
+       & = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \cdots + i(x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots)
+\end{align}$
+<br/>
+Deze opsplitsing in een re&euml;el en een imaginair deel leidt met de formule
+van Euler tot uitdrukkingen voor $\cos x$ en $\sin x$. Die inspireren tot
+de volgende definities in het <i>complexe</i> domein:
+<br/>
+<div class="my-definition">
+$\begin{align}
+\cos z & = 1 - \frac{z^2}{2!} + \frac{z^4}{4!} - \cdots \tag{8}\label{8} \\
+\sin z & = z - \frac{z^3}{3!} + \frac{z^5}{5!} - \cdots \tag{9}\label{9}
+\end{align}$
+</div>
+Met die definitie heb je dus $e^{iz} = \cos z + i\sin z$.
+
+<br/>
+<br/>
+
+De relatie tussen
+exponenti&euml;le en goniometrische functies is de
+<label for="info_demoivre" class="jcr-info">heilige graal</label>
+van de goniometrische formules.
+<input id="info_demoivre" class="jcr-info" type="checkbox"/>
+<div class="jcr-info">
+Je hebt bijvoorbeeld $(\cos x + i\sin x)^n = (e^{ix})^n = e^{inx} = \cos(nx) + i\sin(nx)$,
+de <i>formule van De Moivre</i>.
+<br/>
+<br/>
+Met $n=2$:
+<br/>
+$\cos(2x) + i \sin(2x) = (\cos x + i\sin x)^2 = (\cos x)^2 + 2i\cos x \sin x - (\sin x)^2$,
+en opsplitsen in re&euml;le en imaginaire delen levert:
+<br/>
+$\cos(2x) = (\cos x)^2 - (\sin x)^2$
+<br/>
+$\sin(2x) = 2\cos x \sin x$
+<br/>
+<br/>
+Met $n=3$:
+<br/>
+$\cos(3x) + i \sin(3x) = (\cos x + i\sin x)^3 = (\cos x)^3 + 3i(\cos x)^2 sin x - 3\cos x(\sin x)^2 - i(\sin x)^3$,
+<br/>
+$\cos(3x) = (\cos x)^3 - 3\cos x(\sin x)^2 \qquad \bigl[ = (\cos x)^3 - 3\cos x(1-(\cos x)^2) = 4(\cos x)^3 - 3\cos x\bigr]$
+<br/>
+$\sin(3x) = 3(\cos x)^2\sin x - (\sin x)^3  \qquad \bigl[ = 3(1-(\sin x)^2)\sin x - (\sin x)^3 = 3\sin x - 4(\sin x)^3\bigr]$
+<label for="info_demoivre" class="jcr-info"></label>
+</div>
+<br/>
+
+<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
+<h4 class="my-section" id="my_ln">Een inverse?</h4>
+
+Tot aan het verhaal over de formule van Euler is eigenlijk nergens van
+wezenlijk belang geweest dat het met de exponenti&euml;le functies over
+de complexe getallen ging. Maar als we onderzoeken of er een <i>inverse</i>
+functie is, dus een functie $f^{-1}$ met $f^{-1}(w) = z$
+als $w = e^{\kappa z}$, dan blijkt dat er een belangrijk verschil tussen
+$\mathbb{R}$ en de rest van $\mathbb{C}$ op te treden.
+<br/>
+<br/>
+In $\mathbb{R}$ heeft $e^x$ een inverse: de functie
+<label for="info_lnx" class="jcr-info">$\ln x$</label> te zijn.
+Dat is in te zien via de omgekeerde weg: als $x = \ln a$ wat is dan de
+functie $f: x \mapsto a$?
+
+<input id="info_lnx" class="jcr-info" type="checkbox"/>
+<div class="jcr-info">
+Met de definitie $\ln x = \int\limits_1^x\dfrac{1}{t}dt$, voor $x \in \mathbb{R}^+$
+<br/>
+krijg je voor de afgeleide:
+<br/>
+$\dfrac{d (\ln x)}{dx} = \lim\limits_{h \to 0}\dfrac{\ln (x+h) - \ln x}{h}
+                       = \lim\limits_{h \to 0}\dfrac{\int\limits_1^{x+h}\frac{1}{t}dt - \int\limits_1^x\frac{1}{t}dt}{h}
+                       = \lim\limits_{h \to 0}\dfrac{\int\limits_x^{x+h}\frac{1}{t}dt}{h}$
+<br/>
+De <a href="#myref_meanval" class="my-refs-ref">middelwaardestelling</a>
+zegt dat er dan een een $x < c_x < x+h$ is waarvoor $\int\limits_x^{x+h}\frac{1}{t}dt = \frac{1}{c_x}(x+h-x) = \frac{h}{c_x}$
+(stel je de integraal voor als een oppervlakte "onder" $\frac{1}{t}$ die je
+dan vervangt door een rechthoek met breedte $x+h-x=h$ en hoogte $\frac{1}{c_x}$
+voor een $c_x$ ergens tussen $x$ en $x+h$).
+<br/>
+Daarmee wordt $\dfrac{d (\ln x)}{dx} = \lim\limits_{h \to 0}\dfrac{1}{c_x} = \dfrac{1}{x}$
+omdat $\dfrac{1}{t}$ een continue functie is.
+<br/>
+<br/>
+Een eigenschap van $\ln x$ is:
+<br/>
+$\begin{array}{lll}
+\ln(ab) & = \int\limits_1^{ab}\frac{1}{t}dt                                   & \xlongequal[ds=dt/a]{s = t/a} \int\limits_{1/a}^{b}\frac{1}{as}ads \\
+        & = \int\limits_{1/a}^1\frac{1}{as}ads + \int\limits_1^b\frac{1}{s}ds & \xlongequal[ads=dt]{sa = t}   \int\limits_1^a\frac{1}{t}dt + \ln b \\
+        & = \ln a + \ln b
+\end{array}$
+<label for="info_lnx" class="jcr-info"></label>
+</div>
+We hebben $f(x) = a \neq 0$ want $\ln a$ is alleen gedefinieerd voor $a \in \mathbb{R}^+$
+<br/>
+En als $x = \ln a$, $y = \ln b$, dan is $f(x+y) = f(\ln a + \ln b) = f(\ln(ab)) = ab = f(x)f(y)$
+<br/>
+vanwege de eigenschap $\ln a + \ln b = \ln(ab)$.
+<br/>
+Dus is het een exponenti&euml;le functie: $f(x) = e^{\kappa x}$.
+<br/>
+Dan is $x = \ln (e^{\kappa x})$, en als je daar de afgeleide van bekijkt krijg je:
+<br/>
+$1 = \dfrac{d(\ln (e^{\kappa x}))}{dx} = \dfrac{1}{e^{\kappa x}}\dfrac{de^{\kappa x}}{dx} = \dfrac{\kappa e^{\kappa x}}{e^{\kappa x}} = \kappa$
+<br/>
+Ofwel: $f(x) = e^x$.
+<br/>
+<br/>
+Maar buiten $\mathbb{R}$ is het een ander verhaal, $e^z$ is namelijk een
+periodieke functie.
+<br/>
+Je kunt $e^z$ schrijven als $e^{x+iy} = e^xe^{iy}$.
+<br/>
+Hierin is $z$ dus uitgeschreven als een re&euml;el deel $\mathrm{Re}(z) = x$
+plus $i$ maal een imaginair deel $\mathrm{Im}(z) = y$, waarbij $x, y \in \mathbb{R}$.
+<br/>
+De formule van Euler zegt $e^{iy} = \cos y + i\sin y$.
+Dus $e^z = e^xe^{iy} = e^x(\cos y + i\sin y)$.
+<br/>
+Stel je $\mathbb{C}$ voor als een vlak en $z = x + iy$ als een punt met
+co&ouml;rdinaten $(x, y)$ in dat vlak. Dan beeldt $e^z$ dat vlak af op een
+vlak waarin het beeld van $z$ een punt is op een cirkel met straal $e^x$
+en een hoek van $y$ radialen ten opzichte van de positieve $x$-as.
+
+<br/>
+Voor $\cos y$ &egrave;n voor $\sin y$ geldt dat ze een <i>periode</i> $\tau$
+hebben ($\tau$ is de omtrek van een cirkel met straal $1$, $\tau = 2\pi$).
+<br/>
+En dus is $e^{z+i\tau} = e^z e^{i \tau} = e^z(\cos \tau + i \sin \tau) = e^z(1 + i \cdot 0) = e^z$
+<br/>
+De functie $e^z$ is periodiek, met periode $i\tau$.
+<br/>
+<br/>
+Hieronder een grafische voorstelling, links het complexe vlak waarin een
+strook gekleurd is. Die strook stelt het gebied $-\tau/2 \le y \lt \tau/2$ voor,
+met voor elke waarde van $y$ een andere tint. Oplopende waarden van $x$
+laten de kleur van donker naar licht gaan.
+Rechts het beeld van deze strook
+onder de functie $e^z$. Dit beeld bestrijkt dus het gehele complexe vlak
+<i>behalve</i> $0$.
+
+<div class="grid2">
+<figure class="my-figure">
+<canvas id="domain"></canvas>
+<figcaption>$D = \{z \in \mathbb{C} \mid -\tau/2 \le \mathrm{Im}(z) \lt \tau/2 \}$</figcaption>
+</figure>
+<figure class="my-figure">
+<canvas id="range"></canvas>
+<figcaption>$f: D \to \mathbb{C}$ met $f(z) = e^z$</figcaption>
+</figure>
+</div>
+
+<br/>
+
+Het beeld van de $y$-as, $z = iy$, is een cirkel met straal
+$e^0 = 1$: in het complexe vlak stelt $e^{iy}$ de <i>eenheidscirkel</i> voor.
+
+
+</div> <!-- my-main -->
+
+<div class="my-right"></div> <!-- my-right -->
+
+<div class="my-footer">
+
+<div class="my-copy"></div>
+
+<!-- references -->
+<h3 class="my-section" id="section_references">Referenties</h3>
+<!-- refer as:
+<a href="#ref_something" class="my-refs-ref"></a>
+   references in textarea:
+#id [author]
+url
+text
+[origin (website)]
+   separate references with empty lines
+-->
+
+<textarea class="my-refs-list">
+#myref_wiki
+https://en.wikipedia.org/wiki/Exponential_function
+Exponential function
+Wikipedia
+
+#myref_wolfram Weisstein , Eric W.
+http://mathworld.wolfram.com/ExponentialFunction.html
+Exponential Function
+MathWorld
+
+#myref_freudenthal Hans Freudenthal, Bert Nijdam
+https://books.google.nl/books?id=s31nSgAACAAJ
+complexe getallen
+Google
+
+#myref_uniformconvergence
+https://en.wikipedia.org/wiki/Uniform_convergence#To_differentiability
+Uniform convergence
+Wikipedia
+
+#myref_euler
+https://en.wikipedia.org/wiki/Leonhard_Euler
+Leonhard Euler
+Wikipedia
+
+#myref_meanval
+https://en.wikipedia.org/wiki/Mean_value_theorem#Mean_value_theorems_for_definite_integrals
+Mean value theorem
+Wikipedia
+</textarea> <!-- my-refs-list -->
+</div> <!-- my-footer -->
+
+</div> <!-- my-container -->
+</body>
+</html>
