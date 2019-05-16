@@ -1,0 +1,88 @@
+body
+{
+   counter-reset: jcr-definition;                /* */
+   counter-reset: jcr-theorem;                   /* */
+   counter-reset: jcr-figure;                    /* */
+}
+
+.jcr-definition,
+.jcr-theorem
+{
+   margin:     .5rem 0;                          /* */
+   border:     thin solid black;                 /* */
+   padding:    1rem;                             /* */
+
+   font-style: italic;                           /* */
+}
+.jcr-definition::before,
+.jcr-theorem::before
+{
+   font-style:  normal;                          /* */
+   font-weight: bold;                            /* */
+}
+
+.jcr-definition
+{
+   background-color:  hsl( 60, 100%,  90%);      /* */
+   counter-increment: jcr-definition;            /* */
+}
+.jcr-definition::before
+{
+   content: 'Definition ' counter(jcr-definition) '.'; /* */
+}
+.jcr-definition[data-text]::before
+{
+   content: 'Definition ' counter(jcr-definition) ' (' attr(data-text) ').'; /* */
+}
+.jcr-definition:lang(nl)::before
+{
+   content: 'Definitie ' counter(jcr-definition) '.'; /* */
+}
+.jcr-definition[data-text]:lang(nl)::before
+{
+   content: 'Definitie ' counter(jcr-definition) ' (' attr(data-text) ').'; /* */
+}
+
+.jcr-theorem
+{
+   background-color:  hsl(210, 100%,  90%);      /* */
+   counter-increment: jcr-theorem;               /* */
+}
+.jcr-theorem::before
+{
+   content: 'Theorem ' counter(jcr-theorem) '.'; /* */
+}
+.jcr-theorem[data-text]::before
+{
+   content: 'Theorem ' counter(jcr-theorem) ' (' attr(data-text) ').'; /* */
+}
+.jcr-theorem:lang(nl)::before
+{
+   content: 'Stelling ' counter(jcr-theorem) '.'; /* */
+}
+.jcr-theorem[data-text]:lang(nl)::before
+{
+   content: 'Stelling ' counter(jcr-theorem) ' (' attr(data-text) ').'; /* */
+}
+
+.jcr-figure figcaption
+{
+   font-family:       sans-serif;                /* */
+   font-size:         smaller;                   /* */
+   counter-increment: jcr-figure;                /* */
+}
+.jcr-figure figcaption::before
+{
+   content: 'Figure ' counter(jcr-figure) '. ';  /* */
+}
+.jcr-figure figcaption:lang(nl)::before
+{
+   content: 'Figuur ' counter(jcr-figure) '. ';  /* */
+}
+
+.jcr-definition,
+.jcr-theorem,
+.jcr-figure
+{
+   page-break-inside: avoid;                     /* */
+}

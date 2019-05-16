@@ -1,0 +1,44 @@
+@media screen and (orientation: portrait)
+{
+   #jcr-sections:not(:empty)::before
+   {
+      content: 'Jump to:';                       /* */
+   }
+   #jcr-sections:not(:empty):lang(nl)::before
+   {
+      content: 'Meteen naar:';                   /* */
+   }
+}
+@media print
+{
+   #jcr-sections
+   {
+      display: none;                             /* */
+   }
+}
+
+#jcr-sections a,
+.jcr-section a
+{
+   text-decoration: none;                        /* */
+   transition:      .5s;                         /* */
+}
+#jcr-sections a,
+#jcr-sections a:visited,
+.jcr-section a,
+.jcr-section a:visited
+{
+   color: inherit;                               /* */
+}
+#jcr-sections a:hover,
+.jcr-section a:hover
+{
+   color: hsl(315, 100%,  50%);                  /* */
+}
+
+.jcr-section:not(.jcr-section-nobefore)::before
+{
+   content:    '\2744' '\2744' '\2744';          /* */
+   display:    block;                            /* */
+   text-align: center;                           /* */
+}

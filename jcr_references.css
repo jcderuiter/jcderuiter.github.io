@@ -1,0 +1,87 @@
+.jcr-reference
+{
+   vertical-align: super;                        /* */
+   font-size:      smaller;                      /* */
+}
+.jcr-reference::before
+{
+   content: '[';
+}                                                /* */
+.jcr-reference::after
+{
+   content: ']';                                 /* */
+}
+.jcr-reference,
+.jcr-reference:visited
+{
+   color: hsl(  0,   0%,  50%);                  /* */
+}
+
+a.jcr-reference,
+.jcr-referred-link a,
+.jcr-referred-citations a
+{
+   text-decoration: none;                        /* */
+   transition:      .5s;                         /* */
+}
+a.jcr-reference:visited,
+.jcr-referred-link a:visited,
+.jcr-referred-citations a:visited
+{
+   color: inherit;                               /* */
+}
+a.jcr-reference:hover,
+.jcr-referred-link a:hover,
+.jcr-referred-citations a:hover
+{
+   color: hsl(315, 100%,  50%);                  /* */
+}
+
+@media screen
+{
+   .jcr-referred
+   {
+      display:               grid;               /* */
+      grid-template-columns: repeat(3, auto);    /* */
+      column-gap:            2.5rem;             /* */
+      border:                hsl(  0,   0%,  30%) thin solid; /* */
+      background-color:      hsl( 60, 100%,  90%); /* */
+   }
+}
+
+@media print
+{
+   .jcr-referred-citations
+   {
+      display: none;                             /* */
+   }
+   .jcr-referred a[href]::after
+   {
+      content: ' (' attr(href) ')';              /* */
+   }
+}
+
+.jcr-referred-author
+{
+   white-space:   pre-wrap;                      /* */
+   padding-right: .3rem;                         /* */
+}
+
+.jcr-referred-link
+{
+   font-style: italic;                           /* */
+   color:      hsl(240, 100%,  50%);             /* */
+}
+
+.jcr-referred-origin
+{
+   font-variant: small-caps;                     /* */
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}
+
+.jcr-referred-citations
+{
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}

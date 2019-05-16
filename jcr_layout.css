@@ -1,0 +1,68 @@
+.jcr-layout-header { grid-area: jcr-layout-header; }
+.jcr-layout-left   { grid-area: jcr-layout-left;   }
+.jcr-layout-main   { grid-area: jcr-layout-main;   }
+.jcr-layout-right  { grid-area: jcr-layout-right;  }
+.jcr-layout-footer { grid-area: jcr-layout-footer; }
+
+.jcr-layout
+{
+   display:             grid;                    /* */
+   grid-template-areas:                          /* */
+                        'jcr-layout-header'      /* */
+                        'jcr-layout-left'        /* */
+                        'jcr-layout-main'        /* */
+                        'jcr-layout-right'       /* */
+                        'jcr-layout-footer';     /* */
+}
+
+.jcr-layout-header:not(:empty)
+{
+   margin-bottom: 1rem;                          /* */
+}
+
+@media (orientation: landscape)
+{
+   .jcr-layout
+   {
+      grid-template-areas:                                                           /* */
+                           'jcr-layout-header jcr-layout-header  jcr-layout-header'  /* */
+                           'jcr-layout-left   jcr-layout-main    jcr-layout-right'   /* */
+                           'jcr-layout-footer jcr-layout-footer  jcr-layout-footer'; /* */
+   }
+
+   .jcr-layout.jcr-layout-cols
+   {
+      grid-template-areas:                                                           /* */
+                           'jcr-layout-left   jcr-layout-header  jcr-layout-right'   /* */
+                           'jcr-layout-left   jcr-layout-main    jcr-layout-right'   /* */
+                           'jcr-layout-left   jcr-layout-footer  jcr-layout-right';  /* */
+      justify-content:     space-between;        /* */
+   }
+
+   .jcr-layout-main
+   {
+      width:         62vw;                       /* 2/(1+sqrt(5)) */
+      min-height:    90vh;                       /* */
+      justify-self:  center;                     /* */
+
+      box-shadow:    0 0 .5rem;                  /* */
+      border-radius: 5px;                        /* */
+      padding:       1rem;                       /* */
+   }
+
+   .jcr-layout-main.jcr-layout-A4
+   {
+      width: 70vh;                               /* */
+   }
+
+   .jcr-layout-main.jcr-layout-solidborder
+   {
+      box-shadow: none;                          /* */
+      border:     hsl(  0,   0%,  20%) thin solid; /* */
+   }
+
+   .jcr-layout-left, .jcr-layout-right
+   {
+      min-width: 15vw;                           /* */
+   }
+}

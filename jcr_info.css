@@ -1,0 +1,79 @@
+/* usage:                                                                   */
+/* <label for="id" class="jcr-info">optional text</label>                   */
+/*    other content                                                         */
+/*    other content                                                         */
+/* <input id="id" class="jcr-info" type="checkbox"/><div class="jcr-info">  */
+/*    other content                                                         */
+/*    optional:                                                             */
+/* <label for="id" class="jcr-info">optional text</label>                   */
+/*    other content                                                         */
+/* </div>                                                                   */
+/* the <div> must be the immediate successor of the <input>                 */
+/* the first <label> gets a small '*'                                       */
+/* the second <label> puts a 'close cross' in the right top of the <div>    */
+/* both labels trigger an invisible checkbox on which CSS toggles the <div> */
+
+
+label.jcr-info
+{
+   cursor: pointer;                              /* */
+}
+
+label.jcr-info:hover
+{
+   color:      hsl(240, 100%,  50%);             /* */
+   transition: .5s;                              /* */
+}
+
+label.jcr-info::after
+{
+/* content:        '\01f6c8';                    /* */
+/* content:        '\2139';                      /* */
+   content:        '*';                          /* */
+   font-weight:    bolder;                       /* */
+   color:          hsl(240, 100%,  50%);         /* */
+   vertical-align: super;                        /* */
+   font-size:      smaller;                      /* */
+}
+
+input[type="checkbox"].jcr-info
+{
+   width:  0;                                    /* */
+   height: 0;                                    /* */
+}
+
+input[type="checkbox"].jcr-info + div.jcr-info
+{
+   height:           0;                          /* */
+   overflow:         hidden;                     /* */
+   padding:          0;                          /* */
+
+   position:         relative;                   /* */
+
+   background-color: hsl( 60, 100%,  90%);       /* */
+   box-shadow:       0 0 .5rem;                  /* */
+   border-radius:    5px;                        /* */
+
+   transform:        scale(0.0);                 /* */
+   opacity:          0.0;                        /* */
+   transition:       all .5s ease-in-out;        /* */
+}
+
+input[type="checkbox"].jcr-info:checked + div.jcr-info
+{
+   height:     auto;                             /* */
+   margin:     .5rem 1rem;                       /* */
+   padding:    1rem;                             /* */
+
+   transform:  scale(1.0);                       /* */
+   opacity:    1.0;                              /* */
+   transition: all 2s ease-in-out;               /* */
+}
+
+div.jcr-info label.jcr-info::after
+{
+   content:  '\02612';                           /* */
+   position: absolute;                           /* */
+   top:      0;                                  /* */
+   right:    .5rem;                              /* */
+}

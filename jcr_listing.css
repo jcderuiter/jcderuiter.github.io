@@ -1,0 +1,34 @@
+ol.jcr-listing
+{
+   font-family:      monospace;                  /* */
+   text-align:       left;                       /* */
+   line-height:      1.2;                        /* */
+   white-space:      pre-wrap;                   /* */
+   background-color: hsl( 60, 100%,  90%);       /* */
+   border-radius:    .5rem;                      /* */
+   padding:          .5rem 0 .5rem 3rem;         /* */
+}
+ol.jcr-listing li
+{
+   border-left: thin solid black;                /* */
+   padding:     0 .5rem;                         /* */
+}
+
+ol.jcr-listing.jcr-listing-table
+{
+   display: table;                               /* */
+}
+
+ol.jcr-listing.jcr-listing-nolinenrs
+{
+   list-style-type: none;                        /* */
+   padding-left:    0;                           /* */
+}
+ol.jcr-listing.jcr-listing-nolinenrs li:empty::after
+{
+   content: '\000a';                             /* */
+}
+ol.jcr-listing.jcr-listing-nolinenrs li
+{
+   border-left: initial;                         /* */
+}

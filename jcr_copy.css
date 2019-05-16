@@ -1,0 +1,18 @@
+.jcr-copy
+{
+   border-top:  hsl(  0,   0%,  20%) thin solid; /* */
+   color:       hsl(  0,   0%,  20%);            /* */
+   font-size:   0.9rem;                          /* */
+   text-align:  right;                           /* */
+   margin:      1rem 0.5rem;                     /* */
+   padding:     0.5rem;                          /* */
+   user-select: none;                            /* */
+}
+.jcr-copy::before
+{
+   content: '\00a9 ';                            /* */
+}
+.jcr-copy::after
+{
+   content: ' jcr';                              /* */
+}
