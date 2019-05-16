@@ -4,7 +4,8 @@
 <meta http-equiv="expires" content="now"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="version" content="0.0.0"/>
-<title>exp</title>
+<title>Exponenti&euml;le functies</title>
+
 <script type="text/x-mathjax-config">
    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true},
                         TeX:     {extensions: ["extpfeil.js"]}
@@ -13,18 +14,35 @@
 <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML">
 // http://docs.mathjax.org/en/latest/start.html
 </script>
-<style>
 
+<link rel="stylesheet" href="jcr_layout.css" type="text/css"/>
+
+<link rel="stylesheet" href="jcr_listing.css" type="text/css"/>
+<script src="jcr_listing.js"></script>
+
+<link rel="stylesheet" href="jcr_sections.css" type="text/css"/>
+<script src="jcr_sections.js"></script>
+
+<link rel="stylesheet" href="jcr_info.css" type="text/css"/>
+
+<link rel="stylesheet" href="jcr_references.css" type="text/css"/>
+<script src="jcr_references.js"></script>
+
+<link rel="stylesheet" href="jcr_copy.css" type="text/css"/>
+<script src="jcr_copy.js"></script>
+
+<link rel="stylesheet" href="jcr_math.css" type="text/css"/>
+
+<style>
 *
 {
-   box-sizing:       border-box;                 /* */
-   font-family:      sans-serif;                 /* */
+   box-sizing: border-box;                       /* */
 }
 
 body
 {
-/* background-color: hsl(0, 0%, 85%);            /* */
-   line-height:      1.6;                        /* */
+   font-family: sans-serif;                      /* */
+   line-height: 1.6;                             /* */
 }
 
 a
@@ -35,91 +53,15 @@ a
 a, a:visited
 {
    color: inherit;                               /* */
-/* color:           hsl(  0,   0%, 50%);         /* */
 }
 a:hover
 {
-/* text-decoration: underline;                   /* */
-   color:           hsl(315, 100%, 50%);         /* */
+   color: hsl(315, 100%,  50%);                  /* */
 }
 
 .center { text-align: center; }                  /* */
 .nowrap { white-space: nowrap; }                 /* */
 
-
-/* math stuff */
-body
-{
-   counter-reset: my-definition;                 /* */
-   counter-reset: my-theorem;                    /* */
-   counter-reset: my-figure;                     /* */
-}
-
-.my-definition,
-.my-theorem
-{
-   margin:     .5rem 0;                          /* */
-   border:     thin solid black;                 /* */
-   padding:    1rem;                             /* */
-
-   font-style: italic;                           /* */
-}
-.my-definition::before,
-.my-theorem::before
-{
-   font-style:  normal;                          /* */
-   font-weight: bold;                            /* */
-}
-
-.my-definition
-{
-   background-color:  hsl(060, 100%, 090%);      /* */
-   counter-increment: my-definition;             /* */
-}
-.my-definition::before
-{
-   content: 'Definitie ' counter(my-definition) '.'; /* */
-}
-.my-definition[data-text]::before
-{
-   content: 'Definitie ' counter(my-definition) ' (' attr(data-text) ').'; /* */
-}
-
-.my-theorem
-{
-   background-color:  hsl(210, 100%, 090%);      /* */
-   counter-increment: my-theorem;                /* */
-}
-.my-theorem::before
-{
-   content: 'Stelling ' counter(my-theorem) '.'; /* */
-}
-.my-theorem[data-text]::before
-{
-   content: 'Stelling ' counter(my-theorem) ' (' attr(data-text) ').'; /* */
-}
-
-.my-figure figcaption
-{
-   font-family:       sans-serif;                /* */
-   font-size:         smaller;                   /* */
-   counter-increment: my-figure;                 /* */
-}
-.my-figure figcaption::before
-{
-   content: 'Figuur ' counter(my-figure) '. ';   /* */
-}
-.my-figure[data-text]::before
-{
-   content: 'Figuur ' counter(my-figure) ' (' attr(data-text) '). '; /* */
-}
-
-.my-definition,
-.my-theorem,
-.my-figure
-{
-   page-break-inside: avoid;                     /* */
-}
 
 .flex2
 {
@@ -132,281 +74,11 @@ body
    border: 1px solid black;                      /* */
    padding: 5px;                                 /* */
 }
-
-
-/* begin page grid style */
-.my-header { grid-area: my-header; }
-.my-left   { grid-area: my-left;   }
-.my-main   { grid-area: my-main;   }
-.my-right  { grid-area: my-right;  }
-.my-footer { grid-area: my-footer; }
-
-.my-container
-{
-   display:             grid;                    /* */
-   grid-template-areas:
-                        'my-header'
-                        'my-left'
-                        'my-main'
-                        'my-right'
-                        'my-footer';
-}
-
-.my-main
-{
-   background-color: hsl(0, 0%, 100%);           /* */
-}
-
-.my-header:not(:empty)
-{
-   margin-bottom: 1rem;                          /* */
-}
-
-@media screen and (orientation: landscape)
-{
-   .my-container
-   {
-      grid-template-areas:
-                           'my-header my-header  my-header'  /* */
-/*                         'my-left   my-header  my-right'   /* */
-                           'my-left   my-main    my-right'   /* */
-                           'my-footer my-footer  my-footer'; /* */
-/*                         'my-left   my-footer  my-right';  /* */
-   }
-
-   .my-main
-   {
-   /* width:         70vh;                       /* A4 */
-      width:         62vw;                       /* 2/(1+sqrt(5)) */
-      min-height:    90vh;                       /* */
-/*    justify-self:  center;                     /* */
-/*    border:        hsl(0, 0%, 20%) thin solid; /* */
-      box-shadow:    0 0 .5rem;                  /* */
-      border-radius: 5px;                        /* */
-      padding:       1rem;                       /* */
-   }
-
-   .my-left, .my-right
-   {
-      min-width: 15vw;                           /* */
-   }
-}
-/*   end page grid style */
-
-/* begin info style */
-/* usage:                                                                   */
-/* <label for="id" class="jcr-info">optional text</label>                   */
-/*    other content                                                         */
-/*    other content                                                         */
-/* <input id="id" class="jcr-info" type="checkbox"/>               */
-/* <div class="jcr-info">                                                   */
-/*    other content                                                         */
-/* <label for="id" class="jcr-info">optional text</label>                   */
-/*    other content                                                         */
-/* </div>                                                                   */
-/* the <div> must be the immediate successor of the <input>                 */
-/* the first <label> gets a small 'i'                                       */
-/* the second <label> puts a 'close cross' in the right top of the <div>    */
-/* both labels trigger an invisible checkbox on which CSS toggles the <div> */
-
-label.jcr-info
-{
-   cursor:         pointer;                      /* */
-}
-
-label.jcr-info::after
-{
-   content:        '\2139';                      /* */
-   font-weight:    bolder;                       /* */
-   color:          hsl(240, 100%, 050%);         /* */
-   vertical-align: super;                        /* */
-   font-size:      smaller;                      /* */
-}
-
-input[type="checkbox"].jcr-info
-{
-   width:            0;                          /* */
-   height:           0;                          /* */
-}
-
-input[type="checkbox"].jcr-info + div.jcr-info
-{
-   height:           0;                          /* */
-   overflow:         hidden;                     /* */
-   padding:          0;                          /* */
-
-   position:         relative;                   /* */
-
-   background-color: hsl(060, 100%, 090%);       /* */
-   box-shadow:       0 0 .5rem;                  /* */
-   border-radius:    5px;                        /* */
-
-   transform:        scale(0.0);                 /* */
-   opacity:          0.0;                        /* */
-   transition:       all .5s ease-in-out;        /* */
-}
-
-input[type="checkbox"].jcr-info:checked + div.jcr-info
-{
-   height:           auto;                       /* */
-   margin:           .5rem 1rem;                 /* */
-   padding:          1rem;                       /* */
-
-   transform:        scale(1.0);                 /* */
-   opacity:          1.0;                        /* */
-   transition:       all 2s ease-in-out;         /* */
-}
-
-div.jcr-info label.jcr-info::after
-{
-   content:  '\02612';                           /* */
-   position: absolute;                           /* */
-   top:      0;                                  /* */
-   right:    .5rem;                              /* */
-}
-/*   end info style */
-
-/* begin sections style */
-@media screen and (orientation: portrait)        /* */
-{
-   .my-sections:not(:empty)::before
-   {
-      content: 'Jump to:';                       /* */
-   }
-   .my-sections:not(:empty):lang(nl)::before
-   {
-      content: 'Meteen naar:';                   /* */
-   }
-}
-@media print
-{
-   .my-sections
-   {
-      display: none;                             /* */
-   }
-}
-/* end sections style */
-
-/* begin listings style */
-ol.my-listing
-{
-   font-family:      monospace;                  /* */
-   text-align:       left;                       /* */
-   line-height:      1.2;                        /* */
-   white-space:      pre-wrap;                   /* */
-   background-color: hsl(60, 100%, 90%);         /* */
-   border-radius:    .5rem;                      /* */
-   padding:          .5rem 0 .5rem 3rem;         /* */
-}
-ol.my-listing li
-{
-   border-left:    thin solid black;             /* */
-   padding:        0 .5rem;                      /* */
-}
-
-ol.my-listing.table
-{
-   display: table;                               /* */
-/* display: inline-table;                        /* */
-}
-
-ol.my-listing.nolinenrs
-{
-   list-style-type: none;                        /* */
-   padding-left:    0;                           /* */
-}
-ol.my-listing.nolinenrs li:empty::after
-{
-   content: '\000a';                             /* */
-}
-ol.my-listing.nolinenrs li
-{
-   border-left:     initial;                     /* */
-}
-/*   end listings style */
-
-/* begin references style */
-.my-refs-ref
-{
-   vertical-align: super;                        /* */
-   font-size:      smaller;                      /* */
-}
-.my-refs-ref::before { content: '['; }           /* */
-.my-refs-ref::after  { content: ']'; }           /* */
-.my-refs-ref,
-.my-refs-ref:visited
-{
-   color: hsl(000, 000%, 050%);                  /* */
-}
-
-@media screen
-{
-   .my-refs-list
-   {
-      display:               grid;                         /* */
-      grid-template-columns: repeat(3, auto);              /* */
-      column-gap:            2.5rem;                       /* */
-
-      border:                hsl(000, 000%, 030%) thin solid; /* */
-      background-color:      hsl(060, 100%, 090%);         /* */
-   }
-}
-
-@media print
-{
-   * { color: hsl(0, 0%, 0%); }                  /* */
-
-   .my-refs-cites { display: none; }             /* */
-   .my-refs-list a[href]::after { content: ' (' attr(href) ')'; }  /* */
-}
-
-.my-refs-author
-{
-   white-space:   pre-wrap;                      /* */
-   padding-right: .3rem;                         /* */
-}
-
-.my-refs-link
-{
-   font-style:    italic;                        /* */
-   color:         hsl(240, 100%, 50%);           /* */
-}
-
-.my-refs-origin
-{
-   font-variant: small-caps;                     /* */
-   white-space:  pre-wrap;                       /* */
-   padding-left: .3rem;                          /* */
-}
-
-.my-refs-cites
-{
-   white-space:  pre-wrap;                       /* */
-   padding-left: .3rem;                          /* */
-}
-/*   end references style */
-
-/* begin copyright style */
-.my-copy
-{
-   border-top:  hsl(0, 0%, 20%) thin solid;      /* */
-   color:       hsl(0, 0%, 20%);                 /* */
-   font-size:   0.9rem;                          /* */
-   text-align:  right;                           /* */
-   margin:      1rem 0.5rem;                     /* */
-   padding:     0.5rem;                          /* */
-   user-select: none;                            /* */
-}
-.my-copy::before { content: '\00a9 '; }          /* */
-.my-copy::after  { content: ' jcr'; }            /* */
-/* end copyright style */
 </style>
 <script>
 'use strict';
 const exp_js_object = {};
 document.addEventListener('DOMContentLoaded', () => exp_js_object.onload(), false);
-//window.addEventListener('load', () => exp_js_object.onload(), false);
-//onload = (function(other) {  return function() {  if (other) other(); exp_js_object.onload(); } })(onload);
 
 (function(api)
 {
@@ -414,16 +86,9 @@ document.addEventListener('DOMContentLoaded', () => exp_js_object.onload(), fals
    {
       try
       {
-         createListings();
-         createReferences();
-         setSectionLinks();
-         let year = new Date(document.lastModified).getFullYear();
-         document.querySelectorAll('.my-copy').forEach(y => y.innerHTML = year);
-
          expPictures();
       }  catch(err) { console.log('oops', err) }
    }
-
 
    const expPictures = function()
    {
@@ -590,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => exp_js_object.onload(), fals
 
             let x = Math.round(xScale * (Math.log(u*u + v*v)/2 - ln_rMin));
 
-            let y = Math.round(yScale * (shift - Math.atan2(v, u)));
+            let y = Math.round(yScale * (Math.atan2(v, -u) + shift));
 
             let j = 4 * (y * pixels.width + x);
 
@@ -606,163 +271,19 @@ document.addEventListener('DOMContentLoaded', () => exp_js_object.onload(), fals
 
       context.putImageData(target, 0, 0);
    }
-
-   const createListings = function()
-   {
-      for (let element of document.querySelectorAll('textarea.my-listing'))
-      {
-         let ol = document.createElement('ol');
-         ol.className = element.className;
-
-         for (let line of element.innerHTML.replace(/\n$/, '').split('\n'))
-         {
-            let li = document.createElement('li');
-            li.innerHTML = line;
-            ol.appendChild(li);
-         }
-
-         element.replaceWith(ol);
-      }
-   }
-
-   const createReferences = function()
-   {
-      let refnr = 1;
-      let refitem = {};
-
-
-      // the references
-      for (let element of document.querySelectorAll('textarea.my-refs-list'))
-      {
-         let ol = document.createElement('ol');
-         ol.className = element.className;
-         ol.start = refnr;
-
-         for (let record of element.innerHTML.replace(/\n\s*?\n\s*/, '\n\n').split('\n\n'))
-         {
-            let [line1, url, text, origin] = record.split('\n').map(s => s.trim());
-
-            let [hash, ...rest] = line1.split(' ');
-            let author = rest.join(' ');
-
-            if (!hash.startsWith('#')) { continue }
-
-            let li = document.createElement('li');
-            li.id = hash.substr(1);
-
-            if (author)
-            {
-               let span_author = document.createElement('span');
-               span_author.className = 'my-refs-author';
-               span_author.innerHTML = author;
-               li.appendChild(span_author);
-            }
-
-            let span_link = document.createElement('span');
-            span_link.className = 'my-refs-link';
-
-            let a = document.createElement('a');
-            a.href = url;
-            a.innerHTML = text || url;
-            span_link.appendChild(a);
-            li.appendChild(span_link);
-
-            if (origin)
-            {
-               let span_origin = document.createElement('span');
-               span_origin.className = 'my-refs-origin';
-               span_origin.innerHTML = origin;
-               li.appendChild(span_origin);
-            }
-
-            ol.appendChild(li);
-
-            refitem[hash] = { item: li, refnr: refnr, cited: [] }
-            refnr++;
-         }
-
-         element.replaceWith(ol);
-      }
-
-      // the citations (referrals)
-      for (let element of document.querySelectorAll('.my-refs-ref'))
-      {
-         if (!element.hash) { continue }
-
-         let span = document.createElement('span');
-         span.className = 'nowrap';
-         span.innerHTML = element.innerHTML;
-
-         if (refitem[element.hash])
-         {
-            element.innerHTML     = refitem[element.hash].refnr;
-            let hash_for_citation = `${[element.hash]}_${refitem[element.hash].cited.length}`;
-            element.id            = hash_for_citation.substr(1);
-            refitem[element.hash].cited.push(hash_for_citation);
-         }
-         else
-         {
-            element.innerHTML = 'link not present';
-         }
-
-         element.parentNode.insertBefore(span, element);
-         span.appendChild(element);
-      }
-
-
-      // reduce citations array (of hashes) to string of hyperlinks
-      function reduceCitations(accum, next, i, all)
-      {
-         let concat = accum;
-         if (i) { concat += ',' }
-         concat += `<a href="${next}">&uarr;`;
-         if (all.length > 1) { concat += `<sub>${i+1}</sub>` }
-         concat += '</a>';
-
-         return concat;
-      }
-
-      // add citations to items in hyperlink list
-      for (let hash in refitem)
-      {
-         if (!refitem[hash].cited.length) { continue }
-
-         refitem[hash].item.innerHTML += '<span class="my-refs-cites">'
-//                                    +  '<sub>cited:</sub>'
-                                      +  refitem[hash].cited.reduce(reduceCitations, '')
-                                      + '</span>';
-      }
-   }
-
-   const setSectionLinks = function()
-   {
-      let sectionlist = document.querySelector('#my-sections');
-      if (sectionlist)
-      {
-//       sectionlist.innerHTML += '<li><a href="/">Home</a></li>';
-         for (let section of document.querySelectorAll('.my-section[id]'))
-         {
-            let text = section.innerHTML;
-            sectionlist.innerHTML += `<li><a href="#${section.id}">${text}</a></li>`;
-
-            section.innerHTML = `<a href="#">${text}</a>`;
-            section.title     = 'to top of page';
-         }
-      }
-   }
 })(exp_js_object);
 </script>
 </head>
 <body>
 
-<div class="my-container">
+<div class="jcr-layout">
 
-<div class="my-header"></div> <!-- my-header -->
-<div class="my-left">
-<ul class="my-sections" id="my-sections"></ul>
-</div> <!-- my-left -->
+<div class="jcr-layout-header"></div> <!-- jcr-layout-header -->
+<div class="jcr-layout-left">
+<ul id="jcr-sections"></ul>
+</div> <!-- jcr-layout-left -->
 
-<div class="my-main">
+<div class="jcr-layout-main">
 
 Over exponenti&euml;le functies valt heel wat te vertellen.
 Maar waar hebben we het dan eigenlijk over?
@@ -786,12 +307,12 @@ Wat is $a^x$ als $x\in \mathbb{R}$, en kunnen we nog een stap verder:
 $x \in \mathbb{C}$?
 <br/>
 <br/>
-In <a href="#myref_wiki" class="my-refs-ref">Wikipedia</a> wordt $a^x$
+In <a href="#myref_wiki" class="jcr-reference">Wikipedia</a> wordt $a^x$
 exponenti&euml;le functie genoemd,
 maar als formele definitie van <i>de</i> exponenti&euml;le functie
 wordt $e^x$ gebruikt ($e$ is het getal van
 <label for="info_euler" class="jcr-info">Euler</label>).
-<a href="#myref_wolfram" class="my-refs-ref">Wolfram</a>
+<a href="#myref_wolfram" class="jcr-reference">Wolfram</a>
 neemt zelfs $e^z$ met $z \in \mathbb{C}$ als definitie.
 
 <input id="info_euler" class="jcr-info" type="checkbox"/>
@@ -812,8 +333,7 @@ $e = \sum\limits_{n=0}^\infty\dfrac{1}{n!}$
 $e = 2.71828\dots$
 </div>
 
-<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
-<h4 class="my-section" id="my_definition">Een alternatieve definitie</h4>
+<h4 class="jcr-section" id="my_definition">Een alternatieve definitie</h4>
 
 Als we even teruggaan naar het machtsverheffen, dat heeft een interessante
 eigenschap: $a^p a^q = a^{p+q}$
@@ -845,7 +365,7 @@ vereisen dat de functie differentieerbaar is (altijd handig) en over
 complexe getallen gaat (toe maar):
 <br/>
 <br/>
-<div class="my-definition" data-text="exponenti&euml;le functie">
+<div class="jcr-definition" data-text="exponenti&euml;le functie">
 Een exponenti&euml;le functie is een differentieerbare functie
 $f: \mathbb{C} \rightarrow \mathbb{C}$, zodanig dat
 $\forall z_1, z_2, z \in \mathbb{C}:$
@@ -857,7 +377,7 @@ f(z)         & \neq 0 \tag{2}\label{2}
 \end{align}$
 </div>
 Deze definitie komt uit een
-<a href="#myref_freudenthal" class="my-refs-ref">boekje</a>
+<a href="#myref_freudenthal" class="jcr-reference">boekje</a>
 van Hans
 Freudenthal over complexe getallen en de rest van dit verhaal volgt dit boekje.
 
@@ -880,8 +400,7 @@ $g(z_1)g(z_2) = \alpha f(z_1) \alpha f(z_2) = \alpha (\alpha f(z_1) f(z_2))
 <br/>
 <br/>
 
-<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
-<h4 class="my-section" id="my_derivative">De afgeleide</h4>
+<h4 class="jcr-section" id="my_derivative">De afgeleide</h4>
 
 Laten we eens naar de afgeleide van een exponenti&euml;le functie kijken:
 <br/>
@@ -904,7 +423,7 @@ $f(z) = f(z+0) \stackrel{\eqref{1}}= f(z) f(0) \stackrel{\eqref{2}}\Rightarrow f
 <br/>
 
 Hiermee is de volgende stelling bewezen:
-<div class="my-theorem">
+<div class="jcr-theorem">
 Een exponenti&euml;le functie voldoet aan:
 
 $\begin{align}
@@ -919,8 +438,7 @@ Die $f(0) = 1$ zit in de stelling omdat we gaan bewijzen dat ook het
 omgekeerde geldt: als $f(z)$ aan $\eqref{3}$ en $\eqref{4}$ voldoet dan is
 $f(z)$ exponenti&euml;el.
 
-<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
-<h4 class="my-section" id="my_kappa">Evenredig met de afgeleide</h4>
+<h4 class="jcr-section" id="my_kappa">Evenredig met de afgeleide</h4>
 
 Laten we nu eens naar functies kijken die evenredig zijn met hun afgeleide,
 functies die voldoen aan:
@@ -1003,7 +521,7 @@ $\forall z \in \mathbb{C}: f(z) \neq 0$, en
 $\forall z_1,z_2 \in \mathbb{C}: f(z_1 + z_2) = f(z_1)f(z_2)$
 <br/>
 En dan hebben we bewezen dat:
-<div class="my-theorem">
+<div class="jcr-theorem">
 Een functie waarvoor:
 <br/>
 $\begin{align}
@@ -1016,8 +534,7 @@ is een exponenti&euml;le functie.
 $\tag*{$\square$}$
 </div>
 
-<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
-<h4 class="my-section" id="my_exp">Hij is uniek</h4>
+<h4 class="jcr-section" id="my_exp">Hij is uniek</h4>
 
 Zo'n functie waarvoor $f'(z) = \kappa f(z)$ en $f(0) = 1$ is uniek
 (per $\kappa = f'(0)$).
@@ -1035,7 +552,7 @@ En $g(z)f(-z) = f(z)f(-z) \Rightarrow g(z) = f(z)$ want $f(-z)$ is nooit $0$.
 <br/>
 <br/>
 Daar maken we maar een stelling van:
-<div class="my-theorem">
+<div class="jcr-theorem">
 Een exponenti&euml;le functie wordt uniek bepaald door de afgeleide in $0$.
 $\tag*{$\square$}$
 </div>
@@ -1078,7 +595,7 @@ f'(z) & = 0 + 1 + \frac{2z}{2!} + \cdots + \frac{jz^{j-1}}{j!} + \cdots \\
 <br/>
 
 Het is overigens niet vanzelfsprekend dat je hier
-<a href="#myref_uniformconvergence" class="my-refs-ref"><i>termsgewijs
+<a href="#myref_uniformconvergence" class="jcr-reference"><i>termsgewijs
 mag differenti&euml;ren</i></a>. Zonder bewijs: het mag hier.
 
 <br/>
@@ -1092,12 +609,12 @@ $f(1) = \sum\limits_{n=0}^\infty\dfrac{1}{n!} = e$
 <br/>
 Daarom <b><i>noteren</i></b> we de functie als $e^z$:
 <br/>
-<div class="my-definition">
+<div class="jcr-definition">
 $e^z = 1 + z + \frac{z^2}{2!} + \frac{z^3}{3!} + \cdots \tag{5}\label{5}$
 </div>
 Dat $f(z)$ uniek is leidt ook tot het volgende:
 <br/>
-<a href="#myref_uniformconvergence" class="my-refs-ref">Vooropgesteld</a>
+<a href="#myref_uniformconvergence" class="jcr-reference">Vooropgesteld</a>
 dat de limiet $\lim\limits_{n\to\infty}(1+\frac{z}{n})^n$ bestaat, noem
 $h(z) = \lim\limits_{n\to\infty}(1+\frac{z}{n})^n = \lim\limits_{n\to\infty}g(z)$.
 <br/>
@@ -1109,14 +626,13 @@ $\lim\limits_{n\to\infty}g'(z) = \lim\limits_{n\to\infty} \dfrac{g(z)}{1+\frac{z
 <br/>
 Met andere woorden: $h(z) = h'(z)$ en omdat $h(0) = 1$ krijgen we:
 <br/>
-<div class="my-theorem">
+<div class="jcr-theorem">
 $e^z = \lim\limits_{n\to\infty}(1+\frac{z}{n})^n \tag{6}\label{6}$
 $\tag*{$\square$}$
 </div>
 En met $z=1$ krijg je dan de uitdrukking $e=\lim\limits_{n\to\infty}(1+\frac{1}{n})^n$.
-
-<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
-<h4 class="my-section" id="my_euler">De formule van Euler</h4>
+<br/>
+<br/>
 
 Laten we vervolgens eens kijken naar $f(z) = e^{\kappa z}$.
 <br/>
@@ -1129,17 +645,24 @@ Noem $\kappa z = w$, dan is $\frac{dw}{dz} = \frac{d(\kappa z)}{dz} = \kappa$
 $f'(z) = \frac{d(e^{\kappa z)}}{dz} = \frac{d(e^w)}{dz} = \kappa\frac{d(e^w)}{dw} = \kappa e^w = \kappa e^{\kappa z}$
 <label for="info_ekappaz" class="jcr-info"></label>
 </div>
-en $f(0) = e^0 = 1$. Dus we hebben $f'(z) = \kappa f(z)$, die uniek moet zijn.
+Dus we hebben $f'(z) = \kappa f(z)$, en we hebben ook $f(0) = e^0 = 1$,
+dus volgens de definitie is $e^{\kappa z}$
+een exponenti&euml;le functie.
+Deze wordt uniek bepaald door $f'(0) = \kappa$, met andere woorden:
 <br/>
-Met andere woorden, elke exponenti&euml;le functie kun je schrijven als
-$f(z) = e^{\kappa z}$.
+
+<div class="jcr-theorem">
+Elke exponenti&euml;le functie kun je schrijven als $f(z) = e^{\kappa z}$.
+$\tag*{$\square$}$
+</div>
 
 
-<br/>
-<br/>
+<h4 class="jcr-section" id="my_euler">De formule van Euler</h4>
+
 Als je $e$ zegt, zeg je
-<a href="#myref_euler" class="my-refs-ref">Euler</a>
-<label for="info_euler2" class="jcr-info"></label>
+<a href="#myref_euler" class="jcr-reference">
+<label for="info_euler2" class="jcr-info">Euler</label></a>
+
 <input id="info_euler2" class="jcr-info" type="checkbox"/>
 <div class="jcr-info">
 Euler introduceerde overigens niet alleen het symbool $e$, maar onder meer ook
@@ -1176,7 +699,7 @@ Deze opsplitsing in een re&euml;el en een imaginair deel leidt met de formule
 van Euler tot uitdrukkingen voor $\cos x$ en $\sin x$. Die inspireren tot
 de volgende definities in het <i>complexe</i> domein:
 <br/>
-<div class="my-definition">
+<div class="jcr-definition">
 $\begin{align}
 \cos z & = 1 - \frac{z^2}{2!} + \frac{z^4}{4!} - \cdots \tag{8}\label{8} \\
 \sin z & = z - \frac{z^3}{3!} + \frac{z^5}{5!} - \cdots \tag{9}\label{9}
@@ -1218,8 +741,7 @@ $\sin(3x) = 3(\cos x)^2\sin x - (\sin x)^3  \qquad \bigl[ = 3(1-(\sin x)^2)\sin 
 </div>
 <br/>
 
-<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
-<h4 class="my-section" id="my_ln">Een inverse?</h4>
+<h4 class="jcr-section" id="my_ln">Een inverse?</h4>
 
 Tot aan het verhaal over de formule van Euler is eigenlijk nergens van
 wezenlijk belang geweest dat het met de exponenti&euml;le functies over
@@ -1244,7 +766,7 @@ $\dfrac{d (\ln x)}{dx} = \lim\limits_{h \to 0}\dfrac{\ln (x+h) - \ln x}{h}
                        = \lim\limits_{h \to 0}\dfrac{\int\limits_1^{x+h}\frac{1}{t}dt - \int\limits_1^x\frac{1}{t}dt}{h}
                        = \lim\limits_{h \to 0}\dfrac{\int\limits_x^{x+h}\frac{1}{t}dt}{h}$
 <br/>
-De <a href="#myref_meanval" class="my-refs-ref">middelwaardestelling</a>
+De <a href="#myref_meanval" class="jcr-reference">middelwaardestelling</a>
 zegt dat er dan een een $x < c_x < x+h$ is waarvoor $\int\limits_x^{x+h}\frac{1}{t}dt = \frac{1}{c_x}(x+h-x) = \frac{h}{c_x}$
 (stel je de integraal voor als een oppervlakte "onder" $\frac{1}{t}$ die je
 dan vervangt door een rechthoek met breedte $x+h-x=h$ en hoogte $\frac{1}{c_x}$
@@ -1273,7 +795,7 @@ Dus is het een exponenti&euml;le functie: $f(x) = e^{\kappa x}$.
 <br/>
 Dan is $x = \ln (e^{\kappa x})$, en als je daar de afgeleide van bekijkt krijg je:
 <br/>
-$1 = \dfrac{d(\ln (e^{\kappa x}))}{dx} = \dfrac{1}{e^{\kappa x}}\dfrac{de^{\kappa x}}{dx} = \dfrac{\kappa e^{\kappa x}}{e^{\kappa x}} = \kappa$
+$\dfrac{dx}{dx} = 1 = \dfrac{d(\ln (e^{\kappa x}))}{dx} = \dfrac{1}{e^{\kappa x}}\dfrac{de^{\kappa x}}{dx} = \dfrac{\kappa e^{\kappa x}}{e^{\kappa x}} = \kappa$
 <br/>
 Ofwel: $f(x) = e^x$.
 <br/>
@@ -1304,7 +826,7 @@ De functie $e^z$ is periodiek, met periode $i\tau$.
 <br/>
 <br/>
 Hieronder een grafische voorstelling, in figuur 1 het complexe vlak waarin een
-strook gekleurd is. Die strook stelt het gebied $-\tau/2 \le y \lt \tau/2$ voor,
+strook gekleurd is. Die strook stelt het gebied $0 \le y \lt \tau$ voor,
 met voor elke waarde van $y$ een andere tint. Oplopende waarden van $x$
 laten de kleur van donker naar licht gaan.
 In figuur 2 het beeld van deze strook
@@ -1312,11 +834,11 @@ onder de functie $e^z$. Dit beeld bestrijkt dus het gehele complexe vlak
 <i>behalve</i> $0$.
 
 <div class="flex2">
-<figure class="my-figure">
+<figure class="jcr-figure">
 <canvas id="domain"></canvas>
-<figcaption>$D = \{z \in \mathbb{C} \mid -\tau/2 \le \mathrm{Im}(z) \lt \tau/2 \}$</figcaption>
+<figcaption>$D = \{z \in \mathbb{C} \mid 0 \le \mathrm{Im}(z) \lt \tau \}$</figcaption>
 </figure>
-<figure class="my-figure">
+<figure class="jcr-figure">
 <canvas id="range"></canvas>
 <figcaption>$f: D \to \mathbb{C}$ met $f(z) = e^z$</figcaption>
 </figure>
@@ -1326,29 +848,26 @@ onder de functie $e^z$. Dit beeld bestrijkt dus het gehele complexe vlak
 
 Het beeld van de $y$-as, $z = iy$, is een cirkel met straal
 $e^0 = 1$: in het complexe vlak stelt $e^{iy}$ de <i>eenheidscirkel</i> voor.
+</div> <!-- jcr-layout-main -->
 
+<div class="jcr-layout-right"></div> <!-- jcr-layout-right -->
 
-</div> <!-- my-main -->
+<div class="jcr-layout-footer">
 
-<div class="my-right"></div> <!-- my-right -->
+<div class="jcr-copy"></div>
 
-<div class="my-footer">
-
-<div class="my-copy"></div>
-
-<!-- references -->
-<h3 class="my-section" id="section_references">Referenties</h3>
+<h3 class="jcr-section jcr-section-nobefore" id="section_references">Referenties</h3>
 <!-- refer as:
-<a href="#ref_something" class="my-refs-ref"></a>
+<a href="#ref_something" class="jcr-reference"></a>
    references in textarea:
-#id [author]
+#ref_something [author]
 url
 text
 [origin (website)]
    separate references with empty lines
 -->
 
-<textarea class="my-refs-list">
+<textarea class="jcr-referred">
 #myref_wiki
 https://en.wikipedia.org/wiki/Exponential_function
 Exponential function
@@ -1378,9 +897,9 @@ Wikipedia
 https://en.wikipedia.org/wiki/Mean_value_theorem#Mean_value_theorems_for_definite_integrals
 Mean value theorem
 Wikipedia
-</textarea> <!-- my-refs-list -->
-</div> <!-- my-footer -->
+</textarea> <!-- jcr-referred-list -->
+</div> <!-- jcr-layout-footer -->
 
-</div> <!-- my-container -->
+</div> <!-- jcr-layout -->
 </body>
 </html>

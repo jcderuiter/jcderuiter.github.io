@@ -15,18 +15,40 @@
 // http://docs.mathjax.org/en/latest/start.html
 </script>
 -->
-<style>
 
+<link rel="stylesheet" href="jcr_layout.css" type="text/css"/>
+
+<link rel="stylesheet" href="jcr_listing.css" type="text/css"/>
+<script src="jcr_listing.js"></script>
+
+<link rel="stylesheet" href="jcr_sections.css" type="text/css"/>
+<script src="jcr_sections.js"></script>
+
+<link rel="stylesheet" href="jcr_info.css" type="text/css"/>
+
+<link rel="stylesheet" href="jcr_references.css" type="text/css"/>
+<script src="jcr_references.js"></script>
+
+<link rel="stylesheet" href="jcr_copy.css" type="text/css"/>
+<script src="jcr_copy.js"></script>
+
+<link rel="stylesheet" href="jcr_math.css" type="text/css"/>
+
+<style>
 *
 {
-   box-sizing:       border-box;                 /* */
-   font-family:      sans-serif;                 /* */
+   box-sizing: border-box;                       /* */
 }
 
 body
 {
-/* background-color: hsl(0, 0%, 85%);            /* */
-   line-height:      1.6;                        /* */
+   font-family: sans-serif;                      /* */
+   line-height: 1.6;                             /* */
+}
+
+code
+{
+   font-size: larger;                            /* */
 }
 
 a
@@ -37,18 +59,15 @@ a
 a, a:visited
 {
    color: inherit;                               /* */
-/* color:           hsl(  0,   0%, 50%);         /* */
 }
 a:hover
 {
-/* text-decoration: underline;                   /* */
-   color:           hsl(315, 100%, 50%);         /* */
+   color: hsl(315, 100%,  50%);                  /* */
 }
 
 .center { text-align: center; }                  /* */
 .nowrap { white-space: nowrap; }                 /* */
 
-/* begin examples stuff */
 .examples
 {
    display:               grid;                  /* */
@@ -63,6 +82,8 @@ a:hover
 
    font-family:  sans-serif;                     /* */
    font-variant: small-caps;                     /* */
+
+   border-radius: 10%;                           /* */
 }
 
 .examples li.reset
@@ -81,203 +102,12 @@ figcaption
    font-family: sans-serif;                      /* */
    font-size:   smaller;                         /* */
 }
-/*   end examples stuff */
-
-
-/* begin page grid style */
-.my-header { grid-area: my-header; }
-.my-left   { grid-area: my-left;   }
-.my-main   { grid-area: my-main;   }
-.my-right  { grid-area: my-right;  }
-.my-footer { grid-area: my-footer; }
-
-.my-container
-{
-   display:             grid;                    /* */
-   grid-template-areas:
-                        'my-header'
-                        'my-left'
-                        'my-main'
-                        'my-right'
-                        'my-footer';
-}
-
-.my-main
-{
-   background-color: hsl(0, 0%, 100%);           /* */
-}
-
-.my-header:not(:empty)
-{
-   margin-bottom: 1rem;                          /* */
-}
-
-@media screen and (orientation: landscape)
-{
-   .my-container
-   {
-      grid-template-areas:
-                           'my-header my-header  my-header'  /* */
-/*                         'my-left   my-header  my-right'   /* */
-                           'my-left   my-main    my-right'   /* */
-                           'my-footer my-footer  my-footer'; /* */
-/*                         'my-left   my-footer  my-right';  /* */
-   }
-
-   .my-main
-   {
-   /* width:         70vh;                       /* A4 */
-      width:         62vw;                       /* 2/(1+sqrt(5)) */
-      min-height:    90vh;                       /* */
-/*    justify-self:  center;                     /* */
-/*    border:        hsl(0, 0%, 20%) thin solid; /* */
-      box-shadow:    0 0 .5rem;                  /* */
-      border-radius: 5px;                        /* */
-      padding:       1rem;                       /* */
-   }
-
-   .my-left, .my-right
-   {
-      min-width: 15vw;                           /* */
-   }
-}
-/* end page grid style */
-
-/* begin sections style */
-@media screen and (orientation: portrait)        /* */
-{
-   .my-sections:not(:empty)::before
-   {
-      content: 'Jump to:';                       /* */
-   }
-   .my-sections:not(:empty):lang(nl)::before
-   {
-      content: 'Meteen naar:';                   /* */
-   }
-}
-@media print
-{
-   .my-sections
-   {
-      display: none;                             /* */
-   }
-}
-/* end sections style */
-
-/* begin listings style */
-ol.my-listing
-{
-   font-family:      monospace;                  /* */
-   text-align:       left;                       /* */
-   line-height:      1.2;                        /* */
-   white-space:      pre-wrap;                   /* */
-   background-color: hsl(60, 100%, 90%);         /* */
-   border-radius:    .5rem;                      /* */
-   padding:          .5rem 0 .5rem 3rem;         /* */
-}
-ol.my-listing li
-{
-   border-left:    thin solid black;             /* */
-   padding:        0 .5rem;                      /* */
-}
-
-ol.my-listing.table
-{
-   display: table;                               /* */
-/* display: inline-table;                        /* */
-}
-
-ol.my-listing.nolinenrs
-{
-   list-style-type: none;                        /* */
-   padding-left:    0;                           /* */
-}
-ol.my-listing.nolinenrs li:empty::after
-{
-   content: '\000a';                             /* */
-}
-ol.my-listing.nolinenrs li
-{
-   border-left:     initial;                     /* */
-}
-/* end listings style */
-
-/* begin references style */
-.my-refs-ref
-{
-   vertical-align: super;                        /* */
-   font-size:      smaller;                      /* */
-}
-.my-refs-ref::before { content: '['; }           /* */
-.my-refs-ref::after  { content: ']'; }           /* */
-
-.my-refs-list > * { margin-top: 0; }             /* */
-
-@media screen
-{
-   .my-refs-list
-   {
-      column-width:     25vw;                              /* */
-      border:           hsl(0, 0%, 30%) thin solid;        /* */
-      background-color: hsl(60, 100%,  90%);               /* */
-   }
-}
-
-@media print
-{
-   * { color: hsl(0, 0%, 0%); }                  /* */
-
-   .my-refs-cites { display: none; }             /* */
-   .my-refs-list a[href]::after { content: ' (' attr(href) ')'; }  /* */
-}
-
-.my-refs-author
-{
-   white-space:   pre-wrap;                      /* */
-   padding-right: .3rem;                         /* */
-}
-
-.my-refs-link
-{
-   font-style:    italic;                        /* */
-   color:         hsl(240, 100%, 50%);           /* */
-}
-
-.my-refs-origin
-{
-   font-variant: small-caps;                     /* */
-   white-space:  pre-wrap;                       /* */
-   padding-left: .3rem;                          /* */
-}
-
-.my-refs-cites
-{
-   white-space:  pre-wrap;                       /* */
-   padding-left: .3rem;                          /* */
-}
-/* end references style */
-
-/* begin copyright style */
-.my-copy
-{
-   border-top:  hsl(0, 0%, 20%) thin solid;      /* */
-   color:       hsl(0, 0%, 20%);                 /* */
-   font-size:   0.9rem;                          /* */
-   text-align:  right;                           /* */
-   margin:      1rem 0.5rem;                     /* */
-   padding:     0.5rem;                          /* */
-   user-select: none;                            /* */
-}
-.my-copy::before { content: '\00a9 '; }          /* */
-.my-copy::after  { content: ' jcr'; }            /* */
-/* end copyright style */
 </style>
+
 <script>
 'use strict';
 const closures_js_object = {};
 document.addEventListener('DOMContentLoaded', () => closures_js_object.onload(), false);
-//window.addEventListener('load', () => closures_js_object.onload(), false);
-//onload = (function(other) {  return function() {  if (other) other(); closures_js_object.onload(); } })(onload);
 
 (function(api)
 {
@@ -285,15 +115,9 @@ document.addEventListener('DOMContentLoaded', () => closures_js_object.onload(),
    {
       try
       {
-         createListings();
-
          setupExamples();
-
-         createReferences();
-         setSectionLinks();
-         let year = new Date(document.lastModified).getFullYear();
-         document.querySelectorAll('.my-copy').forEach(y => y.innerHTML = year);
       }  catch(err) { console.log('oops', err) }
+
    }
 
    const setupExamples = function()
@@ -448,171 +272,28 @@ document.addEventListener('DOMContentLoaded', () => closures_js_object.onload(),
 
    const addReset2Example = function(ol, example)
    {
-         let resetli     = document.createElement('li');
-         resetli.className = 'reset';
-         let resetbutton = document.createElement('button');
+         let resetli           = document.createElement('li');
+         resetli.className     = 'reset';
+         let resetbutton       = document.createElement('button');
          resetbutton.innerHTML = 'reset';
          resetbutton.onclick   = example;
          resetli.appendChild(resetbutton);
          ol.appendChild(resetli);
    }
 
-   const createListings = function()
-   {
-      for (let element of document.querySelectorAll('textarea.my-listing'))
-      {
-         let ol = document.createElement('ol');
-         ol.className = element.className;
-
-         for (let line of element.innerHTML.replace(/\n$/, '').split('\n'))
-         {
-            let li = document.createElement('li');
-            li.innerHTML = line;
-            ol.appendChild(li);
-         }
-
-         element.replaceWith(ol);
-      }
-   }
-
-   const createReferences = function()
-   {
-      let refnr = 1;
-      let refitem = {};
-
-
-      // the references
-      for (let element of document.querySelectorAll('textarea.my-refs-list'))
-      {
-         let ol = document.createElement('ol');
-         ol.className = element.className;
-         ol.start = refnr;
-
-         for (let record of element.innerHTML.replace(/\n\s*?\n\s*/, '\n\n').split('\n\n'))
-         {
-            let [line1, url, text, origin] = record.split('\n').map(s => s.trim());
-
-            let [hash, ...rest] = line1.split(' ');
-            let author = rest.join(' ');
-
-            if (!hash.startsWith('#')) { continue }
-
-            let li = document.createElement('li');
-            li.id = hash.substr(1);
-
-            if (author)
-            {
-               let span_author = document.createElement('span');
-               span_author.className = 'my-refs-author';
-               span_author.innerHTML = author;
-               li.appendChild(span_author);
-            }
-
-            let span_link = document.createElement('span');
-            span_link.className = 'my-refs-link';
-
-            let a = document.createElement('a');
-            a.href = url;
-            a.innerHTML = text || url;
-            span_link.appendChild(a);
-            li.appendChild(span_link);
-
-            if (origin)
-            {
-               let span_origin = document.createElement('span');
-               span_origin.className = 'my-refs-origin';
-               span_origin.innerHTML = origin;
-               li.appendChild(span_origin);
-            }
-
-            ol.appendChild(li);
-
-            refitem[hash] = { item: li, refnr: refnr, cited: [] }
-            refnr++;
-         }
-
-         element.replaceWith(ol);
-      }
-
-      // the citations (referrals)
-      for (let element of document.querySelectorAll('.my-refs-ref'))
-      {
-         if (!element.hash) { continue }
-
-         let span = document.createElement('span');
-         span.className = 'nowrap';
-         span.innerHTML = element.innerHTML;
-
-         if (refitem[element.hash])
-         {
-            element.innerHTML     = refitem[element.hash].refnr;
-            let hash_for_citation = `${[element.hash]}_${refitem[element.hash].cited.length}`;
-            element.id            = hash_for_citation.substr(1);
-            refitem[element.hash].cited.push(hash_for_citation);
-         }
-         else
-         {
-            element.innerHTML = 'link not present';
-         }
-
-         element.parentNode.insertBefore(span, element);
-         span.appendChild(element);
-      }
-
-
-      // reduce citations array (of hashes) to string of hyperlinks
-      function reduceCitations(accum, next, i, all)
-      {
-         let concat = accum;
-         if (i) { concat += ',' }
-         concat += `<a href="${next}">&uarr;`;
-         if (all.length > 1) { concat += `<sub>${i+1}</sub>` }
-         concat += '</a>';
-
-         return concat;
-      }
-
-      // add citations to items in hyperlink list
-      for (let hash in refitem)
-      {
-         if (!refitem[hash].cited.length) { continue }
-
-         refitem[hash].item.innerHTML += '<span class="my-refs-cites">'
-//                                    +  '<sub>cited:</sub>'
-                                      +  refitem[hash].cited.reduce(reduceCitations, '')
-                                      + '</span>';
-      }
-   }
-
-   const setSectionLinks = function()
-   {
-      let sectionlist = document.querySelector('#my-sections');
-      if (sectionlist)
-      {
-         sectionlist.innerHTML += '<li><a href="/">Home</a></li>';
-         for (let section of document.querySelectorAll('.my-section[id]'))
-         {
-            let text = section.innerHTML;
-            sectionlist.innerHTML += `<li><a href="#${section.id}">${text}</a></li>`;
-
-            section.innerHTML = `<a href="#">${text}</a>`;
-            section.title     = 'to top of page';
-         }
-      }
-   }
 })(closures_js_object);
 </script>
 </head>
 <body>
 
-<div class="my-container">
+<div class="jcr-layout">
 
-<div class="my-header"></div> <!-- my-header -->
-<div class="my-left">
-<ul class="my-sections" id="my-sections"></ul>
-</div> <!-- my-left -->
+<div class="jcr-layout-header"></div> <!-- jcr-layout-header -->
+<div class="jcr-layout-left">
+<ul class="jcr-sections" id="jcr-sections"></ul>
+</div> <!-- jcr-layout-left -->
 
-<div class="my-main">
+<div class="jcr-layout-main">
 
 Een <i><b>closure</b></i> is een structuur bestaande uit een
 <code><b>function</b></code> en een <i>environment</i> met <b>free variables</b></i>.
@@ -621,8 +302,7 @@ worden, maar niet binnen de <code>function</code> gedefinieerd zijn en ook
 geen <i>parameter</i> van de <code>function</code> zijn.
 
 
-<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
-<h4 class="my-section" id="section_lc">Lexical scope</h4>
+<h4 class="jcr-section" id="section_lex">Lexical scope</h4>
 
 JavaScript werkt net als de meeste andere programmeertalen met
 <i>lexical</i>, of <i>static scope</i>.
@@ -630,7 +310,7 @@ JavaScript werkt net als de meeste andere programmeertalen met
 Lexical scope wil zeggen dat de plek in de code waar iets
 gedefinieerd is bepaalt wat z'n scope is.
 Dat is misschien beter te begrijpen aan de hand van een voorbeeld:
-<textarea class="my-listing">
+<textarea class="jcr-listing">
 let x = 'x: global scope';
 let y = 'y: global scope';
 
@@ -674,7 +354,7 @@ Maar dat is dus niet de <code>x</code> uit de <code>bar</code> environment,
 ook niet als <code>foo</code> vanuit <code>bar</code> wordt aangeroepen.
 <br/>
 (Tegenover static scope staat <i>dynamic</i> scope;
-in Perl kun je, waar je normaal gesproken in <code>bar</code> een
+in <i>Perl</i> kun je, waar je normaal gesproken in <code>bar</code> een
 <code>my $x</code> zou maken,
 door middel van <code>local $x</code> kiezen
 voor een dynamic scope voor <code>$x</code>:
@@ -685,15 +365,14 @@ ook in <code>foo</code>.)
 Een <code>function</code> die, zoals dus in JavaScript, de environment waarin
 hij is gedefinieerd gebruikt voor de free variables wordt een
 <i>closure</i>
-<a href="#ref_mdnclosures" class="my-refs-ref"></a>
+<a href="#ref_mdnclosures" class="jcr-reference"></a>
 genoemd. In plaats van "gebruikt" kun je beter "afvangt"
 zeggen, omdat de environment waarin de <code>function</code> gedefinieerd is
 op het moment van uitvoeren al verdwenen zou kunnen zijn, ware het niet dat
 hij ten behoeve van de closure bewaard blijft. Meer hierover verderop bij het
 <i>"upwards funarg problem"</i>.
 
-<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
-<h4 class="my-section" id="section_fcf">First-class functions</h4>
+<h4 class="jcr-section" id="section_fcf">First-class functions</h4>
 
 In JavaScript kun je een <code>function</code> als "data" in een
 variabele opslaan, als argument meegeven en als <code>return</code> waarde
@@ -702,7 +381,7 @@ Dat heet <i>first-class function</i>.
 <br/>
 Een argument voor een <code>function</code> dat zelf een <code>function</code>
 is wordt wel <i>funarg</i>
-<a href="#ref_wikifunarg" class="my-refs-ref"></a>
+<a href="#ref_wikifunarg" class="jcr-reference"></a>
 genoemd.
 
 <br/>
@@ -715,7 +394,7 @@ of de waarden van free variables uit de static (lexical) scope
 of uit de dynamic scope (de environment van de <i>caller</i>, de aanroepende
 <code>function</code>) komen.
 
-<textarea class="my-listing nolinenrs table">
+<textarea class="jcr-listing jcr-listing-nolinenrs jcr-listing-table">
 let x = 'x: global scope';
 
 function foo()
@@ -741,7 +420,7 @@ derde kenmerk van <i>first-class functions</i> gebruikt:
 een <code>function</code> als data
 (de waarde van de variabele <code>foo</code> is een <code>function</code>):
 
-<textarea class="my-listing nolinenrs table">
+<textarea class="jcr-listing jcr-listing-nolinenrs jcr-listing-table">
 function bar()
 {
    let x = 'x: bar scope';
@@ -771,7 +450,7 @@ voorbeeld hebben <code>incr</code> en <code>decr</code> elk een eigen
 closure, terwijl <code>baz.incr</code> en <code>baz.decr</code> een
 gedeelde closure hebben:
 
-<textarea class="my-listing">
+<textarea class="jcr-listing">
 function bar(increment)
 {
    let counter = 0;
@@ -819,8 +498,7 @@ In regel 27 wordt <code>foo</code> uitgevoerd waardoor er een closure gemaakt
 wordt met daarin een variabele die alweer <code>counter</code> genoemd wordt.
 Deze closure, en dus deze variabele, wordt in de regels 33, 34 en 35 gebruikt.
 
-<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
-<h4 class="my-section" id="section_dc">Dynamic scope: this</h4>
+<h4 class="jcr-section" id="section_dc">Dynamic scope: this</h4>
 
 Er is een uitzondering op de static scope in JavaScript: het <i><code>this</code></i>
 object. Een <code>function</code> krijgt impliciet een extra parameter
@@ -836,14 +514,14 @@ dan wordt <code>this</code> het base object.
 <br/>
 In alle andere gevallen krijgt <code>this</code> de waarde <code>undefined</code>.
 (Dat wil zeggen, in <i>strict mode</i>
-<a href="#ref_mdnstrict" class="my-refs-ref"></a>, in
+<a href="#ref_mdnstrict" class="jcr-reference"></a>, in
 <i>sloppy mode</i> wordt <code>this</code> het <i>globale object</i>;
 in een browser is dat <code>window</code>.)
 <br/>
 Dat klinkt eenvoudig, maar deze voorbeelden laten zien dat het soms lastig
 kan zijn:
 
-<textarea class="my-listing">
+<textarea class="jcr-listing">
 function foo() { console.log(this); }
 
 foo();                                            // undefined/global
@@ -873,7 +551,7 @@ wat het <code>this</code> object is.
 JavaScript kent ook het concept <i>anonieme</i>
 <code>function</code>, die heeft bij uitvoering ook een <code>undefined</code>
 c.q. global <code>this</code> object:
-<textarea class="my-listing nolinenrs table">
+<textarea class="jcr-listing jcr-listing-nolinenrs jcr-listing-table">
 (function () { console.log(this); })();           // undefined/global
 </textarea>
 JavaScript kent de <i>arrow</i> notatie voor een <code>function</code>
@@ -885,7 +563,7 @@ Bij een arrow <code>function</code> wordt echter <i>geen</i> <code>this</code>
 object gemaakt.
 Als je dan <code>this</code> gebruikt dan is het het <code>this</code> object
 uit de <i>executing environment</i>.
-<textarea class="my-listing">
+<textarea class="jcr-listing">
 this.x = 'global x';                                 // NB: in browser is this.x hetzelfde als x,
                                                      // in nodejs niet
 
@@ -900,8 +578,7 @@ console.log(foo.baz());                              // 'global x' (ook in stric
 </textarea>
 
 
-<h4 class="center">&#x2744;&#x2744;&#x2744;</h4>
-<h4 class="my-section" id="section_xmp">Voorbeelden in een event handler</h4>
+<h4 class="jcr-section" id="section_xmp">Voorbeelden in een event handler</h4>
 
 Je kunt met closures makkelijk de fout in gaan.
 Als je bijvoorbeeld <i>event handlers</i> maakt die je de waarde van variabelen
@@ -914,7 +591,7 @@ bij een muisklik aan de hand van die variabele een achtergrondkleur te geven.
 <figure>
 <div class="examples">
 
-<textarea class="my-listing">
+<textarea class="jcr-listing">
 function setupButtonList()
 {
    let ol = document.querySelector('#theList');
@@ -970,7 +647,7 @@ de <code>for</code> loop, maar de <i>setupButtonList</i>
 <figure>
 <div class="examples">
 
-<textarea class="my-listing">
+<textarea class="jcr-listing">
 function setupButtonList()
 {
    let ol = document.querySelector('#theList');
@@ -1009,13 +686,13 @@ Deze potenti&euml;le problemen kunnen worden omzeild door een speciale
 closure te maken waarin je de free variables op een gecontroleerde manier
 verwerkt. Hieronder staat in regel 16-20 een anonieme <code>function</code>
 die ook meteen wordt uitgevoerd. Deze <code>function</code> heeft als
-<code>return</code> de <code>function</code> die we als onclick
+<code>return</code> waarde de <code>function</code> die we als <code>onclick</code>
 handler willen hebben.
 
 <figure>
 <div class="examples">
 
-<textarea class="my-listing">
+<textarea class="jcr-listing">
 function setupButtonList()
 {
    let ol = document.querySelector('#theList');
@@ -1073,7 +750,7 @@ vervangen door <code>var</code>.
 <figure>
 <div class="examples">
 
-<textarea class="my-listing">
+<textarea class="jcr-listing">
 function setupButtonList()
 {
    var ol = document.querySelector('#theList');
@@ -1107,7 +784,7 @@ Maar als je van <code>i</code> een <code>var</code> maakt heb je een probleem:
 <figure>
 <div class="examples">
 
-<textarea class="my-listing">
+<textarea class="jcr-listing">
 function setupButtonList()
 {
    var ol = document.querySelector('#theList');
@@ -1144,18 +821,18 @@ zodat er alsnog een kleurtje op elke button komt.
 
 
 
-</div> <!-- my-main -->
+</div> <!-- jcr-layout-main -->
 
-<div class="my-right"></div> <!-- my-right -->
+<div class="jcr-layout-right"></div> <!-- jcr-layout-right -->
 
-<div class="my-footer">
+<div class="jcr-layout-footer">
 
-<div class="my-copy"></div>
+<div class="jcr-copy"></div>
 
 <!-- references -->
-<h3 class="my-section" id="section_references">Referenties</h3>
+<h3 class="jcr-section jcr-section-nobefore" id="section_references">Referenties</h3>
 <!-- refer as:
-<a href="#ref_something" class="my-refs-ref"></a>
+<a href="#ref_something" class="jcr-reference"></a>
    references in textarea:
 #id [author]
 url
@@ -1164,7 +841,7 @@ text
    separate references with empty lines
 -->
 
-<textarea class="my-refs-list">
+<textarea class="jcr-referred">
 #ref_mdnclosures
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
 Closures
@@ -1179,9 +856,10 @@ Wikipedia
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 Strict mode
 MDN web docs
+</textarea>
 
-</div> <!-- my-footer -->
+</div> <!-- jcr-layout-footer -->
 
-</div> <!-- my-container -->
+</div> <!-- jcr-layout -->
 </body>
 </html>
