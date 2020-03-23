@@ -92,6 +92,8 @@ a:hover
 .susceptible,
 .immune
 {
+/* display: inline-block; /* */
+
    border:      black solid 2px;                 /* */
    margin:      .5rem;                           /* */
    width:       1.5rem;                          /* */
@@ -114,6 +116,17 @@ a:hover
    background-color: hsl(300, 100%, 100%);       /* */
 }
 
+.susceptible.text,
+.immune.text
+{
+   display: inline-block; /* */
+/* margin:  0   .5rem;                           /* */
+   margin:  auto;                                /* */
+   width:       1.0rem;                          /* */
+   height:      1.0rem;                          /* */
+
+   border-radius: 1.0rem;                          /* */
+}
 
 
 /* begin page grid style */
@@ -816,6 +829,85 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
 </div> <!-- jcr-layout-left -->
 
 <div class="jcr-layout-main">
+
+<h4>Simulatie van een epidemie</h4>
+De deelnemers spelen een virusuitbraak, ze gaan mensen besmetten.
+Een persoon die besmet wordt ziet er zo uit: <div class="susceptible text"></div>.
+Na een besmetting wordt die persoon immuun, dat betekent dat deze persoon in
+een volgende ronde niet meer besmet kan worden.
+Een immuun persoon ziet er zo uit: <div class="immune text"></div>
+<br/>
+Een speler kan een immuun persoon niet besmetten,
+en als hij niemand kan besmetten valt hij uit.
+En dat is het doel van het spel: alle spelers moeten uitvallen, dan is de
+epidemie voorbij.
+<br/>
+De simulatie beslaat een aantal speelrondes, weken genoemd, en eindigt dus
+als alle spelers uitgevallen zijn.
+<br/>
+<br/>
+Stel je de populatie voor als een grote bak met balletjes waar iets in kan zitten
+(zoals ballletjes bij een loting voor een toernooi).
+<br/>
+De spelers pakken elk een bal. Dat staat voor contacten tussen de mensen:
+de speler probeert een nieuw slachtoffer te maken.
+<br/>
+Dat lukt alleen als het slachtoffer vatbaar is: het balletje is leeg.
+<br/>
+(De ballen/mensen die zich buiten de bak bevinden zijn nu door middel van
+contacten anderen aan het besmetten).
+<br/>
+Vervolgens wordt er iets in elk leeg balletje gestopt, dat staat voor antistoffen
+waardoor de bal/persoon immuun wordt voor een nieuwe besmetting.
+<br/>
+En alle ballen gaan weer in de bak.
+(De periode dat een lege bal buiten de bak was staat dus voor infectie/ziekte,
+besmetting van anderen, en daarna genezing/immuniteit.)
+<br/>
+<br/>
+De volgende ronde gaat op de zelfde manier: alle spelers pakken een bal.
+Als de bal niet leeg, immuun is, valt de speler af.
+<br/>
+<br/>
+Uiteindelijk zijn alle spelers afgevallen: het virus verspreidt zich niet meer
+en een bepaald percentage van de populatie is immuun.
+Die zijn niet vatbaar voor een nieuwe uitbraak. De anderen dus wel!
+<br/>
+Als het percentage dat immuun is heel hoog is dan spreekt men van
+groepsimmuniteit, omdat dan een groot deel van de populatie geen besmetting
+kan overdragen.
+<br/>
+<br/>
+In de simulatie hieronder kun je kiezen tussen veel en weinig contacten.
+Weinig contacten staat voor <i>social distancing</i>.
+<br/>
+De implementatie is het spel is: bij veel contacten pakt elke speler <i>twee</i>
+nieuwe ballen voor elke <i>lege</i> bal die hij in de vorige ronde pakte.
+Bij weinig contacten pakt hij er maar &eacute;&eacute;n.
+<br/>
+<br/>
+Er zijn twee gevolgen van weinig contacten:
+<ol>
+<li>nadeel: geen groepsimmuniteit</li>
+<li>voordeel: minder mensen tegelijkertijd besmet</li>
+</ol>
+Het tweede wordt als belangrijker gezien,
+want hoe meer mensen tegelijkertijd besmet, hoe groter de druk op de
+gezondheidszorg.
+<br/>
+<br/>
+Dat kun je in het spel inbouwen door elke speler een "standaardje" te geven
+waar een (vatbare) bal even in gezet moet worden.
+Stel zo'n bal staat voor tienduizend mensen, waarvan er honderd aan de
+beademingsmachine moeten. De standaard staat dan voor een ziekenhuis waar
+ze terecht kunnen.
+<br/>
+Bij weinig contacten gaat alles goed, de spelers pakken steeds
+&eacute;&eacute;n bal, en ze hebben ook &eacute;&eacute;n standaard/ziekenhuis.
+<br/>
+Bij veel contacten onstaan er problemen: te weinig capaciteit in de zorg.
+<br/>
+<br/>
 
 <hr/>
 
