@@ -832,10 +832,8 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
 
 <h4>Simulatie van een epidemie</h4>
 De deelnemers spelen een virusuitbraak, ze gaan mensen besmetten.
-Een persoon die besmet wordt ziet er zo uit: <div class="susceptible text"></div>.
 Na een besmetting wordt die persoon immuun, dat betekent dat deze persoon in
 een volgende ronde niet meer besmet kan worden.
-Een immuun persoon ziet er zo uit: <div class="immune text"></div>
 <br/>
 Een speler kan een immuun persoon niet besmetten,
 en als hij niemand kan besmetten valt hij uit.
@@ -854,8 +852,8 @@ de speler probeert een nieuw slachtoffer te maken.
 <br/>
 Dat lukt alleen als het slachtoffer vatbaar is: het balletje is leeg.
 <br/>
-(De ballen/mensen die zich buiten de bak bevinden zijn nu door middel van
-contacten anderen aan het besmetten.)
+(De ballen/mensen die zich buiten de bak bevinden zijn als het ware
+"anderen aan het besmetten" via contacten met anderen.)
 <br/>
 Vervolgens wordt er iets in elk leeg balletje gestopt, dat staat voor antistoffen
 waardoor de bal/persoon immuun wordt voor een nieuwe besmetting.
@@ -919,7 +917,10 @@ te weinig capaciteit in de zorg.
 Hieronder een computersimulatie, je kunt wat parameters opgeven waarvan die
 "Contacten" dus de belangrijkste is.
 <br/>
-De "Start" knop zet een simulatie in gang. De ballen/slachtoffers
+De "Start" knop zet een simulatie in gang.
+Een persoon die besmet wordt ziet er zo uit: <div class="susceptible text"></div>,
+een immuun persoon ziet er zo uit: <div class="immune text"></div>
+De ballen/personen
 worden voorzien van een nummer: dat is het nummer van de speler.
 Zo kun je zien wat elke speler doet, en wanneer de speler uitvalt.
 <hr/>
