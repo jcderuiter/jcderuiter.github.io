@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta http-equiv="expires" content="now"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="version" content="0.0.0"/>
+<title>esther</title>
+<!--
+<script type="text/x-mathjax-config">
+   MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true},
+                        TeX:     {extensions: ["extpfeil.js"]}
+                     });
+   MathJax.Hub.Register.StartupHook('End', function () { document.querySelectorAll('#myMJloadingMessage').forEach(div => div.style.display = 'none'); });
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML">
+// http://docs.mathjax.org/en/latest/start.html
+</script>
+-->
+<style>
+*
+{
+   box-sizing: border-box;                       /* */
+}
+
+body
+{
+   font-family: sans-serif;                      /* */
+   line-height: 1.6;                             /* */
+}
+
+code
+{
+   font-size: larger;                            /* */
+}
+
+a
+{
+   text-decoration: none;                        /* */
+   transition:      .5s;                         /* */
+}
+a, a:visited
+{
+   color: inherit;                               /* */
+}
+a:hover
+{
+   color: hsl(315, 100%,  50%);                  /* */
+}
+
+.center { text-align: center; }                  /* */
+.nowrap { white-space: nowrap; }                 /* */
+
+
+.parameters
+{
+   display:               inline-grid;           /* */
+   grid-template-columns: auto auto;             /* */
+}
+
+.parameters > input
+{
+   text-align: right; /* */
+}
+
+.resultarea
+{
+   display: flex;
+   flex-flow: column; /* */
+
+   background-color: hsl(195, 100%, 50%);        /* */
+}
+
+.resultarea > div:nth-child(even)
+{
+   background-color: hsl(180, 100%, 50%);        /* */
+}
+
+.resultarea > div:last-child
+{
+   background-color: hsl(120, 100%, 50%);        /* */
+}
+
+.weekarea
+{
+   display: flex;                                /* */
+   flex-wrap: wrap;                              /* */
+
+
+/* background-color: hsl(300, 100%, 50%);        /* */
+}
+
+.susceptible,
+.immune
+{
+   border:      black solid 2px;                 /* */
+   margin:      .5rem;                           /* */
+   width:       1.5rem;                          /* */
+   height:      1.5rem;                          /* */
+   text-align:  center;                          /* */
+   line-height: 1.5rem;        /* line-height > font-size -> center vertically */
+}
+
+.susceptible
+{
+   background-color: hsl(300, 100%,  50%);       /* */
+}
+
+.immune
+{
+
+   background-color: hsl(300, 100%, 100%);       /* */
+}
+
+
+
+/* begin page grid style */
+.jcr-layout-header { grid-area: jcr-layout-header; }
+.jcr-layout-left   { grid-area: jcr-layout-left;   }
+.jcr-layout-main   { grid-area: jcr-layout-main;   }
+.jcr-layout-right  { grid-area: jcr-layout-right;  }
+.jcr-layout-footer { grid-area: jcr-layout-footer; }
+
+.jcr-layout
+{
+   display:             grid;                    /* */
+   grid-template-areas:                          /* */
+                        'jcr-layout-header'      /* */
+                        'jcr-layout-left'        /* */
+                        'jcr-layout-main'        /* */
+                        'jcr-layout-right'       /* */
+                        'jcr-layout-footer';     /* */
+}
+
+.jcr-layout-header:not(:empty)
+{
+   margin-bottom: 1rem;                          /* */
+}
+
+@media (orientation: landscape)
+{
+   .jcr-layout
+   {
+      grid-template-areas:                                                           /* */
+                           'jcr-layout-header jcr-layout-header  jcr-layout-header'  /* */
+                           'jcr-layout-left   jcr-layout-main    jcr-layout-right'   /* */
+                           'jcr-layout-footer jcr-layout-footer  jcr-layout-footer'; /* */
+   }
+
+   .jcr-layout.jcr-layout-cols
+   {
+      grid-template-areas:                                                           /* */
+                           'jcr-layout-left   jcr-layout-header  jcr-layout-right'   /* */
+                           'jcr-layout-left   jcr-layout-main    jcr-layout-right'   /* */
+                           'jcr-layout-left   jcr-layout-footer  jcr-layout-right';  /* */
+      justify-content:     space-between;        /* */
+   }
+
+   .jcr-layout-main
+   {
+      width:         62vw;                       /* 2/(1+sqrt(5)) */
+/*    min-height:    90vh;                       /* */
+      justify-self:  center;                     /* */
+
+      box-shadow:    0 0 .5rem;                  /* */
+      border-radius: 5px;                        /* */
+      padding:       1rem;                       /* */
+   }
+
+   .jcr-layout-main.jcr-layout-A4
+   {
+      width: 70vh;                               /* */
+   }
+
+   .jcr-layout-main.jcr-layout-solidborder
+   {
+      box-shadow: none;                          /* */
+      border:     hsl(  0,   0%,  20%) thin solid; /* */
+   }
+
+   .jcr-layout-left, .jcr-layout-right
+   {
+      min-width: 15vw;                           /* */
+   }
+}
+/*   end page grid style */
+
+/* begin info style */
+/* usage:                                                                   */
+/* <label for="id" class="jcr-info">optional text</label>                   */
+/*    other content                                                         */
+/*    other content                                                         */
+/* <input id="id" class="jcr-info" type="checkbox"/><div class="jcr-info">  */
+/*    other content                                                         */
+/* <label for="id" class="jcr-info">optional text</label>                   */
+/*    other content                                                         */
+/* </div>                                                                   */
+/* the <div> must be the immediate successor of the <input>                 */
+/* the first <label> gets a small '*'                                       */
+/* the second <label> puts a 'close cross' in the right top of the <div>    */
+/* both labels trigger an invisible checkbox on which CSS toggles the <div> */
+
+label.jcr-info
+{
+   cursor: pointer;                              /* */
+}
+
+label.jcr-info::after
+{
+/* content:        '\01f6c8';                    /* */
+/* content:        '\2139';                      /* */
+   content:        '*';                          /* */
+   font-weight:    bolder;                       /* */
+   color:          hsl(240, 100%, 050%);         /* */
+   vertical-align: super;                        /* */
+   font-size:      smaller;                      /* */
+}
+
+input[type="checkbox"].jcr-info
+{
+   width:  0;                                    /* */
+   height: 0;                                    /* */
+}
+
+input[type="checkbox"].jcr-info + div.jcr-info
+{
+   height:           0;                          /* */
+   overflow:         hidden;                     /* */
+   padding:          0;                          /* */
+
+   position:         relative;                   /* */
+
+   background-color: hsl( 60, 100%,  90%);       /* */
+   box-shadow:       0 0 .5rem;                  /* */
+   border-radius:    5px;                        /* */
+
+   transform:        scale(0.0);                 /* */
+   opacity:          0.0;                        /* */
+   transition:       all .5s ease-in-out;        /* */
+}
+
+input[type="checkbox"].jcr-info:checked + div.jcr-info
+{
+   height:     auto;                             /* */
+   margin:     .5rem 1rem;                       /* */
+   padding:    1rem;                             /* */
+
+   transform:  scale(1.0);                       /* */
+   opacity:    1.0;                              /* */
+   transition: all 2s ease-in-out;               /* */
+}
+
+div.jcr-info label.jcr-info::after
+{
+   content:  '\02612';                           /* */
+   position: absolute;                           /* */
+   top:      0;                                  /* */
+   right:    .5rem;                              /* */
+}
+/*   end info style */
+
+/* begin sections style */
+@media screen and (orientation: portrait)
+{
+   #jcr_sections:not(:empty)::before
+   {
+      content: 'Jump to:';                       /* */
+   }
+   #jcr_sections:not(:empty):lang(nl)::before
+   {
+      content: 'Meteen naar:';                   /* */
+   }
+}
+@media print
+{
+   #jcr_sections
+   {
+      display: none;                             /* */
+   }
+}
+
+#jcr_sections a,
+.jcr-section a
+{
+   text-decoration: none;                        /* */
+   transition:      .5s;                         /* */
+}
+#jcr_sections a,
+#jcr_sections a:visited,
+.jcr-section a,
+.jcr-section a:visited
+{
+   color: inherit;                               /* */
+}
+#jcr_sections a:hover,
+.jcr-section a:hover
+{
+   color: hsl(315, 100%,  50%);                  /* */
+}
+
+.jcr-section:not(.jcr-section-nobefore)::before
+{
+   content:    '\2744' '\2744' '\2744';          /* */
+   display:    block;                            /* */
+   text-align: center;                           /* */
+}
+/* end sections style */
+
+/* begin listings style */
+ol.jcr-listing
+{
+   font-family:      monospace;                  /* */
+   text-align:       left;                       /* */
+   line-height:      1.2;                        /* */
+   white-space:      pre-wrap;                   /* */
+   background-color: hsl( 60, 100%,  90%);       /* */
+   border-radius:    .5rem;                      /* */
+   padding:          .5rem 0 .5rem 3rem;         /* */
+}
+ol.jcr-listing li
+{
+   border-left: thin solid black;                /* */
+   padding:     0 .5rem;                         /* */
+}
+
+ol.jcr-listing.jcr-listing-table
+{
+   display: table;                               /* */
+}
+
+ol.jcr-listing.jcr-listing-nolinenrs
+{
+   list-style-type: none;                        /* */
+   padding-left:    0;                           /* */
+}
+ol.jcr-listing.jcr-listing-nolinenrs li:empty::after
+{
+   content: '\000a';                             /* */
+}
+ol.jcr-listing.jcr-listing-nolinenrs li
+{
+   border-left: initial;                         /* */
+}
+/*   end listings style */
+
+/* begin references style */
+.jcr-reference
+{
+   vertical-align: super;                        /* */
+   font-size:      smaller;                      /* */
+}
+.jcr-reference::before
+{
+   content: '[';
+}                                                /* */
+.jcr-reference::after
+{
+   content: ']';                                 /* */
+}
+.jcr-reference,
+.jcr-reference:visited
+{
+   color: hsl(  0,   0%,  50%);                  /* */
+}
+
+a.jcr-reference,
+.jcr-referred-link a,
+.jcr-referred-citations a
+{
+   text-decoration: none;                        /* */
+   transition:      .5s;                         /* */
+}
+a.jcr-reference:visited,
+.jcr-referred-link a:visited,
+.jcr-referred-citations a:visited
+{
+   color: inherit;                               /* */
+}
+a.jcr-reference:hover,
+.jcr-referred-link a:hover,
+.jcr-referred-citations a:hover
+{
+   color: hsl(315, 100%,  50%);                  /* */
+}
+
+@media screen
+{
+   .jcr-referred
+   {
+      display:               grid;               /* */
+      grid-template-columns: repeat(3, auto);    /* */
+      column-gap:            2.5rem;             /* */
+      border:                hsl(  0,   0%,  30%) thin solid; /* */
+      background-color:      hsl( 60, 100%,  90%); /* */
+   }
+
+   .jcr-referred li:target
+   {
+      background-color:      hsl(240, 100%,  90%); /* */
+   }
+}
+
+@media print
+{
+   .jcr-referred-citations
+   {
+      display: none;                             /* */
+   }
+   .jcr-referred a[href]::after
+   {
+      content: ' (' attr(href) ')';              /* */
+   }
+}
+
+.jcr-referred-author
+{
+   white-space:   pre-wrap;                      /* */
+   padding-right: .3rem;                         /* */
+}
+
+.jcr-referred-link
+{
+   font-style: italic;                           /* */
+   color:      hsl(240, 100%,  50%);             /* */
+}
+
+.jcr-referred-origin
+{
+   font-variant: small-caps;                     /* */
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}
+
+.jcr-referred-citations
+{
+   white-space:  pre-wrap;                       /* */
+   padding-left: .3rem;                          /* */
+}
+/*   end references style */
+
+/* begin math style */
+body
+{
+   counter-reset: jcr-definition jcr-theorem jcr-figure; /* */
+}
+
+.jcr-definition,
+.jcr-theorem
+{
+   margin:     .5rem 0;                          /* */
+   border:     thin solid black;                 /* */
+   padding:    1rem;                             /* */
+
+   font-style: italic;                           /* */
+}
+.jcr-definition::before,
+.jcr-theorem::before
+{
+   font-style:  normal;                          /* */
+   font-weight: bold;                            /* */
+}
+
+.jcr-definition
+{
+   background-color:  hsl( 60, 100%,  90%);      /* */
+   counter-increment: jcr-definition;            /* */
+}
+.jcr-definition::before
+{
+   content: 'Definition ' counter(jcr-definition) '.'; /* */
+}
+.jcr-definition[data-text]::before
+{
+   content: 'Definition ' counter(jcr-definition) ' (' attr(data-text) ').'; /* */
+}
+.jcr-definition:lang(nl)::before
+{
+   content: 'Definitie ' counter(jcr-definition) '.'; /* */
+}
+.jcr-definition[data-text]:lang(nl)::before
+{
+   content: 'Definitie ' counter(jcr-definition) ' (' attr(data-text) ').'; /* */
+}
+
+.jcr-theorem
+{
+   background-color:  hsl(210, 100%,  90%);      /* */
+   counter-increment: jcr-theorem;               /* */
+}
+.jcr-theorem::before
+{
+   content: 'Theorem ' counter(jcr-theorem) '.'; /* */
+}
+.jcr-theorem[data-text]::before
+{
+   content: 'Theorem ' counter(jcr-theorem) ' (' attr(data-text) ').'; /* */
+}
+.jcr-theorem:lang(nl)::before
+{
+   content: 'Stelling ' counter(jcr-theorem) '.'; /* */
+}
+.jcr-theorem[data-text]:lang(nl)::before
+{
+   content: 'Stelling ' counter(jcr-theorem) ' (' attr(data-text) ').'; /* */
+}
+
+.jcr-figure figcaption
+{
+   font-family:       sans-serif;                /* */
+   font-size:         smaller;                   /* */
+   counter-increment: jcr-figure;                /* */
+}
+.jcr-figure figcaption::before
+{
+   content: 'Figure ' counter(jcr-figure) '. ';  /* */
+}
+.jcr-figure figcaption:lang(nl)::before
+{
+   content: 'Figuur ' counter(jcr-figure) '. ';  /* */
+}
+
+.jcr-definition,
+.jcr-theorem,
+.jcr-figure
+{
+   page-break-inside: avoid;                     /* */
+}
+/*   end math style */
+
+/* begin copyright style */
+.jcr-copy
+{
+   border-top:  hsl(000, 000%, 020%) thin solid; /* */
+   color:       hsl(000, 000%, 020%);            /* */
+   font-size:   0.9rem;                          /* */
+   text-align:  right;                           /* */
+   margin:      1rem 0.5rem;                     /* */
+   padding:     0.5rem;                          /* */
+   user-select: none;                            /* */
+}
+.jcr-copy::before { content: '\00a9 '; }          /* */
+.jcr-copy::after  { content: ' jcr'; }            /* */
+/* end copyright style */
+</style>
+<script>
+'use strict';
+const esther_js_object = {};
+document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), false);
+//window.addEventListener('load', () => esther_js_object.onload(), false);
+//onload = (function(other) {  return function() {  if (other) other(); esther_js_object.onload(); } })(onload);
+
+(function(api)
+{
+   api.onload = function()
+   {
+      try
+      {
+         createListings();
+         createReferences();
+         setSectionLinks();
+         let year = new Date(document.lastModified).getFullYear();
+         document.querySelectorAll('.jcr-copy').forEach(y => y.innerHTML = year);
+
+         setHandlers();
+
+      }  catch(err) { console.log('oops', err) }
+   }
+
+   const createListings = function()
+   {
+      for (let element of document.querySelectorAll('textarea.jcr-listing'))
+      {
+         let ol = document.createElement('ol');
+         ol.className = element.className;
+
+         for (let line of element.innerHTML.replace(/\n$/, '').split('\n'))
+         {
+            let li = document.createElement('li');
+            li.innerHTML = line;
+            ol.appendChild(li);
+         }
+
+         element.replaceWith(ol);
+      }
+   }
+
+   const createReferences = function()
+   {
+      let refnr = 1;
+      let refitem = {};
+
+
+      // the referred
+      for (let element of document.querySelectorAll('textarea.jcr-referred'))
+      {
+         let ol = document.createElement('ol');
+         ol.className = element.className;
+         ol.start = refnr;
+
+         for (let record of element.innerHTML.replace(/\n\s*?\n\s*/, '\n\n').split('\n\n'))
+         {
+            let [line1, url, text, origin] = record.split('\n').map(s => s.trim());
+
+            let [hash, ...rest] = line1.split(' ');
+            let author = rest.join(' ');
+
+            if (!hash.startsWith('#')) { continue }
+
+            let li = document.createElement('li');
+            li.id = hash.substr(1);
+
+            if (author)
+            {
+               let span_author = document.createElement('span');
+               span_author.className = 'jcr-referred-author';
+               span_author.innerHTML = author;
+               li.appendChild(span_author);
+            }
+
+            let span_link = document.createElement('span');
+            span_link.className = 'jcr-referred-link';
+
+            let a = document.createElement('a');
+            a.href = url;
+            a.innerHTML = text || url;
+            span_link.appendChild(a);
+            li.appendChild(span_link);
+
+            if (origin)
+            {
+               let span_origin = document.createElement('span');
+               span_origin.className = 'jcr-referred-origin';
+               span_origin.innerHTML = origin;
+               li.appendChild(span_origin);
+            }
+
+            ol.appendChild(li);
+
+            refitem[hash] = { item: li, refnr: refnr, citation: [] }
+            refnr++;
+         }
+
+         element.replaceWith(ol);
+      }
+
+      // the references
+      for (let element of document.querySelectorAll('.jcr-reference'))
+      {
+         if (!element.hash) { continue }
+
+         let span = document.createElement('span');
+         span.style.whiteSpace = 'nowrap';
+         span.innerHTML = element.innerHTML;
+
+         if (refitem[element.hash])
+         {
+            element.innerHTML     = refitem[element.hash].refnr;
+            let hash_for_citation = `${[element.hash]}_${refitem[element.hash].citation.length}`;
+            element.id            = hash_for_citation.substr(1);
+            refitem[element.hash].citation.push(hash_for_citation);
+         }
+         else
+         {
+            element.innerHTML = 'link not present';
+         }
+
+         element.parentNode.insertBefore(span, element);
+         span.appendChild(element);
+      }
+
+
+      // reduce citations array (of hashes) to string of hyperlinks
+      function reduceCitations(accum, next, i, all)
+      {
+         let concat = accum;
+         if (i) { concat += ',' }
+         concat += `<a href="${next}">&uarr;`;
+         if (all.length > 1) { concat += `<sub>${i+1}</sub>` }
+         concat += '</a>';
+
+         return concat;
+      }
+
+      // add citations to items in hyperlink list
+      for (let hash in refitem)
+      {
+         if (!refitem[hash].citation.length) { continue }
+
+         refitem[hash].item.innerHTML += '<span class="jcr-referred-citations">'
+//                                    +  '<sub>cited:</sub>'
+                                      +  refitem[hash].citation.reduce(reduceCitations, '')
+                                      + '</span>';
+      }
+   }
+
+   const setSectionLinks = function()
+   {
+      for (let sectionlist of document.querySelectorAll('#jcr_sections'))
+      {
+//       if (location.host) { sectionlist.innerHTML += '<li><a href="/">Home</a></li>'; }
+         for (let section of document.querySelectorAll('.jcr-section[id]'))
+         {
+            if (section.offsetParent) // meaning: not hidden (display: none;)
+            {
+               let text = section.innerHTML;
+               sectionlist.innerHTML += `<li><a href="#${section.id}">${text}</a></li>`;
+
+               section.innerHTML = `<a href="#">${text}</a>`;
+               section.title     = 'to top of page';
+            }
+         }
+      }
+   }
+
+   const setHandlers = function()
+   {
+      document.querySelector('#input_nrplayers').oninput = setNrPlayers;
+      document.querySelector('#input_nrpopulation').oninput = setNrPopulation;
+      document.querySelector('#button_go').onclick = go;
+   }
+
+   const setNrPlayers = function(e)
+   {
+      if (parseInt(e.target.value) < 1)  e.target.value = 1;
+      if (parseInt(e.target.value) > 20) e.target.value = 20;
+   }
+
+   const setNrPopulation = function(e)
+   {
+      if (parseInt(e.target.value) < 1)   e.target.value = 1;
+      if (parseInt(e.target.value) > 200) e.target.value = 200;
+   }
+
+   const go = function(e)
+   {
+      let nrPopulation = parseInt(document.querySelector('#input_nrpopulation').value);
+      let nrPlayers    = parseInt(document.querySelector('#input_nrplayers').value);
+      let nrContacts   = (document.querySelector('#radio1').checked) ? 1 : 2;
+
+      let resultarea = document.querySelector('#resultarea');
+      resultarea.innerHTML = '';
+
+      let player     = new Array(nrPlayers).fill(1);
+      let population = new Array(nrPopulation).fill(1);
+      let week        = 1;
+
+      let contacts = player.reduce((a,v) => a+v,0);
+
+      while (player.some(v => v))
+      {
+         let div_week = document.createElement('div');
+         div_week.className = 'weekarea';
+         resultarea.appendChild(div_week);
+
+         let div_header = document.createElement('div');
+         div_header.innerHTML = `week ${week++}`;
+         div_week.appendChild(div_header);
+
+         let subject = 0;
+
+         player.forEach((meet, p) =>
+         {
+            let newMeet = 0;
+
+            for (let c = 0; c < meet; c++)
+            {
+               if (subject < population.length)
+               {
+                  let div_subject = document.createElement('div');
+                  div_subject.className = (population[subject]) ? 'susceptible' : 'immune';
+                  div_subject.innerHTML = `${p+1}`;
+                  div_week.appendChild(div_subject);
+
+                  if (population[subject]) newMeet++;
+                  population[subject] = 0;
+
+                  subject++;
+               }
+               else
+                  break;
+            }
+
+            player[p] = newMeet * nrContacts;
+         });
+
+         // shuffle population
+         for (let i = population.length; i > 1; i--)
+         {
+            let j = Math.floor(Math.random()*i);
+
+            [population[i-1], population[j]] = [population[j], population[i-1]];
+         }
+      }
+
+
+      let div_summary = document.createElement('div');
+
+      let unaffected = population.reduce((a,v) => a+v, 0);
+
+      div_summary.innerHTML = `week ${week}: geen verspreiding meer; ${((1-unaffected/population.length)*100).toFixed()}% is immuun, niet vatbaar voor nieuwe uitbraak`;
+
+      resultarea.appendChild(div_summary);
+   }
+})(esther_js_object);
+</script>
+</head>
+<body>
+
+<div class="jcr-layout">
+
+<div class="jcr-layout-header"></div> <!-- jcr-layout-header -->
+<div class="jcr-layout-left">
+<ul id="jcr_sections"></ul>
+</div> <!-- jcr-layout-left -->
+
+<div class="jcr-layout-main">
+
+<hr/>
+
+<div class="parameters">
+<div>Aantal spelers (maximaal 20):</div>
+<input id="input_nrplayers"
+       type="number"
+       step="1"
+       min="1"
+       max="100"
+       value="4"
+/>
+<div>Contacten:</div>
+<div>
+<input id="radio1"
+       name="input_contacts"
+       type="radio"
+       checked="1"
+/>
+<label for="radio1">weinig</label>
+<input id="radio2"
+       name="input_contacts"
+       type="radio"
+/>
+<label for="radio2">veel</label>
+</div>
+
+<div>Populatie (maximaal 200):</div>
+<input id="input_nrpopulation"
+       type="number"
+       step="1"
+       min="1"
+       max="200"
+       value="100"
+/>
+
+<button id="button_go">Start</button>
+</div> <!-- parameters -->
+</div> <!-- jcr-layout-main -->
+
+<div class="jcr-layout-right"></div> <!-- jcr-layout-right -->
+
+<div class="jcr-layout-footer">
+
+<div id="resultarea" class="resultarea">
+</div> <!-- resultarea -->
+
+
+<div class="jcr-copy"></div>
+
+<!-- references -->
+<!--
+<h3 class="jcr-section jcr-section-nobefore" id="section_references">Referenties</h3>
+<!-- refer as:
+<a href="#ref_something" class="jcr-reference"></a>
+   references in textarea:
+#ref_something [author]
+url
+text
+[origin (website)]
+   separate references with empty lines
+-->
+
+<!--
+<textarea class="jcr-referred">
+#myref_wiki optional: author
+https://nl.wikipedia.org/
+optional: text
+optional: origin
+
+</textarea> <!-- jcr-referred -->
+</div> <!-- jcr-layout-footer -->
+
+</div> <!-- jcr-layout -->
+</body>
+</html>
