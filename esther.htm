@@ -4,18 +4,7 @@
 <meta http-equiv="expires" content="now"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="version" content="0.0.0"/>
-<title>esther</title>
-<!--
-<script type="text/x-mathjax-config">
-   MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true},
-                        TeX:     {extensions: ["extpfeil.js"]}
-                     });
-   MathJax.Hub.Register.StartupHook('End', function () { document.querySelectorAll('#myMJloadingMessage').forEach(div => div.style.display = 'none'); });
-</script>
-<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML">
-// http://docs.mathjax.org/en/latest/start.html
-</script>
--->
+<title>rollenspel</title>
 <style>
 *
 {
@@ -126,6 +115,43 @@ a:hover
    height:      1.0rem;                          /* */
 
    border-radius: 1.0rem;                          /* */
+}
+
+.rows2
+{
+   display:            grid;                     /* */
+   grid-auto-flow:     column;                   /* */
+   grid-template-rows: auto auto;                /* */
+}
+
+.rows3
+{
+   display:            grid;                     /* */
+   grid-auto-flow:     column;                   /* */
+   grid-template-rows: auto auto auto;           /* */
+}
+
+.rows2 > *,
+.rows3 > *
+{
+   text-align:       right;                      /* */
+   padding-right:    0.5rem;                      /* */
+   background-color: hsl( 45, 100%,  80%);       /* */
+}
+
+.rows2 > *:nth-child(even),
+.rows3 > *:nth-child(3n+2)
+{
+   background-color: hsl( 60, 100%,  80%);       /* */
+}
+
+.disclaimer
+{
+   margin:     2rem;                             /* */
+   padding:    1rem;                             /* */
+   border:     1px solid hsl(0, 100%, 50%);      /* */
+   font-size:  smaller;                          /* */
+   font-style: italic;                            /* */
 }
 
 
@@ -752,12 +778,34 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
       let nrPlayers    = parseInt(document.querySelector('#input_nrplayers').value);
       let nrContacts   = (document.querySelector('#radio1').checked) ? 1 : 2;
 
-      let resultarea = document.querySelector('#resultarea');
-      resultarea.innerHTML = '';
-
-      let player     = new Array(nrPlayers).fill(1);
       let population = new Array(nrPopulation).fill(1);
-      let week        = 1;
+
+      let displayarea       = document.querySelector('#displayarea');
+      displayarea.innerHTML = '';
+
+      let resultarea = outbreak(population, nrContacts, nrPlayers);
+      displayarea.appendChild(resultarea);
+
+      // second outbreak
+      let button_second = document.createElement('button');
+      button_second.innerHTML = 'Tweede uitbraak';
+      button_second.onclick = showSecond;
+      displayarea.appendChild(button_second);
+
+      resultarea               = outbreak(population, nrContacts, nrPlayers);
+      resultarea.id            = 'second_outbreak';
+      resultarea.style.display = 'none';
+      displayarea.appendChild(resultarea);
+   }
+
+   const outbreak = function(population, nrContacts, nrPlayers)
+   {
+      let resultarea           = document.createElement('div');
+          resultarea.className = 'resultarea';
+
+      let player = new Array(nrPlayers).fill(1);
+      let week   = 1;
+
 
       let contacts = player.reduce((a,v) => a+v,0);
 
@@ -807,14 +855,19 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
          }
       }
 
-
       let div_summary = document.createElement('div');
 
       let unaffected = population.reduce((a,v) => a+v, 0);
-
-      div_summary.innerHTML = `week ${week}: geen verspreiding meer; ${((1-unaffected/population.length)*100).toFixed()}% is immuun, niet vatbaar voor nieuwe uitbraak`;
+      div_summary.innerHTML = `geen verspreiding meer; ${((1-unaffected/population.length)*100).toFixed()}% is immuun, niet vatbaar voor nieuwe uitbraak`;
 
       resultarea.appendChild(div_summary);
+
+      return resultarea;
+   }
+
+   const showSecond = function(e)
+   {
+      document.querySelector('#second_outbreak').style.display = 'block';
    }
 })(esther_js_object);
 </script>
@@ -830,66 +883,204 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
 
 <div class="jcr-layout-main">
 
-<h4>Simulatie van een epidemie</h4>
-De deelnemers spelen een virusuitbraak, ze gaan mensen besmetten.
-Na een besmetting wordt die persoon immuun, dat betekent dat deze persoon in
-een volgende ronde niet meer besmet kan worden.
-<br/>
-Een speler kan een immuun persoon niet besmetten,
-en als hij niemand kan besmetten valt hij uit.
-En dat is het doel van het spel: alle spelers moeten uitvallen, dan is de
-epidemie voorbij.
-<br/>
-De simulatie beslaat een aantal speelrondes, weken genoemd, en eindigt dus
-als alle spelers uitgevallen zijn.
-<br/>
-<br/>
-Stel je de populatie voor als een grote bak met balletjes waar iets in kan zitten
-(zoals ballletjes bij een loting voor een toernooi).
-<br/>
-De spelers pakken elk een bal. Dat staat voor contacten tussen de mensen:
-de speler probeert een nieuw slachtoffer te maken.
-<br/>
-Dat lukt alleen als het slachtoffer vatbaar is: het balletje is leeg.
-<br/>
-(De ballen/mensen die zich buiten de bak bevinden zijn als het ware
-"anderen aan het besmetten" via contacten met anderen.)
-<br/>
-Vervolgens wordt er iets in elk leeg balletje gestopt, dat staat voor antistoffen
-waardoor de bal/persoon immuun wordt voor een nieuwe besmetting.
-<br/>
-En alle ballen gaan weer in de bak.
-(De periode dat een lege bal buiten de bak was staat dus voor infectie/ziekte,
-besmetting van anderen, en daarna genezing/immuniteit.)
+<div class="disclaimer">
+Ik ben geen medicus of viroloog. Het verhaal over een virusuitbraak is niet
+wetenschappelijk bedoeld. De gebruikte getallen zijn bedoeld als simpele
+illustratie, ze hebben geen verband met enige werkelijke situatie.
+Het wiskundig model dat virologen gebruiken is veel gedetailleerder en
+ingewikkelder dan wat ik hier beschrijf. Mijn model is slechts het model
+dat het rollenspel beschrijft.
+</div>
+
+<h4 class="jcr-section" id="newvirus">Een virusuitbraak</h4>
+
+De covid-19 uitbraak heeft een aantal nieuwe woorden en uitdrukkingen aan
+ons dagelijks taalgebruik toegevoegd.
+We moesten aan <i>social distancing</i> gaan doen om een <i>lockdown</i>
+te voorkomen omdat de druk op de gezondheidszorg te groot werd.
+En <i>groepsimmuniteit</i> was een mooi streven, maar kon niet voorkomen dat de
+ziekenhuizen vol zouden lopen.
 <br/>
 <br/>
-De volgende ronde gaat op de zelfde manier: alle spelers pakken een bal.
-Als de bal niet leeg, immuun is, valt de speler af.
+Iemand die een besmettelijk virus in z'n lichaam heeft zal het naar buiten brengen door
+te hoesten, niezen of misschien zelfs al door te ademen.
+Het virus zal ongetwijfelt op z'n handen terechtkomen en daar enige uren overleven,
+misschien ook op dingen die die handen aanraken zoals deurknoppen.
+Dat virus kan dan andere mensen besmetten als die zich op korte
+afstand van de besmette persoon bevinden, via miniscule vochtdruppels
+of de handen.
+Via <i>contacten</i> heet dat.
 <br/>
 <br/>
-Uiteindelijk zijn alle spelers afgevallen: het virus verspreidt zich niet meer
-en een bepaald percentage van de populatie is immuun.
-Die zijn niet vatbaar voor een nieuwe uitbraak. De anderen dus wel!
+Stel dat elk besmet persoon in een week tijd twee anderen besmet.
+Dan loopt het aantal besmette personen steeds sneller op:
+<div class="rows2">
+<div></div><div>nieuwe besmettingen</div>
+<div>week 1</div><div>1000</div>
+<div>week 2</div><div>2000</div>
+<div>week 3</div><div>4000</div>
+<div>week 4</div><div>8000</div>
+<div>week 5</div><div>16000</div>
+<div>week 6</div><div>32000</div>
+</div>
+Op een zeker moment zal de stijging echter minder snel gaan, want contacten met
+mensen <i>die al besmet zijn</i> leveren geen nieuwe besmettingen op.
+En met virussen gaat het meestal zo dat iemand het na enige tijd kwijtraakt
+en daarna <i>niet opnieuw besmet kan worden</i>, zo iemand kan ook niemand
+anders meer besmetten.
 <br/>
-Als het percentage dat immuun is heel hoog is dan spreekt men van
-groepsimmuniteit, omdat dan een groot deel van de populatie geen besmetting
-kan overdragen.
-<br/>
-Als er een laag percentage immuniteit is bestaat er een grote kans op een
-tweede uitbraak.
+Maar in het begin kan de stijging van het aantal besmettingen echt heel erg
+hard gaan. Men spreekt niet voor niets over een <i>uitbraak</i> van een
+<i>epidemie</i>.
 <br/>
 <br/>
-In de simulatie hieronder kun je kiezen tussen veel en weinig contacten.
-Weinig contacten staat voor <i>social distancing</i>.
-<br/>
-De implementatie is het spel is: bij "veel contacten" pakt elke speler <i>twee</i>
-nieuwe ballen voor elke <i>lege</i> bal die hij in de vorige ronde pakte.
-Bij "weinig contacten" pakt hij er steeds maar &eacute;&eacute;n.
-<br/>
-De speler valt af als alle ballen die hij pakt gevuld/immuun zijn.
+Niet iedereen wordt ziek, maar ook
+als bijvoorbeeld &eacute;&eacute;n op de honderd besmette personen ernstig ziek
+wordt heb je steeds meer
+ziekenhuisbedden nodig, en daarom wil je het aantal nieuwe besmettingen
+koste wat kost kleiner zien te maken.
 <br/>
 <br/>
-Er zijn twee gevolgen van weinig contacten:
+Help het als je de grenzen van je land sluit?
+<br/>
+Als je nul besmettingen hebt wel, niemand zal het virus dan binnen jouw grenzen
+kunnen brengen.
+<br/>
+Er zijn twee situaties waarin je nul besmettingen kunt hebben:
+uiteraard als het virus jouw land nog niet bereikt heeft, maar ook als de
+virusuitbraak na een aantal maanden is uitgedoofd maar er zijn nog veel mensen
+niet besmet geweest. Die mensen zijn nog altijd vatbaar en er kan dus een
+tweede uitbraak komen.
+<br/>
+Maar stel dat er bij het getallenvoorbeeld hierboven elke week een vliegtuig
+binnenkomt met 100 besmette personen die zich onder de bevolking mengen. De
+groeicijfers worden dan:
+<div class="rows3">
+<div></div><div>nieuwe besmettingen</div><div>1% (nieuwe) zieken</div>
+<div>week 1</div><div>1100</div><div>10+1</div>
+<div>week 2</div><div>2300</div><div>20+3</div>
+<div>week 3</div><div>4700</div><div>40+7</div>
+<div>week 4</div><div>9500</div><div>80+15</div>
+<div>week 5</div><div>19100</div><div>160+31</div>
+<div>week 6</div><div>38300</div><div>320+63</div>
+</div>
+In elke week zijn er dus ook extra zieken ten opzichte van de situatie zonder
+instroom van buiten.
+Het gevolg is dat je ziekenhuizen wat eerder vol raken.
+<br/>
+Maar zonder instroom van buiten raken de ziekenhuizen ook vol.
+Je wint er dus wat tijd mee als je de grenzen sluit, tijd om ziekenhuisbedden
+te regelen.
+<br/>
+<br/>
+Maar wat je natuurlijk echt wilt is dat de ziekenhuizen <i>niet</i> vol raken.
+<br/>
+Dat bereik je door het aantal contacten te beperken.
+<br/>
+Stel dat een besmet persoon maakt minder contacten en besmet daardoor slechts
+&eacute;&eacute;n andere persoon per week. Ons tabelletje wordt dan:
+<div class="rows3">
+<div></div><div>nieuwe besmettingen</div><div>1% (nieuwe) zieken</div>
+<div>week 1</div><div>1000</div><div>10</div>
+<div>week 2</div><div>1000</div><div>10</div>
+<div>week 3</div><div>1000</div><div>10</div>
+<div>week 4</div><div>1000</div><div>10</div>
+<div>week 5</div><div>1000</div><div>10</div>
+<div>week 6</div><div>1000</div><div>10</div>
+</div>
+De vraag naar ziekenhuisbedden is nu beduidend minder.
+<br/>
+<br/>
+Eigenlijk zou je alleen de contacten van <i>besmette</i> personen hoeven
+te beperken. De mensen die nog niet besmet zijn geweest en de mensen die
+het virus niet meer hebben zorgen immers niet voor nieuwe besmettingen.
+<br/>
+De beste oplossing lijkt heel simpel: test iedereen en isoleer degenen die besmet zijn.
+<br/>
+<br/>
+Iedereen aan een test onderwerpen is makkelijker gezegd dan gedaan.
+<br/>
+Bij het begin van de uitbraak van een nieuw virus zoals covid-19 weet je
+helemaal niet dat er sprake is van een nieuw virus. Er is dus ook nog geen test
+beschikbaar.
+<br/>
+Men moet er eerst achter komen dat er sprake is van een nieuw virus, en
+vervolgens moet er een bruikbare test ontwikkeld en massaal geproduceerd worden.
+<br/>
+En ondertussen verspreidt het virus zich &hellip;
+Dat is het probleem dat men in China had.
+<br/>
+Daarnaast vergt het natuurlijk een hele organisatie om grote aantallen mensen
+te testen, nog afgezien van belemmerende factoren zoals privacy
+(iemand die zich niet ziek voelt kun je moeilijk dwingen zich te laten testen).
+En hoe meer mensen al besmet zijn hoe lastiger dat is te organiseren.
+<br/>
+Maar als je een test ter beschikking hebt en je gaat zo snel mogelijk grote
+aantallen mensen testen en besmette mensen isoleren dan voorkom je heel veel
+nieuwe besmettingen. Dat is wat men in Zuid Korea met redelijk succes gedaan
+heeft.
+<br/>
+In de meeste landen is dat helaas niet haalbaar.
+En dan zit er niets anders op dan vrijwel <i>iedereen</i> minder contacten
+te laten maken: <i>social distancing</i>.
+
+<h4 class="jcr-section" id="model">Een wiskundig model</h4>
+
+Er is nog een ander aspect dat de aandacht waard is. Je kunt dus eigenlijk
+drie groepen onderscheiden:
+<ol>
+<li>vatbare personen, die (nog) niet besmet zijn</li>
+<li>besmette personen, al dan niet ziek, die het virus kunnen overdragen</li>
+<li>herstelde personen, die niet meer besmet kunnen worden en geen virus meer overdragen</li>
+</ol>
+De mensen uit de tweede groep dragen dus via contacten het virus over aan mensen
+uit de eerste groep. Maar wat als ze alleen contacten maken met mensen uit de
+derde groep?
+<br/>
+Ten eerste komen er dan geen nieuwe personen in de tweede groep, want je komt daar
+alleen vanuit de eerste groep na contact met iemand anders uit die tweede groep.
+<br/>
+Ten tweede is een verblijf in de tweede groep van tijdelijke aard; na enige
+tijd belandt een persoon uit de tweede groep in de derde groep.
+<br/>
+Dus de tweede groep loopt uiteindelijk leeg!
+<br/>
+<br/>
+De virusverspreiding kom dus op een gegeven moment tot stilstand.
+Als de groep met vatbare personen dan relatief heel klein is wordt de kans op een
+tweede uitbraak klein. Stel namelijk dat er op een of andere manier toch weer
+personen besmet raken en via contacten het virus gaan overdragen dan is de kans
+op een contact met iemand uit de eerste groep veel kleiner dan die van een contact
+met iemand uit de derde groep.
+<br/>
+Dat heet <i>groepsimmuniteit</i>: als verreweg de meeste mensen niet meer vatbaar
+zijn.
+<br/>
+<br/>
+Groepsimmuniteit kun je ook kunstmatig cre&euml;ren door <i>vaccinatie</i>, ofwel inenting.
+<br/>
+Wat betekent het eigenlijk als iemand niet meer besmet kan worden, als iemand
+in de derde groep zit? Eigenlijk wordt zo'n persoon wel besmet, maar zijn
+afweersysteem herkent het virus als het ware als een vijand en reageert
+door <i>antistoffen</i> te produceren dat het virus meteen om zeep helpt.
+<br/>
+Als je nu iemand met een zogeheten <i>vaccin</i> een heel klein beetje besmet,
+niet genoeg om iemand echt ziek te maken, maar wel genoeg om het afweersysteem te leren om het virus
+als vijandig te zien dan zal het afweersysteem bij een echte aanval van het
+virus meteen reageren en, in de meeste gevallen, vernietigen.
+Dat is, kort door de bocht, het principe van vaccinatie.
+<br/>
+Maar voor een <i>nieuw</i> virus heb je uiteraard nog geen vaccin als wapen;
+en de ontwikkeling van een nieuw vaccin duurt lang, vaak meer dan een jaar.
+
+<br/>
+<br/>
+Veel of weinig contacten, het maakt een groot verschil, ook in de mate van
+immuniteit op het moment dat de verspreiding tot stilstand gekomen is.
+De groep die dan immuun is (de derde groep) is bij weinig contacten veel kleiner
+dan bij veel contacten.
+<br/>
+Social distancing heeft dus twee belangrijke gevolgen:
 <ol>
 <li>nadeel: geen groepsimmuniteit, grote kans op tweede uitbraak</li>
 <li>voordeel: minder mensen tegelijkertijd besmet</li>
@@ -897,32 +1088,134 @@ Er zijn twee gevolgen van weinig contacten:
 Het tweede wordt als belangrijker gezien,
 want hoe meer mensen tegelijkertijd besmet, hoe groter de druk op de
 gezondheidszorg.
+
+<h4 class="jcr-section" id="game">Het rollenspel</h4>
+
+De verschillen tussen veel en weinig contacten kunnen aanschouwelijk gemaakt
+worden door middel van een rollenspel. Hoewel, <i>rollen</i>, er is maar
+&eacute;&eacute;n rol: alle deelnemers spelen voor virus.
+<br/>
+Het werkt als volgt.
+<br/>
+Je hebt een bak met ballen van het soort dat bij lotingen gebruikt wordt:
+ballen die je open kunt maken en waar iets in kan zitten (je kunt ook
+zogenaamde verrassingseieren nemen).
+<br/>
+Die ballen staan voor een bevolking, een <i>populatie</i>.
+E&eacute;n bal vertegenwoordigt een vast aantal personen, voor het gemak
+zeggen we even &eacute;&eacute;n persoon.
+<br/>
+Een bal is leeg of bevat iets waarvan je niet aan de buitenkant kunt merken
+dat het er in zit, bijvoorbeeld een kleine pompon.
+Een lege bal staat voor een vatbare persoon, een gevulde bal staat voor een
+immune persoon (de pompon vertegenwoordigt de antistoffen).
 <br/>
 <br/>
-Dat kun je in het spel inbouwen door elke speler een "sokkel" te geven
-waar een (vatbare) bal gedurende de ronde in gezet moet worden
-(zoals een ei op een eierdopje).
-Stel zo'n bal staat voor tienduizend mensen, waarvan er honderd aan de
-beademingsmachine moeten. De sokkel staat dan voor een ziekenhuis waar
-ze terecht kunnen.
+Het spel beslaat een aantal ronden, die staan voor de weken die een
+virusuitbraak duurt.
 <br/>
-Bij weinig contacten gaat alles goed, de spelers pakken steeds
-&eacute;&eacute;n bal, en ze hebben ook &eacute;&eacute;n sokkel.
-<br/>
-Bij veel contacten onstaan er problemen, want die ene sokkel/ziekenhuis blijkt al
-gauw niet voor elke speler voldoende te zijn:
-te weinig capaciteit in de zorg.
+De spelers pakken iedere ronde elk een aantal ballen; in de eerste ronde is dat er
+&eacute;&eacute;n.
 <br/>
 <br/>
-Hieronder een computersimulatie, je kunt wat parameters opgeven waarvan die
-"Contacten" dus de belangrijkste is.
+Elke lege bal die een speler pakt wordt <i>besmet</i>; voor elke
+gevulde bal die een speler pakt verandert er niets.
+Een speler staat model voor een virus dat al dan niet overgedragen kan worden.
 <br/>
-De "Start" knop zet een simulatie in gang.
-Een persoon die besmet wordt ziet er zo uit: <div class="susceptible text"></div>,
-een immuun persoon ziet er zo uit: <div class="immune text"></div>
-De ballen/personen
-worden voorzien van een nummer: dat is het nummer van de speler.
-Zo kun je zien wat elke speler doet, en wanneer de speler uitvalt.
+Spelers die alleen maar ballen gevuld met antistoffen pakken vallen af:
+zij konden niemand besmetten.
+<br/>
+Het doel van het spel is dat alle spelers afvallen.
+<br/>
+<br/>
+Gevulde, immune ballen kunnen meteen terug in de bak.
+Het virus heeft er geen vat op.
+<br/>
+<br/>
+De lege ballen worden door het virus, de speler, besmet.
+Maar ze gaan ook antistoffen produceren.
+Dat symboliseren we door iets in de bal te stoppen.
+<br/>
+<br/>
+Dan worden de besmette ballen in de bak gedaan en de ballen worden door
+elkaar gehusseld: er worden contacten gemaakt.
+<br/>
+<br/>
+Die contacten zijn dus een prooi voor het virus (de spelers) in de volgende ronde.
+<br/>
+Het spel kent twee varianten: <i>veel contacten</i> en <i>weinig contacten</i>:
+<ul>
+<li>
+bij de <i>veel contacten</i> variant pakt de speler twee ballen uit de bak
+per besmette bal die hij in de bak teruggedaan had
+</li>
+<li>
+bij de <i>weinig contacten</i> variant pakt de speler &eacute;&eacute;n bal uit
+de bak als hij een besmette bal had
+</li>
+</ul>
+Een speler die geen enkele besmette bal had valt af.
+<br/>
+Na  een aantal ronden zullen alle spelers afgevallen zijn.
+Het spel is ten einde.
+<br/>
+<br/>
+In theorie kunnen nu <i>alle</i> ballen antistoffen bevatten:
+dan is de bevolking dus voor 100% immuun.
+<br/>
+In de praktijk zullen er echter ballen zijn die nog leeg zijn.
+Bij de <i>weinig contacten</i> variant zijn dat er over het algemeen veel
+meer dan bij de <i>veel contacten</i> variant.
+<br/>
+Als je een niet al te kleine populatie had kun je het effect daarvan zien
+door het spel meteen nog een keer te spelen
+zonder iets aan de ballen te doen (zonder ze eerst leeg te maken).
+<br/>
+Bij de <i>weinig contacten</i> variant kun je een tweede uitbraak zien:
+er zijn nog aardig wat ballen die besmet kunnen worden.
+<br/>
+Bij de <i>veel contacten</i> variant zullen er maar weinig ballen besmet
+kunnen worden: dat is het effect van groepsimmuniteit, (of van vaccinatie!).
+<br/>
+<br/>
+De <i>veel contacten</i> variant symboliseert een situatie waar de druk
+op de gezondheidszorg (te) groot wordt.
+Dat kan in het spel als volgt aanschouwelijk gemaakt worden.
+Zie een besmette bal als vertegenwoordiging van een <i>groep</i> mensen,
+waarvan een vast percentage het ziekenhuis in moet.
+<br/>
+Geef elke speler &eacute;&eacute;n sokkeltje (bijvoorbeeld een eierdopje)
+waar hij een besmette bal op kan zetten.
+<br/>
+De sokkel staat voor een ziekenhuis met genoeg plek voor het percentage
+mensen uit een bal die behandeling nodig hebben.
+<br/>
+In het geval van <i>weinig contacten</i> pakt een speler altijd maar
+&eacute;&eacute;n bal. Er is dus altijd genoeg plek in zijn ziekenhuis.
+<br/>
+In het geval van <i>veel contacten</i> kan de speler meerdere ballen
+moeten pakken. Als daar meer dan &eacute;&eacute;n lege bal bij zit is er
+een probleem: hij heeft maar &eacute;&eacute;n sokkel, er is niet genoeg
+capaciteit in de gezondheidszorg.
+
+<h4 class="jcr-section" id="simulation">Een computersimulatie</h4>
+
+Hieronder staat een computersimulatie. Je kunt een aantal spelers invoeren,
+de grootte van de populatie kiezen en, het belangrijkste, de variant
+selecteren: weinig of veel contacten.
+<br/>
+De startknop initieert een volledige simulatie van het spel en laat het
+resultaat meteen op het scherm zien.
+Het husselen van de ballen wordt dus ook gesimuleerd, daardoor zie je
+verschillende resultaten als je de simulatie meerdere keren met de zelfde
+aantallen en variant uitvoert.
+<br/>
+Er verschijnt ook steeds een knop waarmee een tweede uitbraak, gebaseerd op
+de mate van immuniteit die de eerste uitbraak achterliet zichtbaar wordt.
+<br/>
+Bij de <i>veel contacten</i> variant kan die tweede uitbraak ook model staan
+voor een gevaccineerde populatie. Je kunt zien of het percentage dat
+gevaccineerd was eigenlijk wel hoog genoeg was om problemen te voorkomen.
 <hr/>
 
 <div class="parameters">
@@ -966,8 +1259,7 @@ Zo kun je zien wat elke speler doet, en wanneer de speler uitvalt.
 
 <div class="jcr-layout-footer">
 
-<div id="resultarea" class="resultarea">
-</div> <!-- resultarea -->
+<div id="displayarea"></div>
 
 
 <div class="jcr-copy"></div>
