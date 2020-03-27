@@ -42,42 +42,93 @@ a:hover
 
 .parameters
 {
-   display:               inline-grid;           /* */
-   grid-template-columns: auto auto;             /* */
+   display: flex;                                /* */
+   flex-flow: column;                            /* */
+   user-select: none;                            /* */
+   line-height: 2rem;                            /* */
 }
 
-.parameters > input
+/*.parameters > input /* */
+.parameters input
 {
-   text-align: right; /* */
+   text-align: right;                            /* */
+   margin: .2rem;                                /* */
 }
+
+.cols2
+{
+   display:               inline-grid;           /* */
+   grid-template-columns: auto auto;             /* */
+   justify-content: flex-start;                  /* */
+}
+
+.cols3
+{
+   display:               inline-grid;           /* */
+   grid-template-columns: repeat(3, auto);       /* */
+/* justify-content: space-between;               /* */
+   justify-content: flex-start;                  /* */
+}
+
+.cols5
+{
+   display:               inline-grid;           /* */
+   grid-template-columns: repeat(5, auto);       /* */
+/* justify-content: space-between;               /* */
+   justify-content: flex-start;                  /* */
+}
+
 
 .resultarea
 {
-   display: flex;
-   flex-flow: column; /* */
+   display: flex;                                /* */
+   flex-flow: column;                            /* */
 
-   background-color: hsl(195, 100%, 50%);        /* */
+   background-color: hsl(195,   0%, 80%);        /* */
+/* padding-left: .5rem;                          /* */
+   border-radius: 5px;                           /* */
 }
 
 .resultarea > div:nth-child(even)
 {
-   background-color: hsl(180, 100%, 50%);        /* */
+   background-color: hsl(180,   0%, 90%);        /* */
 }
 
 .resultarea > div:last-child
 {
-   background-color: hsl(120, 100%, 50%);        /* */
+   background-color: hsl(120,   0%, 20%);        /* */
+              color: hsl(120, 100%, 50%);        /* */
+   padding-left: .5rem;                          /* */
 }
 
+.legenda,
 .weekarea
 {
    display: flex;                                /* */
    flex-wrap: wrap;                              /* */
 
-
 /* background-color: hsl(300, 100%, 50%);        /* */
+/* line-height: 2rem;                            /* */
 }
 
+.weekarea > div:first-child
+{
+   padding-left: .5rem; /* */
+}
+
+button,
+label
+{
+   cursor: pointer; /* */
+}
+
+
+.red,
+.orange,
+.yellow,
+.green,
+.blue,
+.purple,
 .susceptible,
 .superspreader,
 .immune
@@ -108,6 +159,38 @@ a:hover
    background-color: hsl(300, 100%, 100%);       /* */
 }
 
+.red
+{
+   background-color: hsl(330, 100%,  50%);       /* */
+}
+.orange
+{
+   background-color: hsl( 30, 100%,  50%);       /* */
+}
+.yellow
+{
+   background-color: hsl( 60, 100%,  50%);       /* */
+}
+.green
+{
+   background-color: hsl(135, 100%,  50%);       /* */
+}
+.blue
+{
+   background-color: hsl(210, 100%,  50%);       /* */
+}
+.purple
+{
+   background-color: hsl(285, 100%,  50%);       /* */
+}
+
+
+.red.text,
+.orange.text,
+.yellow.text,
+.green.text,
+.blue.text,
+.purple.text,
 .susceptible.text,
 .superspreader.text,
 .immune.text
@@ -154,7 +237,7 @@ a:hover
    padding:    1rem;                             /* */
    border:     1px solid hsl(0, 100%, 50%);      /* */
    font-size:  smaller;                          /* */
-   font-style: italic;                            /* */
+   font-style: italic;                           /* */
 }
 
 
@@ -165,6 +248,11 @@ a:hover
 .jcr-layout-right  { grid-area: jcr-layout-right;  }
 .jcr-layout-footer { grid-area: jcr-layout-footer; }
 
+.jcr-layout-left2  { grid-area: jcr-layout-left2;   }
+.jcr-layout-main2  { grid-area: jcr-layout-main2;   }
+.jcr-layout-right0 { grid-area: jcr-layout-right0;  }
+.jcr-layout-footer0 { grid-area: jcr-layout-footer0; }
+
 .jcr-layout
 {
    display:             grid;                    /* */
@@ -172,6 +260,10 @@ a:hover
                         'jcr-layout-header'      /* */
                         'jcr-layout-left'        /* */
                         'jcr-layout-main'        /* */
+                        'jcr-layout-right0'      /* */
+                        'jcr-layout-footer0'     /* */
+                        'jcr-layout-left2'       /* */
+                        'jcr-layout-main2'       /* */
                         'jcr-layout-right'       /* */
                         'jcr-layout-footer';     /* */
 }
@@ -181,25 +273,36 @@ a:hover
    margin-bottom: 1rem;                          /* */
 }
 
+.jcr-layout-footer0,
+.jcr-layout-footer
+{
+   margin: .5rem .1rem;                          /* */
+}
+
 @media (orientation: landscape)
 {
    .jcr-layout
    {
       grid-template-areas:                                                           /* */
                            'jcr-layout-header jcr-layout-header  jcr-layout-header'  /* */
-                           'jcr-layout-left   jcr-layout-main    jcr-layout-right'   /* */
+                           'jcr-layout-left   jcr-layout-main    jcr-layout-right0'   /* */
+                           'jcr-layout-footer0 jcr-layout-footer0  jcr-layout-footer0'  /* */
+                           'jcr-layout-left2   jcr-layout-main2    jcr-layout-right'   /* */
                            'jcr-layout-footer jcr-layout-footer  jcr-layout-footer'; /* */
    }
 
    .jcr-layout.jcr-layout-cols
    {
       grid-template-areas:                                                           /* */
-                           'jcr-layout-left   jcr-layout-header  jcr-layout-right'   /* */
-                           'jcr-layout-left   jcr-layout-main    jcr-layout-right'   /* */
-                           'jcr-layout-left   jcr-layout-footer  jcr-layout-right';  /* */
+                           'jcr-layout-left   jcr-layout-header  jcr-layout-right0'   /* */
+                           'jcr-layout-left   jcr-layout-main    jcr-layout-right0'   /* */
+                           'jcr-layout-left   jcr-layout-footer0  jcr-layout-right0'   /* */
+                           'jcr-layout-left2   jcr-layout-main2    jcr-layout-right'   /* */
+                           'jcr-layout-left2   jcr-layout-footer  jcr-layout-right';  /* */
       justify-content:     space-between;        /* */
    }
 
+   .jcr-layout-main2,
    .jcr-layout-main
    {
       width:         62vw;                       /* 2/(1+sqrt(5)) */
@@ -211,17 +314,20 @@ a:hover
       padding:       1rem;                       /* */
    }
 
+   .jcr-layout-main2.jcr-layout-A4,
    .jcr-layout-main.jcr-layout-A4
    {
       width: 70vh;                               /* */
    }
 
+   .jcr-layout-main2.jcr-layout-solidborder,
    .jcr-layout-main.jcr-layout-solidborder
    {
       box-shadow: none;                          /* */
       border:     hsl(  0,   0%,  20%) thin solid; /* */
    }
 
+   .jcr-layout-left2, .jcr-layout-right0,
    .jcr-layout-left, .jcr-layout-right
    {
       min-width: 15vw;                           /* */
@@ -758,10 +864,15 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
 
    const setHandlers = function()
    {
-      document.querySelector('#inputNrPlayers').oninput      = checkNrPlayers;
-      document.querySelector('#inputPopulationSize').oninput = checkPopulationSize;
-      document.querySelector('#inputSuperSpreaders').oninput = checkSuperSpreaders;
-      document.querySelector('#buttonGo').onclick            = go;
+//      document.querySelector('#inputNrPlayers').oninput      = checkNrPlayers;
+      document.querySelectorAll('input[name="players"]').forEach(x => x.oninput = checkNrPlayers);
+      document.querySelectorAll('input[name="population"]').forEach(x => x.oninput = checkPopulationSize);
+//    document.querySelector('#inputPopulationSize').oninput = checkPopulationSize;
+      document.querySelectorAll('input[name="social"]').forEach(x => x.oninput = checkSocial);
+      document.querySelectorAll('input[name="contacts"]').forEach(x => x.oninput = checkContacts);
+//    document.querySelector('#inputSuperSpreaders').oninput = checkSuperSpreaders;
+      document.querySelector('#buttonGo').onclick        = go;
+      document.querySelector('#buttonGoVariant').onclick = goVariant;
    }
 
    const checkNrPlayers = function(e)
@@ -776,29 +887,46 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
       if (parseInt(e.target.value) > 200) e.target.value = 200;
    }
 
-   const checkSuperSpreaders = function(e)
+   const checkSocial = function(e)
    {
       if (parseInt(e.target.value) < 0) e.target.value = 0;
       if (parseInt(e.target.value) > 3) e.target.value = 3;
    }
 
+   const checkContacts = function(e)
+   {
+      if (parseInt(e.target.value) < 1) e.target.value = 1;
+      if (parseInt(e.target.value) > 4) e.target.value = 4;
+   }
 
-   const subjectType = ['immune', undefined, 'susceptible', undefined, 'superspreader'];
+
+
+// const checkSuperSpreaders = function(e)
+// {
+//    if (parseInt(e.target.value) < 0) e.target.value = 0;
+//    if (parseInt(e.target.value) > 3) e.target.value = 3;
+// }
+
+
+// const subjectType = ['immune', undefined, 'susceptible', undefined, 'superspreader'];
 
    const go = function(e)
    {
       let nrPlayers      = parseInt(document.querySelector('#inputNrPlayers').value);
       let populationSize = parseInt(document.querySelector('#inputPopulationSize').value);
-      let superSpreaders = parseInt(document.querySelector('#inputSuperSpreaders').value);
-      let exponential    = !(document.querySelector('#checkboxSocial').checked);
+      let distancing     = document.querySelector('#checkboxSocial').checked;
 
-
-      let population = Array.from(new Array(populationSize), (v,i)=>(superSpreaders)?(i%superSpreaders)?2:4:2);
+      let population = Array.from(new Array(populationSize), (v, i) =>
+                       {  return { className: 'yellow',
+                                   infect: 2,
+                                   social: (distancing) ? 0 : 999
+                                 }
+                       });
 
       let displayarea       = document.querySelector('#displayarea');
       displayarea.innerHTML = '';
 
-      let resultarea = outbreak(population, exponential, nrPlayers);
+      let resultarea = outbreak(population, nrPlayers);
       displayarea.appendChild(resultarea);
 
       // second outbreak
@@ -807,13 +935,43 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
       buttonSecond.onclick   = showSecond;
       displayarea.appendChild(buttonSecond);
 
-      resultarea               = outbreak(population, exponential, nrPlayers);
+      resultarea               = outbreak(population, nrPlayers);
       resultarea.id            = 'secondOutbreak';
       resultarea.style.display = 'none';
       displayarea.appendChild(resultarea);
    }
 
-   const outbreak = function(population, exponential, nrPlayers)
+   const showSecond = function(e)
+   {
+      document.querySelector('#secondOutbreak').style.display = 'block';
+   }
+
+
+   const goVariant = function(e)
+   {
+      let nrPlayers      = parseInt(document.querySelector('#inputNrPlayersVariant').value);
+      let populationSize = parseInt(document.querySelector('#inputPopulationSizeVariant').value);
+
+      let category = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+
+      let infect = category.map((v,i) => parseInt(document.querySelector(`.${v}~input[name="contacts"]`).value));
+      let social = category.map((v,i) => parseInt(document.querySelector(`.${v}~input[name="social"]`).value));
+
+      let population = Array.from(new Array(populationSize), (v, i) =>
+                       {  return { className: category[i % category.length],
+                                   infect: infect[i % infect.length],
+                                   social: social[i % social.length]
+                                 }
+                       });
+
+      let displayarea       = document.querySelector('#displayareaVariant');
+      displayarea.innerHTML = '';
+
+      let resultarea = outbreak(population, nrPlayers);
+      displayarea.appendChild(resultarea);
+   }
+
+   const outbreak = function(population, nrPlayers)
    {
       let resultarea           = document.createElement('div');
           resultarea.className = 'resultarea';
@@ -823,6 +981,11 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
 
       while (player.some(v => v))
       {
+         // implement social distancing
+          population.forEach(p => { if (p.infect > 0 && p.social < week) p.infect = 1 });
+//          population.forEach(p => { console.log(`howdy ${p.social}`)});
+
+
          let div_week = document.createElement('div');
          div_week.className = 'weekarea';
          resultarea.appendChild(div_week);
@@ -849,20 +1012,27 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
             {
                if (subject < population.length)
                {
-                  let infectNextWeek = (exponential)
-                                     ? population[subject]
-                                     : (population[subject])
-                                     ? 1
-                                     : 0;
+//                let infectNextWeek = (exponential)
+//                                   ? population[subject]
+//                                   : (population[subject])
+//                                   ? 1
+//                                   : 0;
 
 
                   let div_subject       = document.createElement('div');
-                  div_subject.className = subjectType[population[subject]];
-                  div_subject.innerHTML = `${String.fromCharCode(p+65)}:${infectNextWeek}`;
+//                div_subject.className = subjectType[population[subject]];
+                  div_subject.className = (population[subject].infect > 0)
+                                        ? population[subject].className
+                                        : 'immune';
+//                div_subject.innerHTML = `${String.fromCharCode(p+65)}:${infectNextWeek}`;
+                  div_subject.innerHTML = `${String.fromCharCode(p+65)}:${population[subject].infect}`;
                   div_week.appendChild(div_subject);
 
-                  grabNextWeek += infectNextWeek;
-                  population[subject] = 0;
+//                grabNextWeek += infectNextWeek;
+
+                  grabNextWeek += population[subject].infect;
+//                population[subject] = 0;
+                  population[subject].infect = 0;
                   subject++;
                }
                else
@@ -870,22 +1040,20 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
             }
 
             player[p] = grabNextWeek;
+//          console.log(`player ${p}, grab: ${grabNextWeek}`);
          });
       }
 
       let div_summary = document.createElement('div');
 
-      let unaffected = population.reduce((a,v) => a+((v)?1:0), 0);
-      div_summary.innerHTML = `geen verspreiding meer; ${((1-unaffected/population.length)*100).toFixed()}% is immuun, niet vatbaar voor nieuwe uitbraak`;
+//    let unaffected = population.reduce((a,v) => a+((v)?1:0), 0);
+      let unaffected = population.reduce((a,v) => a + ((v.infect > 0) ? 1 : 0), 0);
+//    div_summary.innerHTML = `geen verspreiding meer; ${((1-unaffected/population.length)*100).toFixed()}% is immuun, niet vatbaar voor nieuwe uitbraak`;
+      div_summary.innerHTML = `<div>geen verspreiding meer; ${((1-unaffected/population.length)*100).toFixed()}% is immuun, niet vatbaar voor nieuwe uitbraak</div>`;
 
       resultarea.appendChild(div_summary);
 
       return resultarea;
-   }
-
-   const showSecond = function(e)
-   {
-      document.querySelector('#secondOutbreak').style.display = 'block';
    }
 })(esther_js_object);
 </script>
@@ -1220,13 +1388,22 @@ een probleem: hij heeft maar &eacute;&eacute;n sokkel, er is niet genoeg
 capaciteit in de gezondheidszorg.
 <br/>
 <br/>
-Je kunt een variant aanbrengen: ballen die meer contacten maken dan anderen,
+Je kunt een varianten aanbrengen: ballen die meer contacten maken dan anderen,
 zogenaamde <i>superverspreiders</i>. Dat kunnen bijvoorbeeld ballen met een
 bepaalde kleur zijn. Zonder social distancing pakt een speler in de volgende
 ronde niet twee, maar
 <i>vier</i> nieuwe ballen als hij een superverspreider te pakken had.
 M&egrave;t social distancing pakt hij er maar &eacute;&eacute;n, net als in de oorspronkelijke
 variant.
+Superverspreiders symboliseren volle sportstadions,
+carnavalvierders, overvolle treinen, etc.
+<br/>
+Je kunt social distancing pas na de eerste ronde laten ingaan, of de ballen
+in categorie&euml;n verdelen die op verschillende momenten social distancing
+gaan toepassen.
+In het echte leven begint social distancing immers pas n&agrave; een
+uitbraak, en gefaseerd.
+
 
 
 <h4 class="jcr-section" id="simulation">Een computersimulatie</h4>
@@ -1245,14 +1422,6 @@ hij deze bak in de volgende ronde moet inwisselen; <b>A:2</b> wil dus zeggen
 dat speler <b>A</b> voor deze bal in de volgende ronde twee nieuwe ballen
 pakt.
 <br/>
-Je kunt <i>superverspreiders</i> in de populatie zetten, die zonder
-social distancing voor twee keer zoveel besmettingen zorgen. E&eacute;n op
-nul superverspreiders betekent geen superverspreiders, &eacute;&eacute;n op
-&eacute;&eacute;n betekent dat iedereen superverspreider is,
-bij &eacute;&eacute;n op twee is het de helft van de populatie.
-De mogelijkheden gaan tot &eacute;&eacute;n op drie, het effect is anders niet groot meer.
-Een superverspreider ziet er als <div class="superspreader text"></div> uit.
-<br/>
 Het husselen van de ballen wordt dus ook gesimuleerd, daardoor zie je
 verschillende resultaten als je de simulatie meerdere keren met de zelfde
 aantallen en variant uitvoert.
@@ -1263,16 +1432,28 @@ de mate van immuniteit die de eerste uitbraak achterliet zichtbaar wordt.
 Zonder social distancing kan die tweede uitbraak ook model staan
 voor een gevaccineerde populatie. Je kunt zien of het percentage dat
 gevaccineerd was eigenlijk wel hoog genoeg was om problemen te voorkomen.
-<hr/>
 
+<hr/>
 <div class="parameters">
+<div class="cols2">
 <div>Aantal spelers (maximaal 20):</div>
 <input id="inputNrPlayers"
        type="number"
+       name="players"
        step="1"
        min="1"
        max="20"
        value="4"
+/>
+
+<div>Populatie (maximaal 200):</div>
+<input id="inputPopulationSize"
+       type="number"
+       name="population"
+       step="1"
+       min="1"
+       max="200"
+       value="36"
 />
 
 <div><label for="checkboxSocial">Social distancing:</label></div>
@@ -1281,26 +1462,205 @@ gevaccineerd was eigenlijk wel hoog genoeg was om problemen te voorkomen.
        type="checkbox"
 />
 </div>
+</div> <!-- cols2 -->
+
+<button id="buttonGo">Start</button>
+</div> <!-- parameters -->
+
+
+</div> <!-- jcr-layout-main -->
+<div class="jcr-layout-right0"></div> <!-- jcr-layout-right -->
+
+<div class="jcr-layout-footer0">
+
+<div id="displayarea"></div>
+</div> <!-- jcr-layout-footer -->
+
+
+
+<div class="jcr-layout-left2"></div> <!-- jcr-layout-left -->
+
+<div class="jcr-layout-main2">
+
+Om verschillende varianten van het spel te kunnen simuleren wordt de
+populatie opgedeeld in zes categorie&euml;n die elk een andere kleur hebben.
+Per categorie kun je getallen toekennen voor het aantal contacten dat de
+categorie maakt, vari&euml;rend van 1 (wat overeenkomt met social distancing)
+tot 4 (een superverspreider).
+<br/>
+Ook kun je per categorie aangeven wanneer social distancing voor die
+categorie van kracht wordt: 0 staat voor meteen, 1 voor na de eerste ronde, etc.
+<!--
+<br/>
+Je kunt <i>superverspreiders</i> in de populatie zetten, die zonder
+social distancing voor twee keer zoveel besmettingen zorgen. E&eacute;n op
+nul superverspreiders betekent geen superverspreiders, &eacute;&eacute;n op
+&eacute;&eacute;n betekent dat iedereen superverspreider is,
+bij &eacute;&eacute;n op twee is het de helft van de populatie.
+De mogelijkheden gaan tot &eacute;&eacute;n op drie, het effect is anders niet groot meer.
+Een superverspreider ziet er als <div class="superspreader text"></div> uit.
+-->
+<hr/>
+
+<div class="parameters">
+<div class="cols2">
+<div>Aantal spelers (maximaal 20):</div>
+<input id="inputNrPlayersVariant"
+       type="number"
+       name="players"
+       step="1"
+       min="1"
+       max="20"
+       value="4"
+/>
 
 <div>Populatie (maximaal 200):</div>
-<input id="inputPopulationSize"
+<input id="inputPopulationSizeVariant"
        type="number"
+       name="population"
        step="1"
        min="1"
        max="200"
-       value="32"
+       value="36"
 />
+</div> <!-- cols2 -->
 
-<div>Superverspreiders: 1 op elke </div>
-<input id="inputSuperSpreaders"
+<div class="cols5">
+
+<div class="red"></div>
+<label for="inputRedContacts">contacten:</label>
+<input id="inputRedContacts"
        type="number"
+       name="contacts"
+       step="1"
+       min="1"
+       max="4"
+       value="2"
+       title="1-4"
+/>
+<label for="inputRedSocial">social distancing na ronde:</label>
+<input id="inputRedSocial"
+       type="number"
+       name="social"
        step="1"
        min="0"
        max="3"
-       value="0"
+       value="1"
+       title="0-3"
 />
 
-<button id="buttonGo">Start</button>
+<div class="orange"></div>
+<label for="inputOrangeContacts">contacten:</label>
+<input id="inputOrangeContacts"
+       type="number"
+       name="contacts"
+       step="1"
+       min="1"
+       max="4"
+       value="2"
+       title="1-4"
+/>
+<label for="inputOrangeSocial">social distancing na ronde:</label>
+<input id="inputOrangeSocial"
+       type="number"
+       name="social"
+       step="1"
+       min="0"
+       max="3"
+       value="1"
+       title="0-3"
+/>
+
+<div class="yellow"></div>
+<label for="inputYellowContacts">contacten:</label>
+<input id="inputYellowContacts"
+       type="number"
+       name="contacts"
+       step="1"
+       min="1"
+       max="4"
+       value="2"
+       title="1-4"
+/>
+<label for="inputYellowSocial">social distancing na ronde:</label>
+<input id="inputYellowSocial"
+       type="number"
+       name="social"
+       step="1"
+       min="0"
+       max="3"
+       value="1"
+       title="0-3"
+/>
+
+<div class="green"></div>
+<label for="inputGreenContacts">contacten:</label>
+<input id="inputGreenContacts"
+       type="number"
+       name="contacts"
+       step="1"
+       min="1"
+       max="4"
+       value="2"
+       title="1-4"
+/>
+<label for="inputGreenSocial">social distancing na ronde:</label>
+<input id="inputGreenSocial"
+       type="number"
+       name="social"
+       step="1"
+       min="0"
+       max="3"
+       value="1"
+       title="0-3"
+/>
+
+<div class="blue"></div>
+<label for="inputBlueContacts">contacten:</label>
+<input id="inputBlueContacts"
+       type="number"
+       name="contacts"
+       step="1"
+       min="1"
+       max="4"
+       value="2"
+       title="1-4"
+/>
+<label for="inputBlueSocial">social distancing na ronde:</label>
+<input id="inputBlueSocial"
+       type="number"
+       name="social"
+       step="1"
+       min="0"
+       max="3"
+       value="1"
+       title="0-3"
+/>
+
+<div class="purple"></div>
+<label for="inputPurpleContacts">contacten:</label>
+<input id="inputPurpleContacts"
+       type="number"
+       name="contacts"
+       step="1"
+       min="1"
+       max="4"
+       value="2"
+       title="1-4"
+/>
+<label for="inputPurpleSocial">social distancing na ronde:</label>
+<input id="inputPurpleSocial"
+       type="number"
+       name="social"
+       step="1"
+       min="0"
+       max="3"
+       value="1"
+       title="0-3"
+/>
+</div> <!-- cols5 -->
+
+<button id="buttonGoVariant">Start</button>
 </div> <!-- parameters -->
 </div> <!-- jcr-layout-main -->
 
@@ -1308,7 +1668,7 @@ gevaccineerd was eigenlijk wel hoog genoeg was om problemen te voorkomen.
 
 <div class="jcr-layout-footer">
 
-<div id="displayarea"></div>
+<div id="displayareaVariant"></div>
 
 
 <div class="jcr-copy"></div>
