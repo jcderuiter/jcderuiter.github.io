@@ -101,7 +101,6 @@ a:hover
    padding-left: .5rem;                          /* */
 }
 
-.legenda,
 .weekarea
 {
    display: flex;                                /* */
@@ -130,7 +129,6 @@ label
 .blue,
 .purple,
 .susceptible,
-.superspreader,
 .immune
 {
    border:        black solid 1px;               /* */
@@ -147,11 +145,6 @@ label
 .susceptible
 {
    background-color: hsl( 60, 100%,  50%);       /* */
-}
-
-.superspreader
-{
-   background-color: hsl(300, 100%,  50%);       /* */
 }
 
 .immune
@@ -192,7 +185,6 @@ label
 .blue.text,
 .purple.text,
 .susceptible.text,
-.superspreader.text,
 .immune.text
 {
    display:       inline-block;                  /* */
@@ -238,6 +230,14 @@ label
    border:     1px solid hsl(0, 100%, 50%);      /* */
    font-size:  smaller;                          /* */
    font-style: italic;                           /* */
+}
+
+#geogebra
+{
+   width:  100%;                                 /* */
+// height: 480px;                                /* */
+   height: 27vw;                                 /* */
+   border: 0;                                    /* */
 }
 
 
@@ -659,6 +659,7 @@ body
    font-family:       sans-serif;                /* */
    font-size:         smaller;                   /* */
    counter-increment: jcr-figure;                /* */
+   text-align: center;                           /* */
 }
 .jcr-figure figcaption::before
 {
@@ -864,13 +865,10 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
 
    const setHandlers = function()
    {
-//      document.querySelector('#inputNrPlayers').oninput      = checkNrPlayers;
       document.querySelectorAll('input[name="players"]').forEach(x => x.oninput = checkNrPlayers);
       document.querySelectorAll('input[name="population"]').forEach(x => x.oninput = checkPopulationSize);
-//    document.querySelector('#inputPopulationSize').oninput = checkPopulationSize;
       document.querySelectorAll('input[name="social"]').forEach(x => x.oninput = checkSocial);
       document.querySelectorAll('input[name="contacts"]').forEach(x => x.oninput = checkContacts);
-//    document.querySelector('#inputSuperSpreaders').oninput = checkSuperSpreaders;
       document.querySelector('#buttonGo').onclick        = go;
       document.querySelector('#buttonGoVariant').onclick = goVariant;
    }
@@ -899,17 +897,6 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
       if (parseInt(e.target.value) > 4) e.target.value = 4;
    }
 
-
-
-// const checkSuperSpreaders = function(e)
-// {
-//    if (parseInt(e.target.value) < 0) e.target.value = 0;
-//    if (parseInt(e.target.value) > 3) e.target.value = 3;
-// }
-
-
-// const subjectType = ['immune', undefined, 'susceptible', undefined, 'superspreader'];
-
    const go = function(e)
    {
       let nrPlayers      = parseInt(document.querySelector('#inputNrPlayers').value);
@@ -917,7 +904,7 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
       let distancing     = document.querySelector('#checkboxSocial').checked;
 
       let population = Array.from(new Array(populationSize), (v, i) =>
-                       {  return { className: 'yellow',
+                       {  return { className: 'susceptible',
                                    infect: 2,
                                    social: (distancing) ? 0 : 999
                                  }
@@ -983,7 +970,6 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
       {
          // implement social distancing
           population.forEach(p => { if (p.infect > 0 && p.social < week) p.infect = 1 });
-//          population.forEach(p => { console.log(`howdy ${p.social}`)});
 
 
          let div_week = document.createElement('div');
@@ -1012,26 +998,14 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
             {
                if (subject < population.length)
                {
-//                let infectNextWeek = (exponential)
-//                                   ? population[subject]
-//                                   : (population[subject])
-//                                   ? 1
-//                                   : 0;
-
-
                   let div_subject       = document.createElement('div');
-//                div_subject.className = subjectType[population[subject]];
                   div_subject.className = (population[subject].infect > 0)
                                         ? population[subject].className
                                         : 'immune';
-//                div_subject.innerHTML = `${String.fromCharCode(p+65)}:${infectNextWeek}`;
                   div_subject.innerHTML = `${String.fromCharCode(p+65)}:${population[subject].infect}`;
                   div_week.appendChild(div_subject);
 
-//                grabNextWeek += infectNextWeek;
-
                   grabNextWeek += population[subject].infect;
-//                population[subject] = 0;
                   population[subject].infect = 0;
                   subject++;
                }
@@ -1040,15 +1014,12 @@ document.addEventListener('DOMContentLoaded', () => esther_js_object.onload(), f
             }
 
             player[p] = grabNextWeek;
-//          console.log(`player ${p}, grab: ${grabNextWeek}`);
          });
       }
 
       let div_summary = document.createElement('div');
 
-//    let unaffected = population.reduce((a,v) => a+((v)?1:0), 0);
       let unaffected = population.reduce((a,v) => a + ((v.infect > 0) ? 1 : 0), 0);
-//    div_summary.innerHTML = `geen verspreiding meer; ${((1-unaffected/population.length)*100).toFixed()}% is immuun, niet vatbaar voor nieuwe uitbraak`;
       div_summary.innerHTML = `<div>geen verspreiding meer; ${((1-unaffected/population.length)*100).toFixed()}% is immuun, niet vatbaar voor nieuwe uitbraak</div>`;
 
       resultarea.appendChild(div_summary);
@@ -1100,6 +1071,7 @@ Via <i>contacten</i> heet dat.
 <br/>
 Stel dat elk besmet persoon in een week tijd twee anderen besmet.
 Dan loopt het aantal besmette personen steeds sneller op:
+<div class="jcr-figure">
 <div class="rows2">
 <div></div><div>nieuwe besmettingen</div>
 <div>week 1</div><div>1000</div>
@@ -1108,6 +1080,8 @@ Dan loopt het aantal besmette personen steeds sneller op:
 <div>week 4</div><div>8000</div>
 <div>week 5</div><div>16000</div>
 <div>week 6</div><div>32000</div>
+</div>
+<figcaption/>
 </div>
 Op een zeker moment zal de stijging echter minder snel gaan, want contacten met
 mensen <i>die al besmet zijn</i> leveren geen nieuwe besmettingen op.
@@ -1141,6 +1115,7 @@ tweede uitbraak komen.
 Maar stel dat er bij het getallenvoorbeeld hierboven elke week een vliegtuig
 binnenkomt met 100 besmette personen die zich onder de bevolking mengen. De
 groeicijfers worden dan:
+<div class="jcr-figure">
 <div class="rows3">
 <div></div><div>nieuwe besmettingen</div><div>1% (nieuwe) zieken</div>
 <div>week 1</div><div>1100</div><div>10+1</div>
@@ -1149,6 +1124,8 @@ groeicijfers worden dan:
 <div>week 4</div><div>9500</div><div>80+15</div>
 <div>week 5</div><div>19100</div><div>160+31</div>
 <div>week 6</div><div>38300</div><div>320+63</div>
+</div>
+<figcaption/>
 </div>
 In elke week zijn er dus ook extra zieken ten opzichte van de situatie zonder
 instroom van buiten.
@@ -1165,6 +1142,7 @@ Dat bereik je door het aantal contacten te beperken.
 <br/>
 Stel dat een besmet persoon maakt minder contacten en besmet daardoor slechts
 &eacute;&eacute;n andere persoon per week. Ons tabelletje wordt dan:
+<div class="jcr-figure">
 <div class="rows3">
 <div></div><div>nieuwe besmettingen</div><div>1% (nieuwe) zieken</div>
 <div>week 1</div><div>1000</div><div>10</div>
@@ -1173,6 +1151,8 @@ Stel dat een besmet persoon maakt minder contacten en besmet daardoor slechts
 <div>week 4</div><div>1000</div><div>10</div>
 <div>week 5</div><div>1000</div><div>10</div>
 <div>week 6</div><div>1000</div><div>10</div>
+</div>
+<figcaption/>
 </div>
 De vraag naar ziekenhuisbedden is nu beduidend minder.
 <br/>
@@ -1278,6 +1258,20 @@ Social distancing heeft dus twee belangrijke gevolgen:
 Het tweede wordt als belangrijker gezien,
 want hoe meer mensen tegelijkertijd besmet, hoe groter de druk op de
 gezondheidszorg.
+
+<br/>
+<br/>
+<div class="jcr-figure">
+<iframe id="geogebra" src="https://www.geogebra.org/material/iframe/id/ckurfkkt/sfsb/false/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/false/ctl/false"
+wadth="100%"
+haight="480">
+<!--
+    /width/1200/height/600/border/000000
+-->
+</iframe>
+<figcaption/>
+</div>
+
 
 <h4 class="jcr-section" id="game">Het rollenspel</h4>
 
@@ -1418,16 +1412,16 @@ Een lege, dus vatbare c.q. besmette bal ziet er zo uit: <div class="susceptible 
 en een gevulde, immune bal zo: <div class="immune text"></div>.
 <br/>
 Binnen die bal staat welke speler hem gepakt heeft en voor hoeveel ballen
-hij deze bak in de volgende ronde moet inwisselen; <b>A:2</b> wil dus zeggen
+hij deze bal in de volgende ronde moet inwisselen; <b>A:2</b> wil dus zeggen
 dat speler <b>A</b> voor deze bal in de volgende ronde twee nieuwe ballen
 pakt.
 <br/>
 Het husselen van de ballen wordt dus ook gesimuleerd, daardoor zie je
 verschillende resultaten als je de simulatie meerdere keren met de zelfde
-aantallen en variant uitvoert.
+instellingen uitvoert.
 <br/>
 Er verschijnt ook steeds een knop waarmee een tweede uitbraak, gebaseerd op
-de mate van immuniteit die de eerste uitbraak achterliet zichtbaar wordt.
+de mate van immuniteit die de eerste uitbraak achterliet, zichtbaar wordt.
 <br/>
 Zonder social distancing kan die tweede uitbraak ook model staan
 voor een gevaccineerde populatie. Je kunt zien of het percentage dat
@@ -1490,16 +1484,6 @@ tot 4 (een superverspreider).
 <br/>
 Ook kun je per categorie aangeven wanneer social distancing voor die
 categorie van kracht wordt: 0 staat voor meteen, 1 voor na de eerste ronde, etc.
-<!--
-<br/>
-Je kunt <i>superverspreiders</i> in de populatie zetten, die zonder
-social distancing voor twee keer zoveel besmettingen zorgen. E&eacute;n op
-nul superverspreiders betekent geen superverspreiders, &eacute;&eacute;n op
-&eacute;&eacute;n betekent dat iedereen superverspreider is,
-bij &eacute;&eacute;n op twee is het de helft van de populatie.
-De mogelijkheden gaan tot &eacute;&eacute;n op drie, het effect is anders niet groot meer.
-Een superverspreider ziet er als <div class="superspreader text"></div> uit.
--->
 <hr/>
 
 <div class="parameters">
