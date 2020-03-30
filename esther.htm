@@ -1218,9 +1218,33 @@ Dus de tweede groep loopt uiteindelijk leeg!
 <br/>
 <br/>
 Dat idee van de drie groepen, en het overgaan van een groep naar de volgende
-kun je in een wiskundig model vertalen. Je krijgt dan drie zogenaamde
+kun je in een wiskundig model vertalen.
+<br/>
+De grootte van elk van de drie groepen kun je zien als functie van de tijd.
+Hoe die functies er precies uit zien weet je in principe niet, maar je kunt
+wel iets over de grafiek van elke functie beredeneren, met name over de
+helling van die grafiek, de <i>afgeleide</i> van de functie. Die staat namelijk
+voor de verandering van de grootte van de groepen.
+<br/>
+Je kunt een model maken waarin je twee dingen aanneemt:
+<ol>
+<li>
+de derde groep, de immunen, verandert evenredig met de grootte van de tweede groep, de besmettelijken
+(hoe meer mensen besmet zijn hoe meer mensen immuun worden)
+</li>
+<li>
+de eerste groep, de vatbaren, verandert evenredig met de grootte van de eerste
+groep maal de grootte van de tweede groep (denk aan de kans dat een
+contact tussen twee willekeurige mensen een contact tussen een vatbare en een besmette is:
+die kans is vatbaren/totaal * besmetten/totaal)
+</li>
+</ol>
+En de tweede groep is dan uiteraard de totale populatie min de eerste en de derde groep
+<br/>
+Je krijgt dan drie zogenaamde
 <i>differentiaalvergelijkingen</i>
 waarmee de grafiek hieronder gemaakt wordt.
+<br/>
 <br/>
 <div class="jcr-figure">
 <iframe id="geogebra" src="https://www.geogebra.org/material/iframe/id/ckurfkkt/sfsb/false/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/false/ctl/false">
@@ -1231,10 +1255,10 @@ waarmee de grafiek hieronder gemaakt wordt.
 <figcaption><br/>(Versleep de blauwe stip, of selecteer hem en toets spatiebalk om een animatie te starten/stoppen.)</figcaption>
 </div>
 
-De horizontale as staat voor het verllop van de tijd,
+De horizontale as staat voor het verloop van de tijd,
 de verticale as voor de grootte van de groepen.
 Er is een stippellijn toegevoegd die de capaciteit van de zorgverlening
-aangeeft. Zie het als het percentage van de populatie waarvoor er zorg
+aangeeft. Zie dat als het percentage van de populatie waarvoor er zorg
 geleverd kan worden.
 <br/>
 Hoe stijl de lijnen lopen en hoe hoog de piek van de rode lijn wordt is
