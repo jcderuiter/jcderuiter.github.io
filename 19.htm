@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta http-equiv="expires" content="now"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="version" content="0.0.0"/>
+<title>19</title>
+<style>
+
+:root
+{
+   --hexagonred:   hsl(345,   0%, 80%);          /* */
+   --hexagonblue:  hsl(210,   0%, 70%);          /* */
+   --hexagongreen: hsl(120,  50%, 60%);          /* */
+
+   --vertexred:    hsl(345, 100%, 40%);          /* */
+   --vertexblack:  hsl(345,   0%, 20%);          /* */
+   --vertexgreen:  hsl(120,  50%, 40%);          /* */
+}
+
+body
+{
+   font-family: sans-serif;                      /* */
+   text-align: center;                           /* */
+}
+
+.hexagon
+{
+   display: inline-grid;                         /* */
+   grid-template-columns: repeat(9, 1fr);        /* */
+   grid-template-rows:    repeat(9, 1fr);        /* */
+
+   padding: 5px;                                 /* */
+/* gap: 1px; /* */
+
+   height: 43rem;                                /* */
+   width:  50rem;                                /* */
+
+   user-select:   none;                          /* */
+   border-radius: 2%;                            /* */
+   background:    var(--hexagongreen);           /* */
+}
+
+.centeredblock,
+.hexagon > div
+{
+   display:         grid;               /* alleen omdat je dan kan centreren */
+   align-items:     center;                      /* */
+   justify-content: center;                      /* */
+}
+
+.hexagon > div:nth-child(3)
+{
+/* */
+   background:
+      conic-gradient(transparent                 90deg,
+                     var(--hexagonred)       90deg  150deg,
+                     var(--hexagonblue)      150deg 210deg,
+                     transparent         210deg);
+/* */
+}
+
+.hexagon > div:nth-child(7)
+{
+/* */
+   background:
+      conic-gradient(transparent           150deg,
+                     var(--hexagonblue) 150deg 210deg,
+                     var(--hexagonred)  210deg 270deg,
+                     transparent    270deg);
+/* */
+}
+
+.hexagon > div:nth-child(37)
+{
+/* */
+   background:
+      conic-gradient(transparent            30deg,
+                     var(--hexagonblue)  30deg  90deg,
+                     var(--hexagonred)   90deg 150deg,
+                     transparent    150deg);
+/* */
+}
+
+.hexagon > div:nth-child(41)
+{
+/* */
+   background:
+      conic-gradient(var(--hexagonred)          30deg,
+                     var(--hexagonblue)  30deg  90deg,
+                     var(--hexagonred)   90deg 150deg,
+                     var(--hexagonblue) 150deg 210deg,
+                     var(--hexagonred)  210deg 270deg,
+                     var(--hexagonblue) 270deg 330deg,
+                     var(--hexagonred)  330deg);
+/* */
+}
+
+.hexagon > div:nth-child(45)
+{
+/* */
+   background:
+      conic-gradient(transparent           210deg,
+                     var(--hexagonred)  210deg 270deg,
+                     var(--hexagonblue) 270deg 330deg,
+                     transparent    330deg);
+/* */
+}
+
+.hexagon > div:nth-child(75)
+{
+/* */
+   background:
+      conic-gradient(var(--hexagonred)          30deg,
+                     var(--hexagonblue)  30deg  90deg,
+                     transparent     90deg 330deg,
+                     var(--hexagonred)  330deg);
+/* */
+}
+
+.hexagon > div:nth-child(79)
+{
+/* */
+   background:
+      conic-gradient(var(--hexagonred)          30deg,
+                     transparent     30deg 270deg,
+                     var(--hexagonblue) 270deg 330deg,
+                     var(--hexagonred)  330deg);
+/* */
+}
+
+
+.hexagon > div:nth-child(4),
+.hexagon > div:nth-child(5),
+.hexagon > div:nth-child(6)
+{
+/* */
+   background:
+      linear-gradient(180deg, transparent    50%,
+                              var(--hexagonred)  50%);
+/* */
+}
+
+.hexagon > div:nth-child(76),
+.hexagon > div:nth-child(77),
+.hexagon > div:nth-child(78)
+{
+/* */
+   background:
+      linear-gradient(180deg, var(--hexagonblue) 50%,
+                              transparent    50%);
+/* */
+}
+
+.hexagon > div:nth-child(38),
+.hexagon > div:nth-child(39),
+.hexagon > div:nth-child(40),
+.hexagon > div:nth-child(42),
+.hexagon > div:nth-child(43),
+.hexagon > div:nth-child(44)
+{
+/* */
+   background:
+      linear-gradient(180deg, var(--hexagonblue) 50%,
+                              var(--hexagonred)  50%);
+/* */
+}
+
+
+.hexagon > div:nth-child(11),
+.hexagon > div:nth-child(28)
+{
+/* */
+   background:
+      linear-gradient(120deg, transparent    83.33%,
+                              var(--hexagonblue) 83.33%);
+/* */
+}
+
+.hexagon > div:nth-child(17),
+.hexagon > div:nth-child(36)
+{
+/* */
+   background:
+      linear-gradient( 60deg, var(--hexagonblue) 16.67%,
+                              transparent    16.67%);
+/* */
+}
+
+.hexagon > div:nth-child(46),
+.hexagon > div:nth-child(65)
+{
+/* */
+   background:
+      linear-gradient( 60deg, transparent    83.33%,
+                              var(--hexagonred)  83.33%);
+/* */
+}
+
+.hexagon > div:nth-child(54),
+.hexagon > div:nth-child(71)
+{
+/* */
+   background:
+      linear-gradient(120deg, var(--hexagonred)  16.67%,
+                              transparent    16.67%);
+/* */
+}
+
+
+.hexagon > div:nth-child(12)
+{
+/* */
+   background:
+      linear-gradient( 60deg, transparent    83.33%,
+                              var(--hexagonred)  83.33%),
+      linear-gradient(120deg, transparent    16.67%,
+                              var(--hexagonblue) 16.67%);
+/* */
+}
+
+.hexagon > div:nth-child(16)
+{
+/* */
+   background:
+      linear-gradient(120deg, var(--hexagonred)  16.67%,
+                              transparent    16.67%),
+      linear-gradient( 60deg, var(--hexagonblue) 83.33%,
+                              transparent    83.33%);
+/* */
+}
+
+.hexagon > div:nth-child(32)
+{
+/* */
+   background:
+      linear-gradient(120deg, transparent    83.33%,
+                              var(--hexagonblue) 83.33%),
+      linear-gradient( 60deg, var(--hexagonblue) 16.67%,
+                              var(--hexagonred)  16.67%);
+/* */
+}
+
+.hexagon > div:nth-child(50)
+{
+/* */
+   background:
+      linear-gradient(120deg, var(--hexagonred)  16.67%,
+                              transparent    16.67%),
+      linear-gradient( 60deg, var(--hexagonblue) 83.33%,
+                              var(--hexagonred)  83.33%);
+/* */
+}
+
+.hexagon > div:nth-child(66)
+{
+/* */
+   background:
+      linear-gradient(120deg, transparent    83.33%,
+                              var(--hexagonblue) 83.33%),
+      linear-gradient( 60deg, transparent    16.67%,
+                              var(--hexagonred)  16.67%);
+/* */
+}
+
+.hexagon > div:nth-child(70)
+{
+/* */
+   background:
+      linear-gradient( 60deg, var(--hexagonblue) 16.67%,
+                              transparent    16.67%),
+      linear-gradient(120deg, var(--hexagonred)  83.33%,
+                              transparent    83.33%);
+/* */
+}
+
+
+.hexagon > div:nth-child(13),
+.hexagon > div:nth-child(51)
+{
+/* */
+   background:
+      linear-gradient( 60deg, var(--hexagonblue) 16.67%,
+                              var(--hexagonred)  16.67%);
+/* */
+}
+
+.hexagon > div:nth-child(15),
+.hexagon > div:nth-child(49)
+{
+/* */
+   background:
+      linear-gradient(120deg, var(--hexagonred)  83.33%,
+                              var(--hexagonblue) 83.33%);
+/* */
+}
+
+.hexagon > div:nth-child(33),
+.hexagon > div:nth-child(67)
+{
+/* */
+   background:
+      linear-gradient(120deg, var(--hexagonred)  16.67%,
+                              var(--hexagonblue) 16.67%);
+/* */
+}
+
+.hexagon > div:nth-child(31),
+.hexagon > div:nth-child(69)
+{
+/* */
+   background:
+      linear-gradient( 60deg, var(--hexagonblue) 83.33%,
+                              var(--hexagonred)  83.33%);
+/* */
+}
+
+
+.hexagon > div:nth-child(14),
+.hexagon > div:nth-child(23),
+.hexagon > div:nth-child(48),
+.hexagon > div:nth-child(52),
+.hexagon > div:nth-child(57),
+.hexagon > div:nth-child(61)
+{
+   background: var(--hexagonred) ;                   /* */
+}
+
+
+.hexagon > div:nth-child(20)
+{
+/* */
+   background:
+      linear-gradient(120deg, transparent    50%,
+                              var(--hexagonblue) 50%);
+/* */
+}
+
+.hexagon > div:nth-child(26)
+{
+/* */
+   background:
+      linear-gradient( 60deg, var(--hexagonblue) 50%,
+                              transparent    50%);
+/* */
+}
+
+.hexagon > div:nth-child(56)
+{
+/* */
+   background:
+      linear-gradient( 60deg, transparent    50%,
+                              var(--hexagonred)  50%);
+/* */
+}
+
+.hexagon > div:nth-child(62)
+{
+/* */
+   background:
+      linear-gradient(120deg, var(--hexagonred)  50%,
+                              transparent    50%);
+/* */
+}
+
+
+.hexagon > div:nth-child(21),
+.hexagon > div:nth-child(25),
+.hexagon > div:nth-child(30),
+.hexagon > div:nth-child(34),
+.hexagon > div:nth-child(59),
+.hexagon > div:nth-child(68)
+{
+   background: var(--hexagonblue);                   /* */
+}
+
+
+.hexagon > div:nth-child(22),
+.hexagon > div:nth-child(60)
+{
+/* */
+   background:
+      linear-gradient( 60deg, var(--hexagonblue) 50%,
+                              var(--hexagonred)  50%);
+/* */
+}
+
+.hexagon > div:nth-child(24),
+.hexagon > div:nth-child(58)
+{
+/* */
+   background:
+      linear-gradient(120deg, var(--hexagonred)  50%,
+                              var(--hexagonblue) 50%);
+/* */
+}
+
+
+.hexagon > div:nth-child(28)
+{
+/*
+   background:
+      linear-gradient(120deg, transparent    83.33%,
+                              var(--hexagonblue) 83.33%);
+/* */
+}
+
+
+.hexagon > div:nth-child(29)
+{
+/* */
+   background:
+      linear-gradient(120deg, transparent    16.67%,
+                              var(--hexagonblue) 16.67%);
+/* */
+}
+
+.hexagon > div:nth-child(47)
+{
+/* */
+   background:
+      linear-gradient( 60deg, transparent    16.67%,
+                              var(--hexagonred)  16.67%);
+/* */
+}
+
+.hexagon > div:nth-child(35)
+{
+/* */
+   background:
+      linear-gradient( 60deg, var(--hexagonblue) 83.33%,
+                              transparent    83.33%);
+/* */
+}
+
+.hexagon > div:nth-child(53)
+{
+/* */
+   background:
+      linear-gradient(120deg, var(--hexagonred)  83.33%,
+                              transparent    83.33%);
+/* */
+}
+
+.hexagon
+{
+/* position: relative; /* */
+/* z-index: 0; /* */
+}
+
+
+.stock
+{
+   display: grid;                                /* */
+   grid-template-columns: repeat(2, 1fr);        /* */
+   grid-template-rows:    repeat(2, 1fr);        /* */
+
+   height: 4rem;                                 /* */
+   width:  4rem;                                 /* */
+
+   padding:       5px;                           /* */
+   gap:           1px;                           /* */
+/* background:    hsla(  0, 100%, 90%, 50%);     /* */
+/* font-size:     xx-small;                      /* */
+/* border-radius: 50%;                           /* */
+}
+
+.vertex
+{
+   height: 2rem;                                 /* */
+   width:  2rem;                                 /* */
+
+   z-index: 0;                                   /* */
+
+   color:         hsl(  0,   0%, 90%);           /* */
+   border-radius: 50%;                           /* */
+
+   transition:    background 1s;                 /* */
+/* transition:    all        1s;                 /* */
+}
+
+.wrongsum,
+.filledstock
+{
+   background:    var(--vertexred);              /* */
+}
+
+.normalvertex
+{
+   background:    var(--vertexblack);      /* */
+}
+
+.freestock
+{
+   background:    var(--vertexgreen);      /* */
+}
+
+
+/* begin copyright style */
+.jcr-copy
+{
+   border-top:  hsl(000, 000%, 020%) thin solid; /* */
+   color:       hsl(000, 000%, 020%);            /* */
+   font-size:   0.9rem;                          /* */
+   text-align:  right;                           /* */
+   margin:      1rem 0.5rem;                     /* */
+   padding:     0.5rem;                          /* */
+   user-select: none;                            /* */
+}
+.jcr-copy::before { content: '\00a9 '; }          /* */
+.jcr-copy::after  { content: ' jcr'; }            /* */
+/* end copyright style */
+</style>
+<script>
+'use strict';
+document.addEventListener('DOMContentLoaded', e => js_object_19.onload(e), false);
+
+
+const js_object_19 = (() =>
+{
+   const onload = e =>
+   {
+      try
+      {
+         let year = new Date(document.lastModified).getFullYear();
+         document.querySelectorAll('.jcr-copy').forEach(y => y.innerHTML = year);
+
+         init_stuff();
+      }  catch(err) { console.error('oops', err) }
+   }
+
+   const vertexSquares = [40,
+                          21, 23, 42, 59, 57, 38,
+                           2,  4,  6, 25, 44, 61, 78, 76, 74, 55, 36, 19,
+                         ];
+
+   const stockSquares = [0, 8, 9, 17, 63, 71, 72, 80];
+   const stockInitial = [19, '',
+                         '',  1,
+                         18, 17, 16, 15,
+                          2,  3,  4,  5,
+                         14, 13, 12, 11,
+                         6,   7,  8,  9,
+                         10, '',
+                         '', ''];
+
+   const vertexId  = new Array(19);
+   const vertexObj = new Array(19);
+   const triples   = [
+                        [ 0,  1,  7],
+                        [ 0,  2,  9],
+                        [ 0,  3, 11],
+                        [ 0,  4, 13],
+                        [ 0,  5, 15],
+                        [ 0,  6, 17],
+                        [ 7,  8,  9],
+                        [ 9, 10, 11],
+                        [11, 12, 13],
+                        [13, 14, 15],
+                        [15, 16, 17],
+                        [17, 18,  7]
+                     ];
+
+
+   const init_stuff = () =>
+   {
+      hexagon.addEventListener('dragover', e => { e.preventDefault() }, false);
+
+
+      let k = 0;
+
+      for (let i = 0; i < 81; i++)
+      {
+         let div = document.createElement('div');
+
+         let v = vertexSquares.indexOf(i);
+         if (v >= 0)
+         {
+            let vertex = document.createElement('div');
+            vertex.classList.add('vertex');
+            vertex.classList.add('centeredblock');
+            vertex.classList.add('normalvertex');
+            vertex.id = `vertex_${v}`;
+            vertexId[v] = vertex.id;
+            vertexObj[v] = vertex;
+
+            vertex.ondragstart = dragStart;
+            div.dataset.hexagon = 'yep';
+            setDroppable(div);
+
+            div.appendChild(vertex);
+         }
+         else if (stockSquares.indexOf(i) >= 0)
+         {
+            let stock = document.createElement('div');
+            stock.classList.add('stock');
+
+
+            for (let j = 0; j < 4; j++)
+            {
+               let vertex = document.createElement('div');
+               stock.appendChild(vertex);
+
+               if (i < 9  && j < 2) { continue }
+               if (i > 71 && j > 1) { continue }
+
+
+               vertex.id = `stock_${k}`;
+               vertex.classList.add('vertex');
+               vertex.classList.add('freestock');
+               vertex.classList.add('centeredblock');
+               vertex.dataset.stockVertex = 'yep';
+               vertex.ondragstart = dragStart;
+
+               if (stockInitial[k])
+               {
+                  vertex.innerHTML = stockInitial[k];
+                  setDraggable(vertex);
+               }
+               else
+               {
+                  setDroppable(vertex);
+               }
+
+               k++;
+            }
+
+
+
+            div.appendChild(stock);
+         }
+
+         hexagon.appendChild(div);
+      }
+   }
+
+   const setDraggable = vertex =>
+   {
+      vertex.draggable = 'yep';
+      vertex.style.cursor = 'pointer';
+
+      vertex.classList.replace('freestock', 'filledstock');
+   }
+
+   const unsetDraggable = vertex =>
+   {
+      vertex.draggable = '';
+      vertex.style.cursor = 'default';
+
+      vertex.classList.replace('filledstock', 'freestock');
+   }
+
+   const setDroppable = vertex =>
+   {
+      vertex.ondragover = dragOver;
+      vertex.ondrop     = drop;
+   }
+
+   const unsetDroppable = vertex =>
+   {
+      vertex.ondragover = null;
+      vertex.ondrop     = null;
+   }
+
+
+   const dragStart = e =>
+   {
+      e.dataTransfer.setData('text/plain', e.target.id);
+   }
+
+   const dragOver = e =>
+   {
+      e.preventDefault();
+
+      e.dataTransfer.dropEffect = 'link';
+   }
+
+
+   const drop = e =>
+   {
+      e.preventDefault();
+
+      let id = e.dataTransfer.getData('text/plain');
+
+      let source      = document.getElementById(id);
+      let sourceValue = source.innerHTML;
+      source.innerHTML = '';
+      unsetDraggable(source);
+
+      let target = (e.target.dataset.hexagon)
+                 ? e.target.firstElementChild
+                 : e.target;
+
+      let targetValue = target.innerHTML;
+      target.innerHTML = sourceValue;
+      setDraggable(target);
+
+      if (source.dataset.stockVertex)
+      {
+         setDroppable(source);
+      }
+
+      if (target.dataset.stockVertex)
+      {
+         unsetDroppable(target);
+      }
+      else
+      {
+         if (targetValue)
+         {
+            let free = hexagon.querySelector('.freestock');
+            free.innerHTML = targetValue;
+            setDraggable(free);
+         }
+
+      }
+
+      hexagon.querySelectorAll('.wrongsum').forEach(v => v.classList.replace('wrongsum', 'normalvertex'));
+      triples.forEach(t =>
+      {
+         let wrong = true;
+         let sum   = 0;
+
+         t.forEach(v =>
+         {
+            let n = parseInt(vertexObj[v].innerHTML);
+            if (n) { sum += n }
+            else   { wrong = false }
+         });
+
+         if (sum === 22) { wrong = false }
+
+         if (wrong) { t.forEach(v => vertexObj[v].classList.replace('normalvertex', 'wrongsum')) }
+      });
+
+
+   }
+
+   return { onload: onload };
+})();
+
+
+
+</script>
+</head>
+<body>
+
+<div id="hexagon" class="hexagon"></div>
+
+<div class="jcr-copy"></div>
+</body>
+</html>
