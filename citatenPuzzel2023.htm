@@ -1,0 +1,546 @@
+<!doctype html>
+<script>
+'use strict';
+const citaten =
+[
+["1",  "Ik ben groot geworden zonder geloof, maar het ging wel om schuld en boete – en kunst was lijden."],
+["2",  "Ik heb een muurtje om mezelf te beschermen tegen de stroom lelijke opmerkingen over mijn uiterlijk, mijn familie."],
+["3",  "Die cola haalt zo fantastisch het slijm van je stembanden."],
+["4",  "Ga het land in!"],
+["5",  "We rekenden er totaal niet op dat kijkers onze onderlinge communicatie zo aantrekkelijk en amusant zouden vinden."],
+["6",  "Antivaxers en complotdenkers laten zich beïnvloeden als mensen ‘die ze toch al niet alle 24 in een kratje hebben’."],
+["7",  "De geest van de Olympische Spelen haalt het beste in de mensheid naar boven."],
+["8",  "Ik heb nieuwe schoenen met leren zolen en zo’n bordes is heel glad."],
+["9",  "Dat ferklearje en ûnthjit ik."],
+["10", "Ik ben daar inderdaad aanwezig geweest. 25 minuten."],
+["11", "Ik wil 21 dagen strijden tot de finish. Het is een keuze op verstand en gevoel."],
+["12", "Hij kan pas weer rijden als Nederland daar klaar voor is. En dat is nu niet het geval."],
+["13", "En als het iemands laatste wens is?"],
+["14", "Ik word af en toe een beetje sip van de politieke cultuur, het gebrek aan nuance, de compromisloosheid, de beperkte vrijheid om te kunnen delibereren zonder dat je kop er meteen afgehakt wordt."],
+["15", "Als je respect wil, moet je ook respect uitstralen. Dat is hier gebeurd."],
+["16", "In de oosterse cultuur geldt schrijven als van God gegeven. Daar verbind je geen fratsen aan."],
+["17", "U bent scheidsrechter, en u bent geen procesbegeleider. Als een scheidsrechter tijdens een wedstrijd constant zegt ‘Foei, foei’ en dan niet ingrijpt, gebeurt er niks."],
+["18", "Ik ga eerst alle partijen terugkijken."],
+["19", "Vrouwen! Trek je mond open!"],
+["20", "Ja, ik ben wel een dominee en een schoolmeester!"],
+["21", "Bewegen is de beste vorm van herdenken. Het lichaam herinnert zich wat wij vergeten."],
+["22", "Nou! Nou! Nou!"],
+["23", "Het is onze taak om de tong af te snijden van degenen die laster over Adam en Eva verspreiden."],
+["24", "De paus schreef me een hele liefdevolle brief."],
+["25", "Bij alles wat ik zag op straat, bij alles wat ik las in de krant, bij elke opening van een expositie vroeg ik me af: zit hier een gedicht in?"],
+["26", "Misschien moeten we elkaar meer gedichten voorlezen."],
+["27", "Wij gaan sluiten!"],
+["28", "Het is zaak dat de Europese Unie in beweging komt."],
+["29", "Ik schaam mij kapot. Helaas realiseerde ik me niet goed dat ik hiermee grenzen heb overschreden, maar dat werd me deze dagen wel duidelijk."],
+["30", "Niemand hier wil deze oorlog."],
+["31", "Bent u Brits of Schots?"],
+["32", "Mensen noemden me een rat en riooljournalist. Een man die het land in chaos had gebracht."],
+["33", "Een teamprestatie is het hoogst haalbare."],
+["34", "Soms heb ik het gevoel dat ik in een schoenendoos leef."],
+["35", "Het extremisme draagt op straat foute vlaggen of een fakkel. In de Tweede Kamer draagt het een das. Met een luttel zetelaantal verlamt het vaak de parlementaire orde."],
+["36", "Ik heb veel mensen gesproken, ook in de regering, en die allemaal graag willen dat ik zou komen. Tot die tijd sta ik ook in New York."],
+["37", "Ik praat liever met je vrouw dan met jou."],
+["38", "Mijn vader ergerde zich al aan dat zinnetje ‘Vader is een nul’ uit Op een mooie Pinksterdag."],
+["39", "Het begint in te dalen wat ik eigenlijk gedaan heb. Dat is best wel uniek."],
+["40", "Wij hebben van je genoten."],
+["41", "In de tijd dat zij nog bezig zijn met voorbereidingen om hun troepen hier te krijgen, kunnen wij al aan het Britse Kanaal staan."],
+["42", "We zijn ons diep bewust van de eer die de wens van mijn moeder symboliseert."],
+["43", "Een pagina in het boek van de wereldgeschiedenis is omgeslagen."],
+["44", "In wat voor land leven wij waar het dagelijks eten van een gehaktbal bijna illegaal wordt, maar cannabis telen legaal wordt gemaakt."],
+["45", "Zij horen bij ons en we willen hen erbij."],
+["46", "Poetin is een toonbeeld van mildheid geweest."],
+["47", "Tadadadadada oeoeo ahhh. Hier in de diepte hoor ik steeds maar weer jouw naam."],
+["48", "Voor mij is de Russische medaille al haar glans verloren en dat zegt voldoende."],
+["49", "Poetins tegenstanders zijn ‘krachten van het kwaad’."],
+["50", "We zijn geen gemengd ras… en dat willen we ook niet worden."],
+["51", "Adolf Hitler had ook Joods bloed, meen ik."],
+["52", "Ja, wij bidden ook voor Poetin. Voor je vijanden bidden is wel moeilijk. Wij bidden dat hij stopt met de waanzin van de oorlog."],
+["53", "Elke zege heeft een verhaal, maar na alles wat er is gebeurd, betekent het voor mij veel dat ik terug ben."],
+["54", "Ik doe niet mee aan mea culpa’s, dat is niet mijn stijl. Ik ben niet alléén rijk geworden van deze handel, maar ons land ook."],
+["55", "Lang leve Oekraïne! Wij buigen voor jullie moed in het licht van haast ondraaglijk lijden."],
+["56", "Ik geloof niet in God. Als Hij bestond, zou Hij die mensen in Oekraïne te hulp schieten."],
+["57", "Het is belachelijk dat je in een land gaat spelen om het voetbal daar te laten ontwikkelen. Bullshit."],
+["58", "In hemelsnaam, deze man kan niet aan de macht blijven."],
+["59", "Neem de naam van mijn vrouw niet in je stomme mond!"],
+["60", "Als ik tijdens een meditatie de dalai lama voor me zie, voel ik me veilig en geborgen. 61 Bij hoge golven hoort een kapitein aan het roer te staan."],
+["62", "In Nederland – of all places – verzetten de boeren zich moedig tegen de klimaattirannie van de Nederlandse overheid. Kun je dat geloven?"],
+["63", "Je moet de allerbeste zijn in de debatten. Die rol zat mij niet als gegoten. Dan moet ik eerlijk zijn."],
+["64", "We lijken te vergeten dat het hier om ouders gaat, die soms al vanaf 2014 in de problemen zitten."],
+["65", "Verzin een nieuwe naam en hopsakee!"],
+["66", "Ik moest erg wennen aan het idee dat vloeken bij protestanten zo slecht valt. Zelfs ‘in ’s hemelsnaam’ is voor sommigen al aanstootgevend. Wij katholieken zijn toch een stuk vrijmoediger."],
+["67", "Ik zie mezelf niet als tussenpaus in afwachting van een nieuwe politieke leider. Ik wil er vol voor gaan."],
+["68", "Het is nooit te laat om niet aan te vallen."],
+["69", "Weg is weg. Een beter moment om te stoppen kon ik niet vinden."],
+["70", "Vroeger waren mensen op onze leeftijd al dood."],
+["71", "Ik denk dat het voor alle partijen beter is als ik me maar niet meer laat zien."],
+["72", "Op 15 mei 2022 verloren de Cook-eilanden hun eerste covid-slachtoffer."],
+["73", "Ik ben al 60 kilo kwijt, maar ik ben er nog niet."],
+["74", "Ik geloof niet in goedkoop optimisme, maar ook niet dat je in je bed moet blijven liggen. Wij zijn op aarde om op te staan: doe de gordijnen open, zet de radio aan, toon moed, ga!"],
+["75", "Als je ernaast staat, zie je pas hoe verschrikkelijk hier is huisgehouden. Die ongekende wreedheid maakt je sprakeloos. Die kan niet ongestraft blijven."],
+["76", "Voor mijn dochters blijf ik schrijven, niet hier, maar elders. Dank u wel dat u me las."],
+["77", "Dat mijn werkgever openlijk twijfelt aan mijn oprechtheid, maakt verdere samenwerking onmogelijk."],
+["78", "Het is een droom die uitkomt. Ik houd van klassieke muziek."],
+["79", "Ik vind Wembley een heel mooie naam."],
+["80", "Je kan een grote mond hebben, cynisch zijn of de vlag ondersteboven hangen, maar je bent onderdeel van iets groters en daarmee heb je je te verhouden."],
+["81", "Aftreden komt niet bij mij op, ondanks problemen aan mijn knie."],
+["82", "Ik zeg het niet snel, maar ik denk wel dat ik belangrijk geweest ben voor het team."],
+["83", "Ieder mens is een gelukzoeker. Dat ben ik namelijk ook."],
+["84", "Mijn besluit om te stoppen is bitterzoet. Mijn sport heeft me meer opgeleverd dan ik ooit had kunnen dromen."],
+["85", "Ik weet dat we het in ons hebben alle uitdagingen het hoofd te bieden. Natuurlijk, het zal niet gemakkelijk zijn, maar we kunnen het."],
+["86", "Een aardbeving onder de 2,5 voel je niet."],
+["87", "Waar zit het knopje van de microfoon?"],
+["88", "Ja, het gaat weer goed met me, maar het is een tijd niet zo geweest. Ik zeg het maar eerlijk: corona was mijn redding."],
+["89", "Ik ben een heel gelukkige minister: ik krijg er ontzettend veel geld bij, maar dat is ook hard nodig!"],
+["90", "Ik voel me nederig en ben diep geraakt dat zoveel mensen de straat op zijn gegaan."],
+["91", "Een stevig robbertje bridgen."],
+["92", "Ik kon met veel jongens in gevecht gaan op de baan. Ik heb veel lol gehad."],
+["93", "Het is een dolkstoot in de rug."],
+["94", "Zou naar Terschelling gaan, maar het was te riskant."],
+["95", "Er is hier zo’n grote muzikale traditie. Ik heb zin om die te koesteren en er nieuwe details aan toe te voegen."],
+["96", "Ik zing alsof ik voor één iemand zing, dat deden Leonard Cohen en Jacques Brel ook. Heb je Brel ooit de microfoon de zaal in zien steken?"],
+["97", "Het is maar politiek, hè. De ene dag ben je de held en de andere dag ben je stront."],
+["98", "Dertig jaar geleden, en nog steeds blijft die vlucht een ramp. Dankzij de speurhond van Trouw."],
+["99", "Bidden is je gedachtes ordenen."],
+["100", "Je moet stoppen als iedereen het nog een beetje leuk vindt."]
+];
+const namen =
+[
+["d", "Onno Aerden, beoogd woordvoerder NSC"],
+["d", "Akwasi, schrijver, scenarist en dichter"],
+["k", "Prinses Amalia"],
+["f", "Elly Ameling, sopraan"],
+["g", "Jacinda Ardern, premier Nieuw-Zeeland"],
+["d", "Tinneke Beeckman, filosofe"],
+["c", "Joe Biden, president VS"],
+["a", "Mirjam Bikker, leider ChristenUnie"],
+["e", "Marion Bloem, schrijfster"],
+["l", "Marie Blommaart, verzetsstrijder"],
+["a", "Femke Bol, atlete"],
+["a", "René de Bos, bergbeklimmer"],
+["a", "André Bosman, oud-Kamerlid en oud-F-16-piloot"],
+["h", "Eric van der Burg, staatssecretaris"],
+["k", "Dalai lama Tenzin Gyatso"],
+["n", "Joy Delima, actrice en columnist"],
+["e", "Taco Dibbits, directeur Rijksmuseum"],
+["e", "Tom Egbers, sportpresentator"],
+["&ijlig;", "Recep Tayyip Erdogan, president Turkije"],
+["e", "Bénédicte Ficq, advocaat"],
+["n", "Paus Franciscus"],
+["n", "Tallon Griekspoor, tennisser"],
+["e", "Sifan Hassan, atlete"],
+["d", "Sophie Hermans, VVD-fractievoorzitter"],
+["o", "Haro Hielkema, Citatenpuzzel-maker"],
+["k", "Wopke Hoekstra, Eurocommissaris voor klimaat"],
+["c", "Michel Houellebecq, schrijver"],
+["e", "Bart van den Hurk, klimaatwetenschapper en covoorzitter VN-klimaatpanel IPCC"],
+["a", "Arnold Huijgen, theoloog"],
+["r", "Roxane van Iperen, schrijfster"],
+["d", "Sultan al-Jaber, Cop28-voorzitter"],
+["o", "Annemarie Jorritsma, voormalig verkenner"],
+["t", "Sigrid Kaag, D66-leider"],
+["a", "Henk Kamp, oud-minister"],
+["a", "Mona Keijzer, premierskandidaat BBB"],
+["e", "Kemal Kiliçdaroglu, presidentskandidaat Turkije"],
+["l", "Enzo Knol, vlogger"],
+["i", "Christine Lambrecht, minister van defensie Duitsland"],
+["l", "Pim Lammers, auteur"],
+["i", "Renske Leijten, Kamerlid"],
+["e", "Irene van Lippe-Biesterfeld, prinses"],
+["k", "Luiz Inácio Lula da Silva, president Brazilië"],
+["l", "Jonathan M., spermadonor"],
+["t", "Cornald Maas, Songfestivalkenner"],
+["e", "John Mauger, kustwachtcommandant"],
+["e", "Koningin Máxima"],
+["h", "Marjan Minnesma, klimaatstrijder van Urgenda"],
+["b", "Naaz Mohammad, zangeres"],
+["e", "Richard de Mos, politicus en leider Hart voor Den Haag"],
+["e", "Elon Musk, ondernemer"],
+["e", "Benjamin Netanyahu, premier Israël"],
+["h", "Sauli Niinistö, president Finland"],
+["d", "Pieter Omtzigt, leider NSC"],
+["&ijlig;", "Trijntje Oosterhuis, zangeres"],
+["r", "Eloise van Oranje, gravin en vlogger"],
+["r", "Henk Otten, senator en ex-PVV"],
+["o", "Esther Ouwehand, lijsttrekker Partij voor de Dieren"],
+["r", "Nikol Pasjinjan, premier Armenië"],
+["d", "Caroline van der Plas, leider BBB"],
+["i", "Mathieu van der Poel, wielrenner"],
+["f", "Vladimir Poetin, president Rusland"],
+["d", "Tadej Pogacar, wielrenner"],
+["i", "Jevgeni Prigozjin, Wagnerbaas"],
+["e", "Roline Redmond, schrijfster"],
+["e", "Beatrijs Ritsema, etiquette-specialist"],
+["t", "Luis Rubiales, voorzitter van de Spaanse voetbalbond"],
+["r", "Mark Rutte, minister-president"],
+["p", "Chandrikapersad Santokhi, president Suriname"],
+["a", "John van 't Schip, Ajax-trainer"],
+["n", "Olaf Scholz, bondskanselier Duitsland"],
+["e", "Gert-Jan Segers, leider van de ChristenUnie"],
+["d", "Rob Sluijter, KNMI-medewerker"],
+["a", "Jan Smit, zanger en voorzitter van FC Volendam"],
+["e", "Ruud Sondag, Schiphol-interim-topman"],
+["n", "Britney Spears, superster"],
+["h", "Sherida Spitse, voetbalster"],
+["e", "Jordan Stolz, schaatser"],
+["a", "Gom van Strien, kortstondig verkenner"],
+["i", "Rishi Sunak, premier Verenigd Koninkrijk"],
+["i", "Sydney, chatbot van zoekmachine Bing van Microsoft"],
+["i", "Sjaak van der Tak, LTO-voorzitter"],
+["n", "Greta Thunberg, klimaatactivist"],
+["e", "Frans Timmermans, lijsttrekker GL-PvdA"],
+["h", "Lee Towers, zanger"],
+["i", "Donald Trump, ex-president VS"],
+["z", "Hans Vijlbrief, staatssecretaris"],
+["k", "Sanne Voets, dressuuramazone"],
+["s", "Johan Vollenbroek, stikstofactivist"],
+["r", "Markéta Vondrousová, tennisster"],
+["l", "Jacques van der Voort, vormgever Trouw"],
+["b", "Marijn de Vries, wielrencommentator en oud-wielrenster"],
+["n", "Lucille Werner, Kamerlid en voormalig presentator"],
+["e", "Geert Wilders, leider PVV"],
+["e", "Koning Willem-Alexander"],
+["e", "Lucas Winnips, Extinction Rebellion"],
+["c", "Jolande Withuis, sociologe"],
+["p", "Dilan Yesilgöz, leider VVD"],
+["l", "Volodymyr Zelensky, president Oekraïne"],
+["k", "Jaap van Zweden, dirigent"],
+["d", "Irene Zwiep, hoogleraar"]
+];
+</script>
+
+<html lang="nl">
+<head>
+<meta http-equiv="expires" content="now"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="version" content="0.0.0"/>
+<title>citatenPuzzel 2023</title>
+<style>
+*
+{
+   box-sizing:  border-box;                      /* */
+   user-select: none;                            /* */
+}
+
+
+#oplossing
+{
+   display:          inline-grid;                /* */
+   grid-template-columns: repeat( 50, 1fr);      /* */
+
+   padding:               1.0rem;                /* */
+   background: hsl( 45, 50%, 90%);               /* */
+}
+
+#oplossing > .cijfer
+{
+   text-align: center;                           /* */
+}
+
+#oplossing > .letter
+{
+   width:         1.6rem;                        /* */
+   height:        1.6rem;                        /* */
+
+   border-style:  solid;                         /* */
+   border-width:  1px;                           /* */
+   border-color:  hsl(0, 0%, 0%);                /* */
+
+   font-variant: small-caps;                     /* */
+   text-align: center;                           /* */
+}
+
+#oplossing > .letter:not(:nth-child(50n+1))
+{
+   border-left:   none;                          /* */
+}
+
+.draggable
+{
+   cursor: grab;                                 /* */
+}
+
+.clickable
+{
+   cursor: pointer;                              /* */
+}
+
+
+#keuzes
+{
+   display:          inline-grid;                /* */
+/* display:                 grid;                /* */
+   grid-template-columns: repeat(4, auto);       /* */
+
+/* max-height: 70vh; /* */
+       height: 70vh; /* */
+   overflow: auto;                               /* */
+
+   gap:                   .5rem;                 /* */
+   padding:               1.0rem;                /* */
+   background: hsl(345, 50%, 90%);               /* */
+}
+
+#keuzes > div:nth-child(4n+1)
+{
+   text-align: right;                            /* */
+}
+
+
+/* begin copyright style */
+.jcr-copy
+{
+   border-top:  hsl(000, 000%, 020%) thin solid; /* */
+   color:       hsl(000, 000%, 020%);            /* */
+   font-size:   0.9rem;                          /* */
+   text-align:  right;                           /* */
+   margin:      1rem 0.5rem;                     /* */
+   padding:     0.5rem;                          /* */
+   user-select: none;                            /* */
+}
+.jcr-copy::before { content: '\00a9 '; }          /* */
+.jcr-copy::after  { content: ' jcr'; }            /* */
+/* end copyright style */
+</style>
+<script>
+'use strict';
+document.addEventListener('DOMContentLoaded', e => js_object_citatenPuzzel.onload(e), false);
+
+const js_object_citatenPuzzel = (() =>
+{
+   const onload = e =>
+   {
+      try
+      {
+         let year = new Date(document.lastModified).getFullYear();
+         document.querySelectorAll('.jcr-copy').forEach(y => y.innerHTML = year);
+
+         init();
+
+      }  catch(err) { console.error('oops', err) }
+   }
+
+   // tbv cookie:
+   const fixed = new Array(namen.length).fill(false);
+   const order = Array.from(fixed.keys());
+   // (eigenlijk wordt hiermee dataset.id overbodig, maar is toch wel makkelijk)
+
+   const init = () =>
+   {
+      gridSquares(oplossing, parseInt((citaten.length+1)/2));
+      gridSquares(oplossing, citaten.length - parseInt((citaten.length+1)/2), parseInt((citaten.length+1)/2));
+
+      readCookie();
+
+      for (let i = 0; i < citaten.length; i++)
+      {
+         let div = document.createElement('div');
+         div.innerHTML = citaten[i][0];
+         keuzes.appendChild(div);
+
+         div = document.createElement('div');
+         div.innerHTML = citaten[i][1];
+         keuzes.appendChild(div);
+
+
+         let naamLetter = document.createElement('div');
+         let naam       = document.createElement('div');
+         let gridSquare = document.getElementById(`G${i}`);
+
+         naamLetter.id = `L${i}`;
+         naam.id       = `N${i}`;
+
+         naamLetter.dataset.id = gridSquare.id;
+         naam.dataset.id       = naamLetter.id;
+         gridSquare.dataset.id = naam.id;
+
+         naamLetter.innerHTML = namen[order[i]][0];      // "&ijlig".toUpperCase() = "&IJLIG" (en dat is niet &IJlig;)
+         let letter           = naamLetter.innerHTML;    // letter wordt nu lange ij en kan ge-uppercased worden
+
+         naamLetter.innerHTML  = (fixed[order[i]])
+                               ? letter.toUpperCase()
+                               : letter.toLowerCase();
+//                             ? namen[order[i]][0].toUpperCase()
+//                             : namen[order[i]][0].toLowerCase();
+         gridSquare.innerHTML  = naamLetter.innerHTML;
+         naam.innerHTML        = namen[order[i]][1];
+
+         if  (!fixed[order[i]])
+         {
+            setDragDrop(naam);
+            setDragDrop(gridSquare);
+         }
+
+         naamLetter.classList.add('clickable');
+         naamLetter.ondblclick = toggleFixed;
+
+         gridSquare.ondragstart = dragStart;
+         naam.ondragstart = dragStart;
+
+         keuzes.appendChild(naamLetter);
+         keuzes.appendChild(naam);
+      }
+   }
+
+   const toggleFixed = e =>
+   {
+      let naamLetter = e.target;
+      let gridSquare = document.getElementById(naamLetter.dataset.id);
+      let naam       = document.getElementById(gridSquare.dataset.id);
+
+      let letter = naamLetter.innerHTML;
+
+      if (letter == letter.toUpperCase())
+      {
+         naamLetter.innerHTML = letter.toLowerCase();
+         gridSquare.innerHTML = letter.toLowerCase();
+
+         setDragDrop(naam);
+         setDragDrop(gridSquare);
+      }
+      else
+      {
+         naamLetter.innerHTML = letter.toUpperCase();
+         gridSquare.innerHTML = letter.toUpperCase();
+
+         unsetDragDrop(naam);
+         unsetDragDrop(gridSquare);
+      }
+      let i = parseInt(e.target.id.substr(1));
+      fixed[order[i]] = !fixed[order[i]];
+      writeCookie();
+   }
+
+   const dragStart = e =>
+   {
+      e.dataTransfer.setData(e.target.id, e.target.id);
+   }
+
+   const setDragDrop = element =>
+   {
+      element.draggable  = 'yep';
+      element.classList.add('draggable');
+      element.ondragover = dragover;
+      element.ondrop     = drop;
+   }
+
+   const unsetDragDrop = element =>
+   {
+      element.draggable  = '';
+      element.classList.remove('draggable');
+      element.ondragover = null;
+      element.ondrop     = null;
+   }
+
+   const drop = e =>
+   {
+      e.preventDefault();
+
+      let id = e.dataTransfer.getData(e.dataTransfer.types[0]);
+
+      let source1 = document.getElementById(e.dataTransfer.getData(e.dataTransfer.types[0]));
+      let source2 = document.getElementById(source1.dataset.id);
+      let source3 = document.getElementById(source2.dataset.id);
+
+      let target1 =  e.target;
+      let target2 =  document.getElementById(target1.dataset.id);
+      let target3 =  document.getElementById(target2.dataset.id);
+
+      [source1.innerHTML, target1.innerHTML] = [target1.innerHTML, source1.innerHTML];
+      [source2.innerHTML, target2.innerHTML] = [target2.innerHTML, source2.innerHTML];
+      [source3.innerHTML, target3.innerHTML] = [target3.innerHTML, source3.innerHTML];
+
+      let i = parseInt(id.substr(1));
+      let j = parseInt(e.target.id.substr(1));
+
+      [order[i], order[j]] = [order[j], order[i]];
+      writeCookie();
+   }
+
+   const dragover = e =>
+   {
+      // dataTransfer.getData('text/plain') kan niet in dragover
+      // (om security reasons)
+      // de namen van de data types zijn wel beschikbaar (in lower case)
+      // dus ik cheat: id is als types[0] beschikbaar
+
+      if (e.dataTransfer.types[0].charAt(0).toUpperCase() != e.target.id.charAt(0).toUpperCase()) { return }
+
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+   }
+
+   const readCookie = () =>
+   {
+      let result = [...document.cookie.split(';').reduce((a,c) =>
+                       (c.match(/\s*citaten=/))
+                     ? c.split('=')[1]
+                     : a, '').matchAll(/([UL])(\d+)/g)];
+
+      if (result.length == citaten.length)
+      {
+         for (let i = 0; i < result.length; i++)
+         {
+            fixed[i] = (result[i][1] == 'U') ? true : false;
+            order[i] = parseInt(result[i][2]);
+
+         }
+      }
+   }
+
+   const writeCookie = () =>
+   {
+      let s = '';
+
+      for (let i = 0; i < order.length; i++)
+      {
+         s += (fixed[i]) ? 'U' : 'L';
+         s += order[i];
+      }
+
+      document.cookie = `citaten=${s};expires=${new Date(Date.now()+1000*60*60*24*7*4).toUTCString()}`;
+   }
+
+   const gridSquares = (grid, count, start) =>
+   {
+      start = start || 0;
+
+      for (let i = start; i < start + count; i++)
+      {
+         let div = document.createElement('div');
+         div.id        = `G${i}`;
+         div.className = 'letter';
+
+         grid.appendChild(div);
+      }
+
+      // NB: vakjes nummeren vanaf 1
+      for (let i = start+1; i < start + count + 1; i++)
+      {
+         let div = document.createElement('div');
+         div.className = 'cijfer';
+
+         if (i%5 == 0) { div.innerHTML = i }
+
+         grid.appendChild(div);
+      }
+   }
+
+   return { onload: onload };
+})();
+</script>
+</head>
+<body>
+
+<div id="oplossing"></div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<div id="keuzes"></div>
+
+
+<div class="jcr-copy"></div>
+</body>
+</html>
