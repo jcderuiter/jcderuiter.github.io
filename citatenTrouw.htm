@@ -442,18 +442,38 @@ const js_object_citatenTrouw = (() =>
 
       let isBox = e.dataTransfer.getData(e.dataTransfer.types[0]).charAt(0) == 'B';
 
+
       let from = parseInt(e.dataTransfer.getData(e.dataTransfer.types[0]).substr(1));
+      let to   = e.target.id.substr(1);
+
+      if (isBox)
+      {
+         from = rowOf[from];
+         to   = rowOf[to];
+      }
+
+
+      let fromQ = document.getElementById(`Q${from}`);
+      let fromT = document.getElementById(`T${from}`);
+      let fromB = document.getElementById(`B${boxOf[from]}`);
+
+      let toQ = document.getElementById(`Q${to}`);
+      let toT = document.getElementById(`T${to}`);
+      let toB = document.getElementById(`B${boxOf[to]}`);
+
+
+
+
 //      console.log(from);
-      let fromQ = document.getElementById(`Q${isBox ? rowOf[from] : from}`);
-      let fromT = document.getElementById(`T${isBox ? rowOf[from] : from}`);
-      let fromB = document.getElementById(`B${isBox ? from : boxOf[from]}`);
-
-
-      let to = e.target.id.substr(1);
+//    let fromQ = document.getElementById(`Q${isBox ? rowOf[from] : from}`);
+//    let fromT = document.getElementById(`T${isBox ? rowOf[from] : from}`);
+//    let fromB = document.getElementById(`B${isBox ? from : boxOf[from]}`);
+//
+//
 //      console.log(to);
-      let toQ = document.getElementById(`Q${isBox ? rowOf[to] : to}`);
-      let toT = document.getElementById(`T${isBox ? rowOf[to] : to}`);
-      let toB = document.getElementById(`B${isBox ? to : boxOf[to]}`);
+//    let toQ = document.getElementById(`Q${isBox ? rowOf[to] : to}`);
+//    let toT = document.getElementById(`T${isBox ? rowOf[to] : to}`);
+//    let toB = document.getElementById(`B${isBox ? to : boxOf[to]}`);
 
 
 
@@ -461,10 +481,11 @@ const js_object_citatenTrouw = (() =>
 //    console.log(fromB);
 //    console.log(toB);
 
-      [fromQ.innerHTML, toQ.innerHTML] = [toQ.innerHTML, fromQ.innerHTML];
-      [fromT.innerHTML, toT.innerHTML] = [toT.innerHTML, fromT.innerHTML];
-      [fromB.innerHTML, toB.innerHTML] = [toB.innerHTML, fromB.innerHTML];
-      [quote[from],     quote[to]]     = [quote[to],     quote[from]];
+      [fromQ.innerHTML,    toQ.innerHTML]    = [toQ.innerHTML,    fromQ.innerHTML];
+      [fromT.innerHTML,    toT.innerHTML]    = [toT.innerHTML,    fromT.innerHTML];
+      [fromB.innerHTML,    toB.innerHTML]    = [toB.innerHTML,    fromB.innerHTML];
+      [quote[from],        quote[to]]        = [quote[to],        quote[from]];
+      [rowOf[boxOf[from]], rowOf[boxOf[to]]] = [rowOf[boxOf[to]], rowOf[boxOf[from]]];
 
       writeCookie();
    }
@@ -532,7 +553,7 @@ const js_object_citatenTrouw = (() =>
          });
 
       }
-      console.log(result);
+//      console.log(result);
    }
 
    const writeCookie = () =>
@@ -546,7 +567,7 @@ const js_object_citatenTrouw = (() =>
       }
 
       document.cookie = `citaten=${s};expires=${new Date(Date.now()+1000*60*60*24*7*4).toUTCString()}`;
-      console.log(s);
+//      console.log(s);
    }
 
    const setDragDrop = element =>
