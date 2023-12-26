@@ -327,6 +327,10 @@ const js_object_citatenTrouw = (() =>
    const fixed  = new Array(person.length).fill(false);
    const quote  = Array.from(citaten.keys());
 
+   const boxOf  = quote;
+   const rowOf  = Array.from(person.keys());
+
+
    const init = () =>
    {
       setupSolutionDisplay();
@@ -401,7 +405,7 @@ const js_object_citatenTrouw = (() =>
       let name   = e.target;
       let letter = document.getElementById(`L${index}`);
       let text   = document.getElementById(`T${index}`);
-      let box    = document.getElementById(`B${quote[index]}`);
+      let box    = document.getElementById(`B${boxOf[index]}`);
 
       fixed[index] = !fixed[index];
 
@@ -432,19 +436,26 @@ const js_object_citatenTrouw = (() =>
 
    const drop = e =>
    {
+      // een drop op box gaat over citaten, voor box x geldt x=naam[y] en je wil dan tevens tekst[y] veranderen
+      // een drop op naam/tekst x wil je box[x] veranderen
+
+
+      let isBox = e.dataTransfer.getData(e.dataTransfer.types[0]).charAt(0) == 'B';
+
       let from = parseInt(e.dataTransfer.getData(e.dataTransfer.types[0]).substr(1));
 //      console.log(from);
+      let fromQ = document.getElementById(`Q${isBox ? rowOf[from] : from}`);
+      let fromT = document.getElementById(`T${isBox ? rowOf[from] : from}`);
+      let fromB = document.getElementById(`B${isBox ? from : boxOf[from]}`);
 
-      let fromQ = document.getElementById(`Q${from}`);
-      let fromT = document.getElementById(`T${from}`);
-      let fromB = document.getElementById(`B${from}`);
 
       let to = e.target.id.substr(1);
 //      console.log(to);
+      let toQ = document.getElementById(`Q${isBox ? rowOf[to] : to}`);
+      let toT = document.getElementById(`T${isBox ? rowOf[to] : to}`);
+      let toB = document.getElementById(`B${isBox ? to : boxOf[to]}`);
 
-      let toQ = document.getElementById(`Q${to}`);
-      let toT = document.getElementById(`T${to}`);
-      let toB = document.getElementById(`B${to}`);
+
 
 
 //    console.log(fromB);
@@ -513,11 +524,13 @@ const js_object_citatenTrouw = (() =>
 
       if (result.length == citaten.length)
       {
-         for (let i = 0; i < result.length; i++)
+         result.forEach((v, i) =>
          {
-            fixed[i] = result[i][1] == 'U';
-            quote[i] = parseInt(result[i][2]);
-         }
+            fixed[i] = v[1] == 'U';
+            quote[i] = parseInt(v[2]);
+            rowOf[parseInt(v[2])] = i;
+         });
+
       }
       console.log(result);
    }
