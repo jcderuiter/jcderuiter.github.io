@@ -341,8 +341,6 @@ const js_object_citatenTrouw = (() =>
 
       person.forEach((v, i) =>
       {
-//         console.log(`${namen[v][0]}: ${namen[v][1]} zei ${citaten[quote[i]][1]}`);
-
          let letter = document.createElement('div');
          letter.id = `L${i}`;
          letter.innerHTML = (fixed[i]) ? namen[v][0].toUpperCase() : namen[v][0].toLowerCase();
@@ -365,23 +363,6 @@ const js_object_citatenTrouw = (() =>
 
          let box = document.getElementById(`B${quote[i]}`);
          box.innerHTML = letter.innerHTML;
-
-//       letter.dataset.name = name.id;
-//
-//       name.dataset.name   = name.id;
-//       name.dataset.letter = letter.id;
-//       name.dataset.qnr    = qnr.id;
-//       name.dataset.text   = text.id;
-//       name.dataset.box    = box.id;
-//
-//       text.dataset.name   = name.id;
-//       box.dataset.name    = name.id;
-//
-//       text.dataset.letter = letter.id;
-//       text.dataset.box    = box.id;
-//       box.dataset.letter  = letter.id;
-
-
 
          name.classList.add('clickable');
          name.onclick = toggleFixed;
@@ -436,10 +417,6 @@ const js_object_citatenTrouw = (() =>
 
    const drop = e =>
    {
-      // een drop op box gaat over citaten, voor box x geldt x=naam[y] en je wil dan tevens tekst[y] veranderen
-      // een drop op naam/tekst x wil je box[x] veranderen
-
-
       let isBox = e.dataTransfer.getData(e.dataTransfer.types[0]).charAt(0) == 'B';
 
 
@@ -452,34 +429,12 @@ const js_object_citatenTrouw = (() =>
          to   = rowOf[to];
       }
 
-
       let fromQ = document.getElementById(`Q${from}`);
       let fromT = document.getElementById(`T${from}`);
       let fromB = document.getElementById(`B${boxOf[from]}`);
 
       let toQ = document.getElementById(`Q${to}`);
       let toT = document.getElementById(`T${to}`);
-      let toB = document.getElementById(`B${boxOf[to]}`);
-
-
-
-
-//      console.log(from);
-//    let fromQ = document.getElementById(`Q${isBox ? rowOf[from] : from}`);
-//    let fromT = document.getElementById(`T${isBox ? rowOf[from] : from}`);
-//    let fromB = document.getElementById(`B${isBox ? from : boxOf[from]}`);
-//
-//
-//      console.log(to);
-//    let toQ = document.getElementById(`Q${isBox ? rowOf[to] : to}`);
-//    let toT = document.getElementById(`T${isBox ? rowOf[to] : to}`);
-//    let toB = document.getElementById(`B${isBox ? to : boxOf[to]}`);
-
-
-
-
-//    console.log(fromB);
-//    console.log(toB);
 
       [fromQ.innerHTML,    toQ.innerHTML]    = [toQ.innerHTML,    fromQ.innerHTML];
       [fromT.innerHTML,    toT.innerHTML]    = [toT.innerHTML,    fromT.innerHTML];
@@ -489,8 +444,6 @@ const js_object_citatenTrouw = (() =>
 
       writeCookie();
    }
-
-
 
    const sortNameList = () =>
    {
@@ -504,7 +457,6 @@ const js_object_citatenTrouw = (() =>
       });
 
       person.sort((a, b) => namen[a][0].localeCompare(namen[b][0]) || a - b);
-////      console.log(person.map(v => namen[v]));
    }
 
 
