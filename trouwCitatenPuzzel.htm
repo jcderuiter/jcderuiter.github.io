@@ -612,13 +612,20 @@ const js_object_trouwCitatenPuzzel = (() =>
 
       let personByName = personByQuote;  // de lookup van person in namen[] en citaten[] zijn initieel gelijk
 
+
       // de eventuele cookie heeft volgorde van quote en verwijzing naar namen[] (dus niet naar person)
 
-      let result = [...document.cookie.split(';').reduce((a,c) =>
-                       (c.match(/\s*citaten=/))
-                     ? c.split('=')[1]
-                     : a, '').matchAll(/([UL])(\d+)/g)];
+      // searchstring override
 
+      let result = [...(new URLSearchParams(window.location.search).get("citaten") ?? '').matchAll(/([UL])(\d+)/g)];
+
+
+      if (result.length != citaten.length)
+      {
+         result = [...document.cookie.split(';').reduce((a,c) => (c.match(/\s*citaten=/))
+                                                               ? c.split('=')[1]
+                                                               : a, '').matchAll(/([UL])(\d+)/g)];
+      }
 
       if (result.length == citaten.length)
       {
